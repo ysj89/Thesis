@@ -20,8 +20,8 @@
 using namespace std;
 using namespace BT_Structure;
 
+// To know when Q-table is converged, summing up the Q-values
 double sum_of_elements;
-
 double sumvector(vector<vector<vector<double> > > test)
 {
     for ( auto &n : test)
