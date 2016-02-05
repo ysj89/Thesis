@@ -1,0 +1,70 @@
+    // Q-learning initializations
+    void InitializePolicy(int y, int x, int passenger_state);
+    void InitializeQvalues(int y, int x, int actions, bool showQvalues);
+
+
+void Q_learning::InitializePolicy(int y, int x, int passenger_state)
+{
+    policy =    std::vector<std::vector<std::vector<int> > >
+                ( (unsigned ) y, std::vector<std::vector<int> >
+                (x,std::vector<int>
+                (2,0) ) );
+
+    for(int i = 0; i < y; i++) // y-size of grid
+    {
+        for(int j = 0; j < x; j++) // x-size of grid
+        {
+            for(int k = 0; k < passenger_state; k++) // passenger yes or no
+            {
+            policy[i][j][k] = rand()%6; // number of actions
+
+            //std::cout << policy[i][j][k] << "\t";
+            }
+
+        }   //std::cout << "\n" ;
+    }; //std::cout << "\n";
+    
+//    // Initialize Policy (random) - HARDCODED
+//    for(int i = 0; i < y; i++) // y-size of grid
+//    {
+//        for(int j = 0; j < x; j++) // x-size of grid
+//        {
+//            policy[i][j] = rand()%6; // number of actions
+
+//            std::cout << policy[i][j] << "\t";
+
+//        }   std::cout << "\n" ;
+//    }; std::cout << "\n";
+}
+
+void Q_learning::InitializeQvalues(int y, int x, int actions, bool showQvalues)
+{
+    Qvalues = std::vector<std::vector<std::vector<double> > > (y, std::vector<std::vector<double> >(x, std::vector<double>(actions,0)));
+
+    // Initialize random Q-values - HARDCODED
+    for(int i = 0; i < y; i++) // y-size of grid-world
+    {
+        for(int j = 0; j< x; j++) // x-size of grid-world
+        {
+            for(int k = 0; k < actions; k++) // number of possible actions
+            {
+                Qvalues[i][j][k] = rand()%100 / 100.0;
+            }
+        }
+    }
+
+    if(showQvalues)
+    {
+        // Check for Qvalues Q(state,action)
+        for(int k = 0; k < actions; k++)
+        {
+            for(int i = 0; i < y; i++)
+            {
+                for(int j = 0; j< x; j++)
+                {
+                    std::cout << Qvalues[i][j][k] << "\t";
+                }   std::cout << "\n";
+            }       std::cout << "\n";
+        };
+    }
+}

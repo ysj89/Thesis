@@ -1,0 +1,1 @@
+/usr/bin/c++   -g    CMakeFiles/BT_test.dir/main.cpp.o CMakeFiles/BT_test.dir/bt_composite.cpp.o CMakeFiles/BT_test.dir/bt_structure.cpp.o CMakeFiles/BT_test.dir/bt_door.cpp.o  -o BT_test -rdynamic 
