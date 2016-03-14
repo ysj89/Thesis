@@ -1,0 +1,4 @@
+#ifndef POSVEC_STRUCT_H
+#define POSVEC_STRUCT_H
+
+#endif // POSVEC_STRUCT_H
