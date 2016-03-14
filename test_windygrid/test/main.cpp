@@ -14,9 +14,6 @@
 #include "rl_sarsa.h"
 #include "test.h"
 
-
-
-
 using namespace std;
 using namespace BT_Structure;
 
