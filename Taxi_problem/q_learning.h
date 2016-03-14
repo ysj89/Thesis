@@ -97,6 +97,7 @@ public:
 
     //std::vector<std::vector<std::vector<int> > >policy;
     //std::vector<std::vector<std::vector<std::vector<double> > > >Qvalues;
+
     std::vector<std::vector<std::vector<int> > >policy;
     std::vector<std::vector<std::vector<std::vector<double> > > >Qvalues;
 
