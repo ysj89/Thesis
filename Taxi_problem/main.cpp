@@ -3,7 +3,7 @@
 #include "agent.h"
 #include "q_learning.h"
 #include "position_struct.h"
-
+#include <unordered_map>
 
 
 int main()
@@ -21,7 +21,4 @@ int main()
     NY_Agent.runAgent();
 
     return 0;
-
-
 }
-

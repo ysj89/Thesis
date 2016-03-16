@@ -3,21 +3,26 @@
 void Agent::performAction()
 {
     old_pos = current_pos;
+    old_state = current_state;
+    old_action = current_action;
 
-    action = sol_met->getAction(current_pos);
+
+    current_action = sol_met->getAction(current_state);
 
         // Probability of succesfull execution of action
             if ( (rand() % 100 + 1) / 100.0  < succes_probability)
             {
-                action = action;
+                    // Do nothing
             }
             else
             {
-                action = static_cast<Action> ( rand()%4 );
+                current_action = static_cast<Action> ( rand()%4 );
             }
 
+
+
         // Perform action
-            switch(action)
+            switch(current_action)
             {
             case UP:
                 current_pos.y -= 1;
@@ -36,6 +41,8 @@ void Agent::performAction()
             default:
                 std::cout << "\n Class:Agent :: Perform Action not implemented \n" ;
             }
+
+
         // Out of bound check
             while(current_pos.x < 0 )
             {
@@ -54,13 +61,13 @@ void Agent::performAction()
                 current_pos.y = old_pos.y;
             }
 
-        // Check walls
-            if(m_Room->worldMap[current_pos.x][current_pos.y] = 1)
+        // Read sensors [empty, wall, trash]
+            if(m_Room->worldMap[current_pos.x][current_pos.y] == 1)
             {
-                current_pos = old_pos;
+
             }
             else
-            {};
+            {}
 
 
 

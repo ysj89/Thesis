@@ -27,10 +27,10 @@ public:
           y_start(Y_START)
     {
 
-        if(p_World != NULL)
-        {
+//        if(p_World != NULL)
+//        {
             m_World = p_World;
-        }
+//        }
 
     }
 

@@ -35,9 +35,13 @@ void Q_learning::Qupdate(position pos, double reward) // Updates for passenger-s
 {
     //action_old  =  static_cast<Action> ( policy[pos.oldy][pos.oldx][pos.oldpassenger] );
     action_new  =  static_cast<Action> ( policy[pos.y][pos.x][pos.passenger]);
+
     Qold = Qvalues[pos.oldy][pos.oldx][pos.oldpassenger][action];
+
     Qnew = Qvalues[pos.y][pos.x][pos.passenger][action_new];
+
     Qvalue = (Qold + alpha * (reward + gamma*Qnew - Qold));
+
     Qvalues[pos.oldy][pos.oldx][pos.oldpassenger][action] = Qvalue;
     //std::cout << "This is the updated Qvalues: " << Qvalues[pos.oldy][pos.oldx][pos.oldpassenger][action] << std::endl;
 }

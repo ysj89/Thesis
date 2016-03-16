@@ -3,44 +3,50 @@
 
 #include "posvec_struct.h"
 #include "room.h"
+#include "solution_method.h"
+
+class Solution_method;
+
+// Observable states
+//          1
+//      9   2   3
+//      8 Agent 4
+//      7   6   5
+//      10 = batterylife
 
 
-typedef enum Action
-{
-    UP = 0,
-    RIGHT,
-    DOWN,
-    LEFT,
-    MAX_ACTIONS
-}Action;
 
 class Agent
 {
 public:
-    Agent(Room *p_Room, int START_X_, int START_Y_)
-    :   x_start(START_X_),
-        y_start(START_Y_)
+    Agent(Room *p_Room, int _START_X, int _START_Y, int _number_of_states, Solution_method *_sol_met)
+        :   sol_met(_sol_met),
+            current_pos{_START_X, _START_Y},
+            old_pos{_START_X, _START_Y},
+            current_state(_number_of_states,0),
+            old_state(_number_of_states,0)
         {
-
-            if(p_Room != NULL)
-            {
-                this->m_Room = p_Room;
-            }
-         }
+            this->m_Room = p_Room;
+        }
 
     Room* m_Room;
-    Action action;
+    Action current_action;
+    Action old_action;
+    Solution_method *sol_met;
 
     // Member variables
-    int x_start, y_start;
     int time;
     double succes_probability;
-    PosVec current_pos = {x_start, y_start};
+    double reward;
+    PosVec current_pos;
     PosVec old_pos;
 
+    StateVec current_state;
+    StateVec old_state;
 
     // Member function
     void performAction();
+
 
 
 };
