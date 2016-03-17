@@ -9,7 +9,7 @@ class Room
 {
 public:
     Room()
-        : Room(10,10)
+        : Room(10,15)
     {}
 
     Room(const int x_, const int y_)
@@ -30,6 +30,8 @@ public:
     // Class members
     void printWorldMap();
     void setWalls();
+    void initializeTrash();
+    void setTrash();
 
 ~Room(){}
 };

@@ -27,3 +27,19 @@ void Room::setWalls()
 
 
 }
+
+
+void Room::initializeTrash() // TODO: Implement walls, trash cannot lie at a wall position
+{
+ for(int i = 0; i < 25; i++)
+ {
+     worldMap[rand()% (x_size - 2) + 1] [rand()% (y_size - 2) + 1] = 2;
+//     printWorldMap();
+//     std::cout << "\n";
+ }
+}
+
+void Room::setTrash()
+{
+    worldMap[rand()% (x_size - 2) + 1] [rand()% (y_size - 2) + 1] = 2;
+}

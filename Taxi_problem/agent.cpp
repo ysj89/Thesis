@@ -143,7 +143,7 @@ void Agent::setSolutionMethod(Solution_method *sol_met_agent)
 
 }
 
-void Agent::runAgent()
+void Agent::runAgent(int _n_epochs)
 {
     for(int episodes = 0; episodes < numberofepisodesallowed; episodes++)
     {

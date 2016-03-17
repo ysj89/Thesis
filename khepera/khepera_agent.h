@@ -5,16 +5,15 @@
 #include "room.h"
 #include "solution_method.h"
 
+                    // Observable states
+                    //     y0  y1  y2
+                    // x0       0
+                    // x1   8   1   2
+                    // x2   7 Agent 3
+                    // x3   6   5   4
+                    //      9 = batterylife  NOTE: not implemented yet
+
 class Solution_method;
-
-// Observable states
-//          1
-//      9   2   3
-//      8 Agent 4
-//      7   6   5
-//      10 = batterylife
-
-
 
 class Agent
 {
@@ -27,6 +26,8 @@ public:
             old_state(_number_of_states,0)
         {
             this->m_Room = p_Room;
+
+        StateVec current_state(_number_of_states,0);
         }
 
     Room* m_Room;
@@ -35,9 +36,10 @@ public:
     Solution_method *sol_met;
 
     // Member variables
-    int time;
+    int steps;
     double succes_probability;
     double reward;
+    double totalreward;
     PosVec current_pos;
     PosVec old_pos;
 
@@ -46,6 +48,7 @@ public:
 
     // Member function
     void performAction();
+    void runAgent(int _episodes, int _totalsteps);
 
 
 

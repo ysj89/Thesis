@@ -36,12 +36,23 @@ Action Q_learning::getAction(StateVec _state)
 
 }
 
-void Q_learning::SolutionMethodupdate(Agent *m_Agent)
+void Q_learning::update(Agent *m_Agent)
 {
     std::string str_state_current = vec2str(m_Agent->current_state);
     std::string str_state_old = vec2str(m_Agent->old_state);
 
-    if (this->Qtable.find(str_state_current) == this->Qtable.end() )
+    if (this->Qtable.find(str_state_old) == this->Qtable.end() )  // NOTE: CURRENT OR OLD STATE?
+    {
+        ActionScoreMap a;
+        a[UP] = 0;
+        a[DOWN] = 0;
+        a[LEFT] = 0;
+        a[RIGHT] = 0;
+
+        Qtable[str_state_old] = a;
+
+    }
+    if (this->Qtable.find(str_state_current) == this->Qtable.end() )  // NOTE: CURRENT OR OLD STATE?
     {
         ActionScoreMap a;
         a[UP] = 0;

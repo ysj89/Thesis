@@ -13,7 +13,7 @@ public:
     {}
 
     virtual Action getAction(StateVec state) = 0;
-    virtual void SolutionMethodupdate(Agent *m_Agent){};  // for current state, old state and reward
+    virtual void update(Agent *m_Agent){}  // for current state, old state and reward
 
 //    virtual void SaveData(int x, int y){};
 
