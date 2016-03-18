@@ -4,37 +4,32 @@ void Agent::performAction()
 {
     old_pos = current_pos;
     old_state = current_state;
-    old_action = current_action;
+    reward = 0;
 
-
-    current_action = sol_met->getAction(current_state);
+    action = sol_met->getAction(current_state);
 
         // Probability of succesfull execution of action
             if ( (rand() % 100 + 1) / 100.0  > succes_probability)
             {
-                current_action = static_cast<Action> ( rand()%4 );
+                action = static_cast<Action> ( rand()%4 );
             }
 
 
 
         // Perform action
-            switch(current_action)
+            switch(action)
             {
-            case UP:
+            case UP: // 0
                 current_pos.x -= 1;
-//                reward = -1;
                 break;
-            case RIGHT:
+            case RIGHT: // 1
                 current_pos.y += 1;
-//                reward = -1;
                 break;
-            case DOWN:
+            case DOWN: // 2
                 current_pos.x += 1;
-//                reward = -1;
                 break;
-            case LEFT:
+            case LEFT: // 3
                 current_pos.y -= 1;
-//                reward = -1;
                 break;
 
 
@@ -42,30 +37,11 @@ void Agent::performAction()
                 std::cout << "\n Class:Agent :: Perform Action not implemented \n" ;
             }
 
-
-        // Out of bound check
-            while(current_pos.x < 0 )
-            {
-                current_pos.x = old_pos.x;
-            }
-            while(current_pos.y < 0 )
-            {
-                current_pos.y = old_pos.y;
-            }
-            while(current_pos.x > m_Room->x_size - 1)
-            {
-                current_pos.x = old_pos.x;
-            }
-            while(current_pos.y > m_Room->y_size -1)
-            {
-                current_pos.y = old_pos.y;
-            }
-
         // Wall check
             if(m_Room->worldMap[current_pos.x][current_pos.y] == 1) // NOTE: Agent hit a wall, returns to old position
             {
                 current_pos = old_pos;
-                reward = -10;
+                reward = -1;
             }
             if(m_Room->worldMap[current_pos.x][current_pos.y] == 2) // NOTE: Agent found trash, automatically cleans it and picks it up
             {
@@ -85,7 +61,7 @@ void Agent::performAction()
 
         // Read sensors [empty, wall, trash]
             current_state[0] = m_Room->worldMap[current_pos.x - 1][current_pos.y    ];
-            current_state[1] = m_Room->worldMap[current_pos.x + 1][current_pos.y + 1];
+            current_state[1] = m_Room->worldMap[current_pos.x - 1][current_pos.y + 1];
             current_state[2] = m_Room->worldMap[current_pos.x    ][current_pos.y + 1];
             current_state[3] = m_Room->worldMap[current_pos.x + 1][current_pos.y + 1];
             current_state[4] = m_Room->worldMap[current_pos.x + 1][current_pos.y    ];
@@ -100,26 +76,60 @@ void Agent::performAction()
 
 }
 
+
+void Agent::printAgentinRoom()
+{
+    printMap = m_Room->worldMap;
+    printMap[current_pos.x][current_pos.y] = 55;
+    std::cout << "\n\n" ;
+    for(int i = 0; i < m_Room->x_size; i++)
+    {
+        for(int j = 0; j < m_Room->y_size; j++)
+        {
+            std::cout << printMap[i][j] << "\t";
+        }   std::cout << "\n" ;
+    }
+    std::cout << "\n" ;
+    std::cout << "Old position (x,y): " << old_pos.x << " " << old_pos.y << "\n";
+    std::cout << "Current position (x,y): " << current_pos.x << " " << current_pos.y << "\n";
+    std::cout << "The action performed was: " << action << " \n";
+}
+
+
+
 void Agent::runAgent(int _episodes, int _totalsteps)
 {
     for(int i = 0; i < _episodes; i++ )
     {
-        current_pos = { 2 , 2 };
-        m_Room->initializeTrash();
+        current_pos = { x_start , y_start };
         steps = 0;
         totalreward = 0;
+        reward = 0;
+        std::vector<std::vector<int>> positionPlot(_totalsteps, std::vector<int>(3));
 
-        while(steps < _totalsteps)
-        {
-            performAction();
-            sol_met->update(this);
+            while(steps < _totalsteps)
+            {
+                performAction();
+                printAgentinRoom();
+                sol_met->update(this);
+                std::cout << "The reward was: " << reward << "\n";
 
-        }
 
-        std::cout << "This was episode: " << i << "\t with a total reward of: " << totalreward << "\n";
-    }
+
+                if(i == _episodes -1)
+                {
+
+                    positionPlot[steps][0] = steps;
+                    positionPlot[steps][1] = current_pos.x;
+                    positionPlot[steps][2] = current_pos.y;
+                }
+            }
+            std::cout << "This was episode: " << i << "\t with a total reward of: " << totalreward << "\n";
+            }
+
+
+
 }
-
 
 
 

@@ -7,26 +7,25 @@
 #include <sstream>
 #include <unordered_map>
 
-struct PosVec
-{
-        int x, y;
-};
 
 typedef std::vector<int> StateVec;
+
+typedef double Score;
+
+typedef std::unordered_map<int, Score> ActionScoreMap;
 
 typedef enum Action
 {
     UP = 0,
     RIGHT,
     DOWN,
-    LEFT,
-    MAX_ACTIONS
+    LEFT
 }Action;
 
-
-typedef double Score;
-
-typedef std::unordered_map<int, Score> ActionScoreMap;
+struct PosVec
+{
+        int x, y;
+};
 
 
 template<typename T>
@@ -45,24 +44,6 @@ std::string vec2str( std::vector<T> _vec, std::string sep=",")
     return ss.str();
 }
 
-
-
-
-//struct ObsState
-//{
-//    ObsState(std::vector<int> state_ )
-//        : state_vec(state_)
-//    {
-//           this->index = ObsState::currentIndex++;
-
-
-//    std::vector<int> state_vec;
-//    std::vector<int> batt_life;
-//    }
-
-//    unsigned index;
-//    static unsigned currentIndex;
-//};
 
 
 #endif // POSVEC_STRUCT_H

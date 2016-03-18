@@ -9,16 +9,17 @@
 class Q_learning : public Solution_method
 {
 public:
-    Q_learning(double ALPHA_, double GAMMA_, int number_of_states_, int battery_life_)
+    Q_learning(double ALPHA_, double GAMMA_, double EPSILON_, int number_of_states_, int battery_life_)
     :   Solution_method(),
         alpha(ALPHA_),
-        gamma(GAMMA_)
+        gamma(GAMMA_),
+        epsilon(EPSILON_)
     {}
 
 
     // Member variables
     int best_action;
-    double alpha, gamma;
+    double alpha, gamma, epsilon;
 
 
 

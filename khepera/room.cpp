@@ -24,8 +24,14 @@ void Room::setWalls()
          worldMap[i][0] = 1 ;
          worldMap[i][y_size-1] = 1;
     }
+}
 
-
+void Room::setWall()
+{
+    for(int i = 0; i < x_size / 2; i++)
+    {
+        worldMap[i][y_size/2] = 1;
+    }
 }
 
 
@@ -33,7 +39,14 @@ void Room::initializeTrash() // TODO: Implement walls, trash cannot lie at a wal
 {
  for(int i = 0; i < 25; i++)
  {
-     worldMap[rand()% (x_size - 2) + 1] [rand()% (y_size - 2) + 1] = 2;
+     int xx = rand()% (x_size - 2) + 1;
+     int yy = rand()% (y_size - 2) + 1;
+
+     if(worldMap[xx][yy] != 1)
+     {
+         worldMap[xx] [yy] = 2;
+     }
+
 //     printWorldMap();
 //     std::cout << "\n";
  }
@@ -41,5 +54,11 @@ void Room::initializeTrash() // TODO: Implement walls, trash cannot lie at a wal
 
 void Room::setTrash()
 {
-    worldMap[rand()% (x_size - 2) + 1] [rand()% (y_size - 2) + 1] = 2;
+    int xx = rand()% (x_size - 2) + 1;
+    int yy = rand()% (y_size - 2) + 1;
+
+    if(worldMap[xx][yy] != 1)
+    {
+        worldMap[xx] [yy] = 2;
+    }
 }

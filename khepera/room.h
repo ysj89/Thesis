@@ -19,6 +19,7 @@ public:
 
         // Initialize world with walls
         setWalls();
+        setWall();
 
     };
     // X-size = number of row, Y-size number of colums (c++)
@@ -30,6 +31,7 @@ public:
     // Class members
     void printWorldMap();
     void setWalls();
+    void setWall();
     void initializeTrash();
     void setTrash();
 
