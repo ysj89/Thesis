@@ -4,6 +4,7 @@
 #include "posvec_struct.h"
 #include "room.h"
 #include "solution_method.h"
+#include "helpfunctions.h"
 
                     // Observable states
                     //     y0  y1  y2
@@ -57,7 +58,7 @@ public:
     // Member function
     void performAction();
     void runAgent(int _episodes, int _totalsteps);
-    void printAgentinRoom();
+    void printAgentinRoom(int filecount = 0);
 
 
 

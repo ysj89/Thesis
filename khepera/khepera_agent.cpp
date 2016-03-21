@@ -1,4 +1,8 @@
+#include <sstream>
+
 #include "khepera_agent.h"
+
+
 
 void Agent::performAction()
 {
@@ -77,22 +81,38 @@ void Agent::performAction()
 }
 
 
-void Agent::printAgentinRoom()
+void Agent::printAgentinRoom(int filecount)
 {
+
     printMap = m_Room->worldMap;
-    printMap[current_pos.x][current_pos.y] = 55;
-    std::cout << "\n\n" ;
-    for(int i = 0; i < m_Room->x_size; i++)
-    {
-        for(int j = 0; j < m_Room->y_size; j++)
-        {
-            std::cout << printMap[i][j] << "\t";
-        }   std::cout << "\n" ;
-    }
-    std::cout << "\n" ;
-    std::cout << "Old position (x,y): " << old_pos.x << " " << old_pos.y << "\n";
-    std::cout << "Current position (x,y): " << current_pos.x << " " << current_pos.y << "\n";
-    std::cout << "The action performed was: " << action << " \n";
+    printMap[current_pos.x][current_pos.y] = 5;
+//    std::cout << "\n\n" ;
+//    for(int i = 0; i < m_Room->x_size; i++)
+//    {
+//        for(int j = 0; j < m_Room->y_size; j++)
+//        {
+//            std::cout << printMap[i][j] << "\t";
+//        }   std::cout << "\n" ;
+//    }
+
+    std::stringstream filename;
+    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation/TotalWorld" << filecount << ".txt";
+
+    std::ofstream fs;
+    fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
+    Print::outputMatrix(printMap, fs);
+    fs.close();
+
+
+
+
+//    std::cout << "\n" ;
+//    std::cout << "Old position (x,y): " << old_pos.x << " " << old_pos.y << "\n";
+//    std::cout << "Current position (x,y): " << current_pos.x << " " << current_pos.y << "\n";
+//    std::cout << "The action performed was: " << action << " \n";
+
+
+
 }
 
 
@@ -110,19 +130,19 @@ void Agent::runAgent(int _episodes, int _totalsteps)
             while(steps < _totalsteps)
             {
                 performAction();
-                printAgentinRoom();
+                printAgentinRoom(steps);
                 sol_met->update(this);
                 std::cout << "The reward was: " << reward << "\n";
 
 
 
-                if(i == _episodes -1)
-                {
+//                if(i == _episodes -1)
+//                {
 
-                    positionPlot[steps][0] = steps;
-                    positionPlot[steps][1] = current_pos.x;
-                    positionPlot[steps][2] = current_pos.y;
-                }
+//                    positionPlot[steps][0] = steps;
+//                    positionPlot[steps][1] = current_pos.x;
+//                    positionPlot[steps][2] = current_pos.y;
+//                }
             }
             std::cout << "This was episode: " << i << "\t with a total reward of: " << totalreward << "\n";
             }

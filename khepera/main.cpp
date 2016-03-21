@@ -16,10 +16,11 @@ int main(int argc, char *argv[])
 
 
     room1.setWall();
-    room1.initializeTrash();
+//    room1.initializeTrash();
     room1.printWorldMap();
 
-    Khepera.runAgent(10, 20);
+    Khepera.runAgent(10, 500);
+    Khepera.printAgentinRoom();
 //    room1.printWorldMap();
 
     return 0;
