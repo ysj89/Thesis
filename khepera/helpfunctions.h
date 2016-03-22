@@ -10,6 +10,7 @@ namespace Print
 {
 
 template <typename T>
+
 void outputMatrix(std::vector<std::vector<T> > matrix, std::ostream& stream, char seperator='\t')
     {
         for(std::vector<T> &v : matrix)
@@ -21,6 +22,21 @@ void outputMatrix(std::vector<std::vector<T> > matrix, std::ostream& stream, cha
             stream << std::endl;
         }
     }
+
+
+template <typename T>
+void outputDouble(T reward_double, std::ostream& stream)
+{
+
+        stream << reward_double;
+
+    stream << std::endl;
+}
+
+
+
+
+
 }
 
 

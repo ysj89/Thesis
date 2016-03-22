@@ -29,10 +29,10 @@ Action Q_learning::getAction(StateVec _state)
             }
         }
         // TODO: Implement epsilon-greedy !
-        if( (rand()% 100 ) / 100 < epsilon)
-        {
-            return static_cast<Action>(rand()%4);
-        }
+//        if( (rand()% 100 ) / 100 < epsilon)
+//        {
+//            return static_cast<Action>(rand()%4);
+//        }
         return best_action;
     }
 
