@@ -1,6 +1,6 @@
 #include "q_learning.h"
 
-Action Q_learning::getAction(StateVec _state)
+int Q_learning::getAction(StateVec _state)
 {
     std::string str_state = vec2str(_state);
 
@@ -13,26 +13,28 @@ Action Q_learning::getAction(StateVec _state)
         ActionScoreMap a = this->Qtable[str_state];
 
         Score max_score;
-        Action best_action;
+//        Action best_action;
+        int best_action;
         for(std::unordered_map<int,Score>::iterator it=a.begin(); it != a.end(); it++)
         {
             if(it == a.begin())
             {
                 max_score = it->second;
-                best_action = static_cast<Action>(it->first);
+                best_action = it->first;
             }
 
             if(it->second > max_score)  // NOTE: In case two same scores, returns first
             {
                 max_score = it->second;
-                best_action = static_cast<Action>(it->first);
+                best_action = it->first;
             }
         }
         // TODO: Implement epsilon-greedy !
-//        if( (rand()% 100 ) / 100 < epsilon)
-//        {
-//            return static_cast<Action>(rand()%4);
-//        }
+        if( ((rand()% 100 + 1 ) / 100) > (1-epsilon))
+        {
+            std::cout << "A random action has been selected" << "\n";
+            return rand()%4;
+        }
         return best_action;
     }
 

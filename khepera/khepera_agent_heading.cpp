@@ -1,19 +1,20 @@
+#include "khepera_agent_heading.h"
 #include <sstream>
 
 #include "khepera_agent.h"
 
-void Agent::performAction()
+void Agent_H::performAction()
 {
     old_pos = current_pos;
     old_state = current_state;
     reward = 0;
 
-    action = static_cast<Action> ( sol_met->getAction(current_state));
+    action = static_cast<Action_heading> ( sol_met->getAction(current_state));
 
         // Probability of succesfull execution of action
             if ( (rand() % 100 + 1) / 100.0  > 1-succes_probability/steps)
             {
-                action = static_cast<Action> ( rand()%4 );
+                action = static_cast<Action_heading> ( rand()%4 );
             }
 
         // Perform action
@@ -25,12 +26,7 @@ void Agent::performAction()
             case RIGHT: // 1
                 current_pos.y += 1;
                 break;
-            case DOWN: // 2
-                current_pos.x += 1;
-                break;
-            case LEFT: // 3
-                current_pos.y -= 1;
-                break;
+
 
             default:
                 std::cout << "\n Class:Agent :: Perform Action not implemented \n" ;
@@ -128,7 +124,7 @@ void Agent::performAction()
 }
 
 
-void Agent::printAgentinRoom(int filecount)
+void Agent_H::printAgentinRoom(int filecount)
 {
 
     int sensor0x = (current_pos.x - 3);
@@ -200,7 +196,7 @@ void Agent::printAgentinRoom(int filecount)
 
 }
 
-void Agent::printAgentReward(int filecount)
+void Agent_H::printAgentReward(int filecount)
 {
     std::stringstream filename;
     filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation/Reward/reward" << filecount << ".txt";
@@ -212,7 +208,7 @@ void Agent::printAgentReward(int filecount)
 
 
 
-void Agent::runAgent(int _episodes, int _totalsteps)
+void Agent_H::runAgent(int _episodes, int _totalsteps)
 {
     for(int i = 0; i < _episodes; i++ )
     {
@@ -245,9 +241,3 @@ void Agent::runAgent(int _episodes, int _totalsteps)
             }
 
 }
-
-
-
-
-
-

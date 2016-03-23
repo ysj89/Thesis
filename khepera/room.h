@@ -15,7 +15,7 @@ public:
     Room(const int x_, const int y_)
         : x_size(x_), y_size(y_)
     {
-        worldMap = std::vector<std::vector<double> > (x_, std::vector<double>(y_));
+        worldMap = std::vector<std::vector<double> > (x_, std::vector<double>(y_,1));
 
         // Initialize world with walls
         setWalls();
@@ -30,6 +30,7 @@ public:
 
     // Class members
     void printWorldMap();
+    void cleanWorldMap();
     void setWalls();
     void setWall();
     void initializeTrash();

@@ -12,22 +12,19 @@ int main(int argc, char *argv[])
         // Calculate execution time
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
-        bool SAVEDATA = 0;
+        bool SAVEDATA = 1;
 
         // Define World and Agent objects
-        Room room1(8,10);
+        Room room1(20,30);
         Solution_method *sol_met = new Q_learning(0.5,0.5,0.5,10,3);
-        Agent Khepera(&room1, 1,1, 8,sol_met,SAVEDATA);
+        Agent Khepera(&room1, 5,5, 8,sol_met,SAVEDATA);
 
         // Set mission
-        room1.setWall();
-        // room1.initializeTrash();
+//        room1.setWall();
 
         // Run Agent
-        Khepera.runAgent(500, 100);
-
-
-
+        Khepera.runAgent(500, 1000);
+//        room1.printWorldMap();
 
     // Calculate execution time
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();

@@ -14,19 +14,12 @@ typedef double Score;
 
 typedef std::unordered_map<int, Score> ActionScoreMap;
 
-typedef enum Action
-{
-    UP = 0,
-    RIGHT,
-    DOWN,
-    LEFT
-}Action;
+
 
 struct PosVec
 {
         int x, y;
 };
-
 
 template<typename T>
 std::string vec2str( std::vector<T> _vec, std::string sep=",")

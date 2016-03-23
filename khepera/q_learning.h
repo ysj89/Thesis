@@ -28,7 +28,7 @@ public:
     std::unordered_map<std::string, ActionScoreMap> Qtable;
 
     // Member functions
-    virtual Action getAction(StateVec _state ); // Short to reduce size
+    virtual int getAction(StateVec _state ); // Short to reduce size
     virtual void update(Agent *m_Agent); // for current state, old state and reward
 
 
