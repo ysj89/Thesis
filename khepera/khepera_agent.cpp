@@ -8,7 +8,7 @@ void Agent::performAction()
     old_state = current_state;
     reward = 0;
 
-    action = static_cast<Action> ( sol_met->getAction(current_state));
+    action = static_cast<Action> ( sol_met->getAction(current_state, num_act));
 
         // Probability of succesfull execution of action
             if ( (rand() % 100 + 1) / 100.0  > 1-succes_probability/steps)
@@ -40,7 +40,7 @@ void Agent::performAction()
             if(m_Room->worldMap[current_pos.x][current_pos.y] == 0) // NOTE: Agent hit a wall, returns to old position
             {
                 current_pos = old_pos;
-                reward = -1;
+                reward = -10;
             }
             if(m_Room->worldMap[current_pos.x][current_pos.y] == 3) // NOTE: Agent found trash, automatically cleans it and picks it up
             {
@@ -237,7 +237,7 @@ void Agent::runAgent(int _episodes, int _totalsteps)
                     }
 
                 }
-                sol_met->update(this);
+                sol_met->update(this, num_act);
                 // std::cout << "The reward was: " << reward << "\n";
 
             }

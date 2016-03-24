@@ -1,12 +1,14 @@
 #include "q_learning.h"
+#include <algorithm>
 
-int Q_learning::getAction(StateVec _state)
+int Q_learning::getAction(StateVec _state, int _number_of_actions)
 {
     std::string str_state = vec2str(_state);
 
     if (this->Qtable.find(str_state) == this->Qtable.end() )
     {
-        return static_cast<Action>(rand() % 4); // return random action
+         return static_cast<Action>(rand() % _number_of_actions); // return random action
+
     }
     else
     {
@@ -15,32 +17,47 @@ int Q_learning::getAction(StateVec _state)
         Score max_score;
 //        Action best_action;
         int best_action;
+
         for(std::unordered_map<int,Score>::iterator it=a.begin(); it != a.end(); it++)
         {
             if(it == a.begin())
             {
+//              best_action =  distance(a.begin(), max_element(a.begin(), a.end()));
+
                 max_score = it->second;
-                best_action = it->first;
+//              index = std::distance(a.begin(), it);
+//                best_action = it->first;
+
+                best_action = static_cast<int>(it->first);
+
+
+//                best_action = std::distance(a.begin(), it);
             }
 
             if(it->second > max_score)  // NOTE: In case two same scores, returns first
             {
                 max_score = it->second;
-                best_action = it->first;
+//                index = std::distance(a.begin(), it);
+//                best_action = std::distance(a.begin(), it);
+//                best_action = it->first;
+                best_action = static_cast<int>(it->first);
             }
         }
+
+
         // TODO: Implement epsilon-greedy !
         if( ((rand()% 100 + 1 ) / 100) > (1-epsilon))
         {
             std::cout << "A random action has been selected" << "\n";
-            return rand()%4;
+            return rand()%_number_of_actions;
+
         }
         return best_action;
     }
 
 }
 
-void Q_learning::update(Agent *m_Agent)
+void Q_learning::update(Agent_H *m_Agent, int _number_of_actions)  // Changed input for heading agent
 {
     std::string str_state_current = vec2str(m_Agent->current_state);
     std::string str_state_old = vec2str(m_Agent->old_state);
@@ -48,39 +65,42 @@ void Q_learning::update(Agent *m_Agent)
     if (this->Qtable.find(str_state_old) == this->Qtable.end() )  // NOTE: CURRENT OR OLD STATE?
     {
         ActionScoreMap a;
-        a[UP] = 0;
-        a[DOWN] = 0;
-        a[LEFT] = 0;
-        a[RIGHT] = 0;
+        for(int i = 0; i <  _number_of_actions; i++)
+        {
+            a[i] = 0;
+        }
+
         Qtable[str_state_old] = a;
     }
 
     if (this->Qtable.find(str_state_current) == this->Qtable.end() )  // NOTE: CURRENT OR OLD STATE?
     {
         ActionScoreMap a;
-        a[UP] = 0;
-        a[DOWN] = 0;
-        a[LEFT] = 0;
-        a[RIGHT] = 0;
+
+        for(int i = 0; i <  _number_of_actions; i++)
+        {
+            a[i] = 0;
+        }
+
         Qtable[str_state_current] = a;
     }
 
         ActionScoreMap a = this->Qtable[str_state_current];
         Score max_score;
-        Action best_action;
+        int best_action;
 
             for(std::unordered_map<int,Score>::iterator it=a.begin(); it != a.end(); it++)
             {
                 if(it == a.begin())
                 {
                     max_score = it->second;
-                    best_action = static_cast<Action>(it->first);
+                    best_action = it->first;
                 }
 
                 if(it->second > max_score)  // NOTE: In case two same scores, returns first
                 {
                     max_score = it->second;
-                    best_action = static_cast<Action>(it->first);
+                    best_action = it->first;
                 }
             }
 

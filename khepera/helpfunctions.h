@@ -33,6 +33,15 @@ void outputDouble(T reward_double, std::ostream& stream)
     stream << std::endl;
 }
 
+template <typename T, typename Y>
+void outputTwoValues(T first, Y second, std::ostream& stream)
+{
+
+        stream << first << "\t" << second ;
+
+    stream << std::endl;
+}
+
 
 
 

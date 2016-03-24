@@ -9,22 +9,48 @@ void Agent_H::performAction()
     old_state = current_state;
     reward = 0;
 
-    action = static_cast<Action_heading> ( sol_met->getAction(current_state));
+    action = static_cast<Action_heading> ( sol_met->getAction(current_state, num_act));
 
         // Probability of succesfull execution of action
             if ( (rand() % 100 + 1) / 100.0  > 1-succes_probability/steps)
             {
-                action = static_cast<Action_heading> ( rand()%4 );
+                action = static_cast<Action_heading> ( rand()%num_act );
             }
 
         // Perform action
             switch(action)
             {
-            case UP: // 0
-                current_pos.x -= 1;
+            case TURN_LEFT:     // 0
+                head = static_cast<int>(heading);
+                new_head = head - 1;
+                    if(new_head < 0)
+                    {
+                        new_head = 3;
+                    }
+                heading = static_cast<Heading>(new_head);
+                reward = -1;
                 break;
-            case RIGHT: // 1
-                current_pos.y += 1;
+            case TURN_RIGHT:    // 1
+                head = static_cast<int>(heading);
+                new_head = head + 1;
+                    if(new_head > 3)
+                    {
+                        new_head = 0;
+                    }
+                heading = static_cast<Heading>(new_head);
+                reward = -1;
+                break;
+            case MOVE_FORWARD:
+
+                if(heading == NORTH)
+                    current_pos.x -= 1;
+                if(heading == EAST)
+                    current_pos.y += 1;
+                if(heading == SOUTH)
+                    current_pos.x += 1;
+                if(heading == WEST) // 3
+                    current_pos.y -= 1;
+
                 break;
 
 
@@ -36,145 +62,186 @@ void Agent_H::performAction()
             if(m_Room->worldMap[current_pos.x][current_pos.y] == 0) // NOTE: Agent hit a wall, returns to old position
             {
                 current_pos = old_pos;
-                reward = -1;
+                reward = -5;
             }
             if(m_Room->worldMap[current_pos.x][current_pos.y] == 3) // NOTE: Agent found trash, automatically cleans it and picks it up
             {
-                reward = 20;
+                reward = 200;
                 m_Room->worldMap[current_pos.x][current_pos.y] = 1;
                 // m_Room->setTrash();
             }
 
+        // State
 
-            // Observable states
-            //       y1  y2  y3                            y1  y2  y3
-            //  x0                                   x0        0
-            //  x1    7   0   1                      x1        1
-            //  x2    6 Agent 2                      x2    7   2   3
-            //  x3    5   4   3                      x3    6 Agent 4
-            //  x4    8 = batterylife                x4        5
-
-
-            int sensor0x = (current_pos.x - 3);
-            int sensor0y = (current_pos.y);
-
-            int sensor1x = (current_pos.x - 2);
-            int sensor1y = (current_pos.y);
-
-            int sensor2x = (current_pos.x - 1);
-            int sensor2y = (current_pos.y);
-
-            int sensor3x = (current_pos.x - 1);
-            int sensor3y = (current_pos.y + 1);
-
-            int sensor4x = (current_pos.x);
-            int sensor4y = (current_pos.y + 1);
-
-            int sensor5x = (current_pos.x + 1);
-            int sensor5y = (current_pos.y);
-
-            int sensor6x = (current_pos.x );
-            int sensor6y = (current_pos.y - 1);
-
-            int sensor7x = (current_pos.x - 1);
-            int sensor7y = (current_pos.y - 1);
-
-
-//            current_state[0] = m_Room->worldMap[current_pos.x - 1][current_pos.y    ];
-//            current_state[1] = m_Room->worldMap[current_pos.x - 1][current_pos.y + 1];
-//            current_state[2] = m_Room->worldMap[current_pos.x    ][current_pos.y + 1];
-//            current_state[3] = m_Room->worldMap[current_pos.x + 1][current_pos.y + 1];
-//            current_state[4] = m_Room->worldMap[current_pos.x + 1][current_pos.y    ];
-//            current_state[5] = m_Room->worldMap[current_pos.x + 1][current_pos.y - 1];
-//            current_state[6] = m_Room->worldMap[current_pos.x    ][current_pos.y - 1];
-//            current_state[7] = m_Room->worldMap[current_pos.x - 1][current_pos.y - 1];
-
-            if ((current_pos.x - 3 ) < 0)
+            switch(heading)
             {
-                current_state[0] = 0;
-            }
-            else
-            {
-                current_state[0] = m_Room->worldMap[sensor0x][sensor0y];
-            }
+            case NORTH: // 0
 
-            if ((current_pos.x - 2) < 0)
-            {
-                current_state[1] = 0;
-            }
-            else
-            {
-                current_state[1] = m_Room->worldMap[sensor1x][sensor1y];
-            }
+                sensor3x = current_pos.x - 1;
+                sensor3y = current_pos.y    ;
+                sensor2x = current_pos.x - 2;
+                sensor2y = current_pos.y    ;
+                sensor1x = current_pos.x - 3;
+                sensor1y = current_pos.y    ;
+                sensor0x = current_pos.x - 4;
+                sensor0y = current_pos.y;
+
+                checkBlockedSensor(sensor0x, sensor0y, sensor1x, sensor1y, sensor2x, sensor2y, sensor3x, sensor3y);
 
 
+                if(current_pos.x - 2 < m_Room->x_size)
+                {
+                    current_state[4] = 0;
+                    current_state[6] = 0;
+                }
+                else
+                {
+                    current_state[4] = m_Room->worldMap[current_pos.x - 2][current_pos.y + 1];
+                    current_state[6] = m_Room->worldMap[current_pos.x - 2][current_pos.y - 1];
+                }
 
-            current_state[2] = m_Room->worldMap[sensor2x][sensor2y];
-            current_state[3] = m_Room->worldMap[sensor3x][sensor3y];
-            current_state[4] = m_Room->worldMap[sensor4x][sensor4y];
-            current_state[5] = m_Room->worldMap[sensor5x][sensor5y];
-            current_state[6] = m_Room->worldMap[sensor6x][sensor6y];
-            current_state[7] = m_Room->worldMap[sensor7x][sensor7y];
+                current_state[5] = m_Room->worldMap[current_pos.x - 1][current_pos.y + 1];
+                current_state[7] = m_Room->worldMap[current_pos.x - 1][current_pos.y - 1];
 
+                current_state[8] = NORTH;
+                break;
+            case EAST: // 1
+
+                sensor3x = current_pos.x;
+                sensor3y = current_pos.y + 1;
+                sensor2x = current_pos.x;
+                sensor2y = current_pos.y + 2;
+                sensor1x = current_pos.x;
+                sensor1y = current_pos.y + 3;
+                sensor0x = current_pos.x;
+                sensor0y = current_pos.y + 4;
+
+                checkBlockedSensor(sensor0x, sensor0y, sensor1x, sensor1y, sensor2x, sensor2y, sensor3x, sensor3y);
+
+
+
+                if(current_pos.y + 2 > m_Room->y_size)
+                {
+                    current_state[4] = 0;
+                    current_state[6] = 0;
+                }
+                else
+                {
+                    current_state[4] = m_Room->worldMap[current_pos.x + 1][current_pos.y + 2];
+                    current_state[6] = m_Room->worldMap[current_pos.x - 1][current_pos.y + 2];
+                }
+
+                current_state[5] = m_Room->worldMap[current_pos.x + 1][current_pos.y + 1];
+                current_state[7] = m_Room->worldMap[current_pos.x - 1][current_pos.y + 1];
+
+                current_state[8] = EAST;
+                break;
+            case SOUTH: // 2
+                sensor3x = current_pos.x + 1;
+                sensor3y = current_pos.y;
+                sensor2x = current_pos.x + 2;
+                sensor2y = current_pos.y;
+                sensor1x = current_pos.x + 3;
+                sensor1y = current_pos.y;
+                sensor0x = current_pos.x + 4;
+                sensor0y = current_pos.y;
+
+                checkBlockedSensor(sensor0x, sensor0y, sensor1x, sensor1y, sensor2x, sensor2y, sensor3x, sensor3y);
+
+
+                if(current_pos.x + 2 > (m_Room->x_size - 1))
+                {
+                    current_state[4] = 0;
+                    current_state[6] = 0;
+                }
+                else
+                {
+                    current_state[4] = m_Room->worldMap[current_pos.x + 2][current_pos.y - 1];
+                    current_state[6] = m_Room->worldMap[current_pos.x + 2][current_pos.y + 1];
+                }
+
+                current_state[5] = m_Room->worldMap[current_pos.x + 1][current_pos.y - 1];
+                current_state[7] = m_Room->worldMap[current_pos.x + 1][current_pos.y + 1];
+
+                current_state[8] = SOUTH;
+                break;
+            case WEST: // 3
+                sensor3x = current_pos.x;
+                sensor3y = current_pos.y - 1;
+                sensor2x = current_pos.x;
+                sensor2y = current_pos.y - 2;
+                sensor1x = current_pos.x;
+                sensor1y = current_pos.y - 3;
+                sensor0x = current_pos.x;
+                sensor0y = current_pos.y - 4;
+
+                checkBlockedSensor(sensor0x, sensor0y, sensor1x, sensor1y, sensor2x, sensor2y, sensor3x, sensor3y);
+
+                if((current_pos.y - 2) < 0)
+                {
+                    current_state[4] = 0;
+                    current_state[6] = 0;
+                }
+                else
+                {
+                    current_state[4] = m_Room->worldMap[current_pos.x - 1][current_pos.y - 2];
+                    current_state[6] = m_Room->worldMap[current_pos.x + 1][current_pos.y - 2];
+                }
+
+                current_state[5] = m_Room->worldMap[current_pos.x - 1][current_pos.y - 1];
+                current_state[7] = m_Room->worldMap[current_pos.x + 1][current_pos.y - 1];
+                current_state[8] = WEST;
+                break;
+        }
 
     steps = steps + 1;
     totalreward = totalreward + reward;
-
-
 }
 
 
 void Agent_H::printAgentinRoom(int filecount)
 {
 
-    int sensor0x = (current_pos.x - 3);
-    int sensor0y = (current_pos.y);
-
-    int sensor1x = (current_pos.x - 2);
-    int sensor1y = (current_pos.y);
-
-    int sensor2x = (current_pos.x - 1);
-    int sensor2y = (current_pos.y);
-
-    int sensor3x = (current_pos.x - 1);
-    int sensor3y = (current_pos.y + 1);
-
-    int sensor4x = (current_pos.x);
-    int sensor4y = (current_pos.y + 1);
-
-    int sensor5x = (current_pos.x + 1);
-    int sensor5y = (current_pos.y);
-
-    int sensor6x = (current_pos.x );
-    int sensor6y = (current_pos.y - 1);
-
-    int sensor7x = (current_pos.x - 1);
-    int sensor7y = (current_pos.y - 1);
-
     double obserstatecolor = 4.2;
     printMap = m_Room->worldMap;
     printMap[current_pos.x][current_pos.y] = 5;
-    if(sensor0x > 0)
+
+
+    if(heading == NORTH)
     {
-        printMap[sensor0x][sensor0y] = obserstatecolor;
-
+        printMap[current_pos.x - 1][current_pos.y] = obserstatecolor;
+        if((current_pos.x) - 2 > 0)
+        {
+            printMap[current_pos.x - 2][current_pos.y] = obserstatecolor;
+        }
     }
-    if(sensor1x > 0)
+    if(heading == EAST)
     {
-        printMap[sensor1x][sensor1y] = obserstatecolor;
-
+        printMap[current_pos.x - 0][current_pos.y + 1] = obserstatecolor;
+        if((current_pos.y + 2 ) < m_Room->y_size)
+        {
+            printMap[current_pos.x - 0][current_pos.y + 2] = obserstatecolor;
+        }
     }
-    printMap[sensor2x][sensor2y] = obserstatecolor;
-    printMap[sensor3x][sensor3y] = obserstatecolor;
-    printMap[sensor4x][sensor4y] = obserstatecolor;
-    printMap[sensor5x][sensor5y] = obserstatecolor;
-    printMap[sensor6x][sensor6y] = obserstatecolor;
-    printMap[sensor7x][sensor7y] = obserstatecolor;
-
-
+    if(heading == SOUTH)
+    {
+     printMap[current_pos.x + 1][current_pos.y] = obserstatecolor;
+        if((current_pos.x + 2) < m_Room->x_size)
+        {
+            printMap[current_pos.x + 2][current_pos.y] = obserstatecolor;
+        }
+    }
+    if(heading == WEST) // 3
+    {
+        printMap[current_pos.x - 0][current_pos.y - 1] = obserstatecolor;
+            if((current_pos.y - 2 ) > 0 )
+            {
+                printMap[current_pos.x - 0][current_pos.y - 2] = obserstatecolor;
+            }
+    }
 
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation/World/TotalWorld" << filecount << ".txt";
+    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/World/TotalWorld" << filecount << ".txt";
 
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
@@ -199,23 +266,83 @@ void Agent_H::printAgentinRoom(int filecount)
 void Agent_H::printAgentReward(int filecount)
 {
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation/Reward/reward" << filecount << ".txt";
+    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Reward/reward" << filecount << ".txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputDouble(reward, fs);
     fs.close();
 }
 
+void Agent_H::printAgentRewardperEpisode()
+{
+    std::stringstream filename;
+    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Reward_per_eps/reward_per_eps.txt";
+    std::ofstream fs;
+    fs.open(filename.str(), std::ios::out);
+    Print::outputMatrix(printReward,fs);
+    fs.close();
+}
+
+
+void Agent_H::checkBlockedSensor(int s0x, int s0y, int s1x, int s1y, int s2x, int s2y, int s3x, int s3y)
+{
+    sensor3x = s3x;
+    sensor3y = s3y;
+    sensor2x = s2x;
+    sensor2y = s2y;
+    sensor1x = s1x;
+    sensor1y = s1y;
+    sensor0x = s0x;
+    sensor0y = s0y;
+
+
+    if (m_Room->worldMap[sensor3x][sensor3y] == 0)
+    {
+        current_state[0] = 0;
+        current_state[1] = 0;
+        current_state[2] = 0;
+        current_state[3] = 0;
+    }
+    else if(m_Room->worldMap[sensor2x][sensor2y] == 0)
+    {
+        current_state[0] = 0;
+        current_state[1] = 0;
+        current_state[2] = 0;
+        current_state[3] = m_Room->worldMap[sensor3x][sensor3y];
+    }
+    else if(m_Room->worldMap[sensor1x][sensor1y] == 0)
+    {
+        current_state[0] = 0;
+        current_state[1] = 0;
+        current_state[2] = m_Room->worldMap[sensor2x][sensor2y];
+        current_state[3] = m_Room->worldMap[sensor3x][sensor3y];
+    }
+    else
+    {
+        current_state[0] = m_Room->worldMap[sensor0x][sensor0y];
+        current_state[1] = m_Room->worldMap[sensor1x][sensor0y];
+        current_state[2] = m_Room->worldMap[sensor2x][sensor0y];
+        current_state[3] = m_Room->worldMap[sensor3x][sensor0y];
+
+    }
+}
+
 
 
 void Agent_H::runAgent(int _episodes, int _totalsteps)
 {
+    std::vector<std::vector<double>> printReward(_episodes,std::vector<double>(1));
+
     for(int i = 0; i < _episodes; i++ )
     {
         current_pos = { x_start , y_start };
         steps = 0;
         totalreward = 0;
         reward = 0;
+
+
+
+
 
         m_Room->cleanWorldMap();
         m_Room->initializeTrash();
@@ -230,14 +357,39 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
                     {
                         printAgentinRoom(steps);
                         printAgentReward(steps);
+
                     }
 
                 }
-                sol_met->update(this);
+                sol_met->update(this, num_act);
                 // std::cout << "The reward was: " << reward << "\n";
 
             }
+
+            printReward.at(i).at(0) = i;
+            printReward.at(i).at(0) = totalreward;
+
             std::cout << "This was episode: " << i << "\t with a total reward of: " << totalreward << "\n";
+
             }
 
+            printAgentRewardperEpisode();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

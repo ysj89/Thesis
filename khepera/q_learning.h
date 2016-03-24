@@ -19,6 +19,7 @@ public:
 
     // Member variables
     int best_action;
+    int index;
     double alpha, gamma, epsilon;
 
 
@@ -28,8 +29,8 @@ public:
     std::unordered_map<std::string, ActionScoreMap> Qtable;
 
     // Member functions
-    virtual int getAction(StateVec _state ); // Short to reduce size
-    virtual void update(Agent *m_Agent); // for current state, old state and reward
+    virtual int getAction(StateVec _state , int _number_of_actions); // Short to reduce size
+    virtual void update(Agent_H *m_Agent, int _number_of_actions); // for current state, old state and reward
 
 
 
