@@ -33,7 +33,7 @@ public:
     void cleanWorldMap();
     void setWalls();
     void setWall();
-    void initializeTrash();
+    void initializeTrash(int _num_of_trash);
     void setTrash();
 
 ~Room(){}

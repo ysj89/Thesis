@@ -25,9 +25,9 @@ void Room::setWall()
 }
 
 
-void Room::initializeTrash() // TODO: Implement walls, trash cannot lie at a wall position
+void Room::initializeTrash(int _num_of_trash) // TODO: Implement walls, trash cannot lie at a wall position
 {
- for(int i = 0; i < 25; i++)
+ for(int i = 0; i < _num_of_trash; i++)
  {
      int xx = rand()% (x_size - 2) + 1;
      int yy = rand()% (y_size - 2) + 1;

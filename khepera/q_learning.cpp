@@ -48,7 +48,7 @@ int Q_learning::getAction(StateVec _state, int _number_of_actions)
         // TODO: Implement epsilon-greedy !
         if( ((rand()% 100 + 1 ) / 100) > (1-epsilon))
         {
-            std::cout << "A random action has been selected" << "\n";
+//            std::cout << "A random action has been selected" << "\n";
             return rand()%_number_of_actions;
 
         }

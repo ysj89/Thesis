@@ -222,7 +222,7 @@ void Agent::runAgent(int _episodes, int _totalsteps)
         reward = 0;
 
         m_Room->cleanWorldMap();
-        m_Room->initializeTrash();
+        m_Room->initializeTrash(35);
 
             while(steps < _totalsteps)
             {

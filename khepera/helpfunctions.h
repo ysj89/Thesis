@@ -1,13 +1,23 @@
 #ifndef HELPFUNCTIONS_H
 #define HELPFUNCTIONS_H
 
-
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <unordered_map>
+#include <utility>
+
+#include "posvec_struct.h"
 
 namespace Print
 {
+
+
+
+void outputQTable(std::unordered_map<std::string, ActionScoreMap> Qtable, std::ostream& stream, char seperatpr =',');
+
+
+
 
 template <typename T>
 
