@@ -46,6 +46,9 @@ public:
         StateVec current_state(_number_of_states,0);
         action = static_cast<Action_heading>(rand()%3);
         succes_probability = 1;
+
+        explorationMap = std::vector<std::vector<int> > (m_Room->x_size, std::vector<int>(m_Room->y_size,0));
+
         }
 
     Room* m_Room;
@@ -81,14 +84,17 @@ public:
     std::vector<std::vector<double> > printMap;
     std::vector<std::vector<double> > printReward;
     std::vector<std::vector<int>> positionPlot;
+    std::vector<std::vector<int>> explorationMap;
 
 
     // Member function
     void performAction();
     void runAgent(int _episodes, int _totalsteps);
     void printAgentinRoom(int filecount = 0);
+    void printAgentExploration(int episode);
+    void cleanExplorationMap();
     void printAgentReward(int filecount = 0);
-    void printAgentRewardperEpisode();
+    void printAgentRewardperEpisode(int episode_count);
     void checkBlockedSensor(int s0x, int s0y, int s1x, int s1y, int s2x, int s2y, int s3x, int s3y);
 
 

@@ -18,21 +18,21 @@ int main(int argc, char *argv[])
         // /////////////
         // Define World and Agent objects
         // /////////////
-        Room room1(20,40);
+        Room room1(10,15);
         Q_learning *sol_met = new Q_learning(0.5, 0.9, 0.5, 8, 3);
 
         // /////////////
         // Define Agent
         // /////////////
 //      Agent Khepera(&room1, 5,5, 8, 4,sol_met,SAVEDATA);
-        Agent_H Khepera_heading(&room1, 3, 7, EAST, 9, 3, sol_met, SAVEDATA);
+        Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met, SAVEDATA);
 
 
         // /////////////
         // Run Agent
         // /////////////
 //        Khepera.runAgent(500, 1000);
-        Khepera_heading.runAgent(100000000,1000);
+        Khepera_heading.runAgent(1000,1000);
 
 
 

@@ -28,7 +28,7 @@ void Agent_H::performAction()
                         new_head = 3;
                     }
                 heading = static_cast<Heading>(new_head);
-                reward = -4;
+//                reward = -4;
                 break;
             case TURN_RIGHT:    // 1
                 head = static_cast<int>(heading);
@@ -38,7 +38,7 @@ void Agent_H::performAction()
                         new_head = 0;
                     }
                 heading = static_cast<Heading>(new_head);
-                reward = -4;
+//                reward = -4;
                 break;
             case MOVE_FORWARD:
 
@@ -51,7 +51,7 @@ void Agent_H::performAction()
                 if(heading == WEST) // 3
                     current_pos.y -= 1;
 
-                reward = -1;
+//                reward = -1;
                 break;
 
 
@@ -67,7 +67,7 @@ void Agent_H::performAction()
             }
             if(m_Room->worldMap[current_pos.x][current_pos.y] == 3) // NOTE: Agent found trash, automatically cleans it and picks it up
             {
-                reward = 200;
+                reward = 100;
                 m_Room->worldMap[current_pos.x][current_pos.y] = 1;
             }
 
@@ -87,8 +87,6 @@ void Agent_H::performAction()
                 sensor0y = current_pos.y;
 
                 checkBlockedSensor(sensor0x, sensor0y, sensor1x, sensor1y, sensor2x, sensor2y, sensor3x, sensor3y);
-
-
 
                 current_state[4] = m_Room->worldMap[current_pos.x][current_pos.y + 1];
                 current_state[6] = m_Room->worldMap[current_pos.x][current_pos.y - 1];
@@ -166,9 +164,10 @@ void Agent_H::performAction()
                 break;
         }
 
+            explorationMap[current_pos.x][current_pos.y] = (explorationMap[current_pos.x][current_pos.y] + 1 );
 
-    steps = steps + 1;
-    totalreward = totalreward + reward;
+            steps = steps + 1;
+            totalreward = totalreward + reward;
 }
 
 
@@ -269,7 +268,6 @@ void Agent_H::printAgentinRoom(int filecount)
 
     std::stringstream filename;
     filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/World/TotalWorld" << filecount << ".txt";
-
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
     Print::outputMatrix(printMap, fs);
@@ -290,6 +288,28 @@ void Agent_H::printAgentinRoom(int filecount)
 
 }
 
+void Agent_H::printAgentExploration(int episode)
+{
+    std::stringstream filename;
+    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Exploration/explore" << episode << ".txt";
+    std::ofstream fs;
+    fs.open(filename.str(), std::ios::out);
+    Print::outputMatrix(explorationMap, fs);
+    fs.close();
+}
+
+void Agent_H::cleanExplorationMap()
+{
+    for (int i = 0; i < m_Room->x_size; i++)
+    {
+        for(int j = 0; j < m_Room->y_size; j++)
+        {
+                explorationMap[i][j] = 0;
+        }
+    }
+}
+
+
 void Agent_H::printAgentReward(int filecount)
 {
     std::stringstream filename;
@@ -300,13 +320,13 @@ void Agent_H::printAgentReward(int filecount)
     fs.close();
 }
 
-void Agent_H::printAgentRewardperEpisode()
+void Agent_H::printAgentRewardperEpisode(int episode_count)
 {
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Reward_per_eps/reward_per_eps.txt";
+    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Reward_per_eps/totalreward" << episode_count << ".txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
-    Print::outputMatrix(printReward,fs);
+    Print::outputDouble(totalreward,fs);
     fs.close();
 }
 
@@ -359,6 +379,7 @@ void Agent_H::checkBlockedSensor(int s0x, int s0y, int s1x, int s1y, int s2x, in
 void Agent_H::runAgent(int _episodes, int _totalsteps)
 {
     std::vector<std::vector<double>> printReward(_episodes,std::vector<double>(1));
+    m_Room->initializeTrash(35);
 
     for(int i = 0; i < _episodes; i++ )
     {
@@ -368,7 +389,15 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
         reward = 0;
 
         m_Room->cleanWorldMap();
-        m_Room->initializeTrash(35);
+        m_Room->worldMap = m_Room->setMap;
+
+        m_Room->worldMap[current_pos.x][current_pos.y + 2] = 3;
+
+        printMap = m_Room->worldMap;
+
+        printMap[x_start][y_start + 2] = 3;
+        printMap[current_pos.x][current_pos.y] = 5;
+
 
             while(steps < _totalsteps)
             {
@@ -380,9 +409,7 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
                     {
                         printAgentinRoom(steps);
                         printAgentReward(steps);
-
                     }
-
                 }
 
                 sol_met->update(this, num_act);
@@ -390,20 +417,12 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
 
             }
 
-//            printReward.at(i).at(0) = i;
-//            printReward.at(i).at(0) = totalreward;
-
-
-//            if(i % 100 == 0)
-//            {
-//                std::cout << "This was episode: " << i << "\t with a total reward of: " << totalreward << "\n";
-
-//            }
+        printAgentRewardperEpisode(i);
+        printAgentExploration(i);
+        cleanExplorationMap();
 
             }
 
-
-//            printAgentRewardperEpisode();
 }
 
 

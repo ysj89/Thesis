@@ -27,6 +27,8 @@ public:
     int y_size;
 
     std::vector<std::vector<double> > worldMap;
+    std::vector<std::vector<double> > setMap;
+
 
     // Class members
     void printWorldMap();
