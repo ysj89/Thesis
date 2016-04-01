@@ -5,6 +5,7 @@
 #include "posvec_struct.h"
 #include "khepera_agent.h"
 #include "q_learning.h"
+#include "random_action.h"
 
 
 int main(int argc, char *argv[])
@@ -20,19 +21,21 @@ int main(int argc, char *argv[])
         // /////////////
         Room room1(10,15);
         Q_learning *sol_met = new Q_learning(0.5, 0.9, 0.5, 8, 3);
+        Random_action *sol_met1 = new Random_action();
+
 
         // /////////////
         // Define Agent
         // /////////////
 //      Agent Khepera(&room1, 5,5, 8, 4,sol_met,SAVEDATA);
-        Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met, SAVEDATA);
+        Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met1, SAVEDATA);
 
 
         // /////////////
         // Run Agent
         // /////////////
 //        Khepera.runAgent(500, 1000);
-        Khepera_heading.runAgent(1000,1000);
+        Khepera_heading.runAgent(2000,500);
 
 
 

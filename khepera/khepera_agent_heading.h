@@ -45,7 +45,8 @@ public:
 
         StateVec current_state(_number_of_states,0);
         action = static_cast<Action_heading>(rand()%3);
-        succes_probability = 1;
+
+        succes_probability = 0.8;
 
         explorationMap = std::vector<std::vector<int> > (m_Room->x_size, std::vector<int>(m_Room->y_size,0));
 
@@ -85,6 +86,7 @@ public:
     std::vector<std::vector<double> > printReward;
     std::vector<std::vector<int>> positionPlot;
     std::vector<std::vector<int>> explorationMap;
+    std::vector<double> totalRewardVec;
 
 
     // Member function

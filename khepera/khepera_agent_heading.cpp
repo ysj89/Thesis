@@ -12,7 +12,7 @@ void Agent_H::performAction()
     action = static_cast<Action_heading> ( sol_met->getAction(current_state, num_act));
 
         // Probability of succesfull execution of action
-            if ( (rand() % 100 + 1) / 100.0  > 1-succes_probability/steps)
+            if ( (rand() % 100 + 1) / 100.0  > 1-succes_probability)
             {
                 action = static_cast<Action_heading> ( rand()%num_act );
             }
@@ -378,8 +378,8 @@ void Agent_H::checkBlockedSensor(int s0x, int s0y, int s1x, int s1y, int s2x, in
 
 void Agent_H::runAgent(int _episodes, int _totalsteps)
 {
-    std::vector<std::vector<double>> printReward(_episodes,std::vector<double>(1));
-    m_Room->initializeTrash(35);
+    std::vector<double> totalRewardVec(_episodes);
+    m_Room->initializeTrash(15);
 
     for(int i = 0; i < _episodes; i++ )
     {
@@ -418,6 +418,8 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
             }
 
         printAgentRewardperEpisode(i);
+        totalRewardVec[i] = totalreward;
+
         printAgentExploration(i);
         cleanExplorationMap();
 
