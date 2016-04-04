@@ -2,19 +2,26 @@
 
 void Print::outputQTable(std::unordered_map<std::string, ActionScoreMap> Qtable, std::ostream &stream, char seperator)
 {
-        for(std::pair<std::string, ActionScoreMap> q : Qtable)
+    for(std::pair<std::string, ActionScoreMap> q : Qtable)
+    {
+        std::string &s = q.first;
+        ActionScoreMap &m = q.second;
+        for(std::pair<int, double> w : m)
         {
-            std::string &s = q.first;
-            ActionScoreMap &m = q.second;
-
-            for(std::pair<int, double> w : m)
-            {
-                int &a = w.first;
-                double &v = w.second;
-
-                stream << s << seperator << a << seperator << v << std::endl;
-            }
-
+            int &a = w.first;
+            double &v = w.second;
+            stream << s << seperator << a << seperator << v << std::endl;
+        }
     }
+}
 
+
+void Print::outputVectorPair(std::vector<std::pair<int,double> > VectorPair, std::ostream& stream, char seperator)
+{
+    for(std::pair<int, double> v : VectorPair)
+    {
+        int &ep = v.first;
+        double &score = v.second;
+        stream << ep << seperator << score << seperator << std::endl;
+    }
 }

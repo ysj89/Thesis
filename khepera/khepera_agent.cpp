@@ -200,15 +200,15 @@ void Agent::printAgentinRoom(int filecount)
 
 }
 
-void Agent::printAgentReward(int filecount)
-{
-    std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation/Reward/reward" << filecount << ".txt";
-    std::ofstream fs;
-    fs.open(filename.str(), std::ios::out);
-    Print::outputDouble(reward, fs);
-    fs.close();
-}
+//void Agent::printAgentReward(int filecount)
+//{
+//    std::stringstream filename;
+//    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation/Reward/reward" << filecount << ".txt";
+//    std::ofstream fs;
+//    fs.open(filename.str(), std::ios::out);
+//    Print::outputDouble(reward, fs);
+//    fs.close();
+//}
 
 
 
@@ -233,7 +233,7 @@ void Agent::runAgent(int _episodes, int _totalsteps)
                     if(i == _episodes - 1)
                     {
                         printAgentinRoom(steps);
-                        printAgentReward(steps);
+//                        printAgentReward(steps);
                     }
 
                 }

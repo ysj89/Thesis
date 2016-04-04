@@ -12,16 +12,12 @@
 namespace Print
 {
 
-
-
 void outputQTable(std::unordered_map<std::string, ActionScoreMap> Qtable, std::ostream& stream, char seperatpr =',');
-
-
+void outputVectorPair(std::vector< std::pair<int,double> > VectorPair, std::ostream& stream, char seperator = '\t');
 
 
 template <typename T>
-
-void outputMatrix(std::vector<std::vector<T> > matrix, std::ostream& stream, char seperator='\t')
+void outputMatrix(std::vector<std::vector<T> > &matrix, std::ostream& stream, char seperator='\t')
     {
         for(std::vector<T> &v : matrix)
         {
@@ -29,7 +25,30 @@ void outputMatrix(std::vector<std::vector<T> > matrix, std::ostream& stream, cha
             {
                 stream << i << seperator;
             }
-            stream << std::endl;
+                stream << std::endl;
+        }
+    }
+
+template <typename T>
+void p_outputMatrix(std::vector<std::vector<T> > *matrix, std::ostream& stream, char seperator='\t')
+    {
+        for(std::vector<T> &v : *matrix)
+        {
+            for(T &i : v)
+            {
+                stream << i << seperator;
+            }
+                stream << std::endl;
+        }
+    }
+
+
+template <typename T>
+void outputVector(std::vector<T> *vector, std::ostream& stream)
+    {
+        for(T &v : *vector)
+        {
+            stream << v << std::endl;
         }
     }
 
@@ -54,11 +73,5 @@ void outputTwoValues(T first, Y second, std::ostream& stream)
 
 
 
-
-
 }
-
-
-
-
 #endif // HELPFUNCTIONS_H

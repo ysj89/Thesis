@@ -63,7 +63,7 @@ public:
     void performAction();
     void runAgent(int _episodes, int _totalsteps);
     void printAgentinRoom(int filecount = 0);
-    void printAgentReward(int filecount = 0);
+//    void printAgentReward(int filecount = 0);
 
 
 

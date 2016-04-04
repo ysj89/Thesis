@@ -6,38 +6,34 @@
 #include "khepera_agent.h"
 #include "q_learning.h"
 #include "random_action.h"
+#include "save_files.h"
 
 
 int main(int argc, char *argv[])
 {
-        // Calculate execution time
-        std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+    // Calculate execution time
+    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
         bool SAVEDATA = 1;
-
 
         // /////////////
         // Define World and Agent objects
         // /////////////
         Room room1(10,15);
         Q_learning *sol_met = new Q_learning(0.5, 0.9, 0.5, 8, 3);
-        Random_action *sol_met1 = new Random_action();
-
+//        Random_action *sol_met1 = new Random_action();
 
         // /////////////
         // Define Agent
         // /////////////
 //      Agent Khepera(&room1, 5,5, 8, 4,sol_met,SAVEDATA);
-        Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met1, SAVEDATA);
-
+        Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met, SAVEDATA);
 
         // /////////////
         // Run Agent
         // /////////////
-//        Khepera.runAgent(500, 1000);
+        // Khepera.runAgent(500, 1000);
         Khepera_heading.runAgent(2000,500);
-
-
 
         std::stringstream filename;
         filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/QTable/QTable.txt";

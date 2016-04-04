@@ -1,6 +1,6 @@
-#include "khepera_agent_heading.h"
 #include <sstream>
 
+#include "khepera_agent_heading.h"
 #include "khepera_agent.h"
 
 void Agent_H::performAction()
@@ -12,10 +12,10 @@ void Agent_H::performAction()
     action = static_cast<Action_heading> ( sol_met->getAction(current_state, num_act));
 
         // Probability of succesfull execution of action
-            if ( (rand() % 100 + 1) / 100.0  > 1-succes_probability)
-            {
-                action = static_cast<Action_heading> ( rand()%num_act );
-            }
+//            if ( (rand() % 100 + 1) / 100.0  > 1-succes_probability)
+//            {
+//                action = static_cast<Action_heading> ( rand()%num_act );
+//            }
 
         // Perform action
             switch(action)
@@ -163,15 +163,14 @@ void Agent_H::performAction()
                 current_state[8] = WEST;
                 break;
         }
-
             explorationMap[current_pos.x][current_pos.y] = (explorationMap[current_pos.x][current_pos.y] + 1 );
-
+            rewardVec->at(steps) = reward;
             steps = steps + 1;
             totalreward = totalreward + reward;
 }
 
 
-void Agent_H::printAgentinRoom(int filecount)
+void Agent_H::setSensorInformation()
 {
 
     double obserstatecolor = 4.2;
@@ -182,8 +181,6 @@ void Agent_H::printAgentinRoom(int filecount)
     if(heading == NORTH)
     {
         printMap[current_pos.x - 1][current_pos.y] = obserstatecolor;
-
-
         if((current_pos.x - 4 ) > 0)
         {
             printMap[current_pos.x - 4][current_pos.y] = obserstatecolor;
@@ -204,7 +201,6 @@ void Agent_H::printAgentinRoom(int filecount)
     if(heading == EAST)
     {
         printMap[current_pos.x - 0][current_pos.y + 1] = obserstatecolor;
-
         if((current_pos.y + 4 ) < m_Room->y_size)
         {
             printMap[current_pos.x - 0][current_pos.y + 4] = obserstatecolor;
@@ -265,37 +261,6 @@ void Agent_H::printAgentinRoom(int filecount)
         }
 
     }
-
-    std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/World/TotalWorld" << filecount << ".txt";
-    std::ofstream fs;
-    fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
-    Print::outputMatrix(printMap, fs);
-    fs.close();
-
-//    std::cout << "\n\n" ;
-//    for(int i = 0; i < m_Room->x_size; i++)
-//    {
-//        for(int j = 0; j < m_Room->y_size; j++)
-//        {
-//            std::cout << printMap[i][j] << "\t";
-//        }   std::cout << "\n" ;
-//    }
-//    std::cout << "\n" ;
-//    std::cout << "Old position (x,y): " << old_pos.x << " " << old_pos.y << "\n";
-//    std::cout << "Current position (x,y): " << current_pos.x << " " << current_pos.y << "\n";
-//    std::cout << "The action performed was: " << action << " \n";
-
-}
-
-void Agent_H::printAgentExploration(int episode)
-{
-    std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Exploration/explore" << episode << ".txt";
-    std::ofstream fs;
-    fs.open(filename.str(), std::ios::out);
-    Print::outputMatrix(explorationMap, fs);
-    fs.close();
 }
 
 void Agent_H::cleanExplorationMap()
@@ -309,28 +274,6 @@ void Agent_H::cleanExplorationMap()
     }
 }
 
-
-void Agent_H::printAgentReward(int filecount)
-{
-    std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Reward/reward" << filecount << ".txt";
-    std::ofstream fs;
-    fs.open(filename.str(), std::ios::out);
-    Print::outputDouble(reward, fs);
-    fs.close();
-}
-
-void Agent_H::printAgentRewardperEpisode(int episode_count)
-{
-    std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Reward_per_eps/totalreward" << episode_count << ".txt";
-    std::ofstream fs;
-    fs.open(filename.str(), std::ios::out);
-    Print::outputDouble(totalreward,fs);
-    fs.close();
-}
-
-
 void Agent_H::checkBlockedSensor(int s0x, int s0y, int s1x, int s1y, int s2x, int s2y, int s3x, int s3y)
 {
     sensor3x = s3x;
@@ -341,7 +284,6 @@ void Agent_H::checkBlockedSensor(int s0x, int s0y, int s1x, int s1y, int s2x, in
     sensor1y = s1y;
     sensor0x = s0x;
     sensor0y = s0y;
-
 
     if (m_Room->worldMap[sensor3x][sensor3y] == 0)
     {
@@ -370,7 +312,6 @@ void Agent_H::checkBlockedSensor(int s0x, int s0y, int s1x, int s1y, int s2x, in
         current_state[1] = m_Room->worldMap[sensor1x][sensor0y];
         current_state[2] = m_Room->worldMap[sensor2x][sensor0y];
         current_state[3] = m_Room->worldMap[sensor3x][sensor0y];
-
     }
 }
 
@@ -378,8 +319,8 @@ void Agent_H::checkBlockedSensor(int s0x, int s0y, int s1x, int s1y, int s2x, in
 
 void Agent_H::runAgent(int _episodes, int _totalsteps)
 {
-    std::vector<double> totalRewardVec(_episodes);
     m_Room->initializeTrash(15);
+    *rewardVec = std::vector<double>(_totalsteps);
 
     for(int i = 0; i < _episodes; i++ )
     {
@@ -387,44 +328,35 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
         steps = 0;
         totalreward = 0;
         reward = 0;
-
         m_Room->cleanWorldMap();
         m_Room->worldMap = m_Room->setMap;
-
         m_Room->worldMap[current_pos.x][current_pos.y + 2] = 3;
-
         printMap = m_Room->worldMap;
-
         printMap[x_start][y_start + 2] = 3;
         printMap[current_pos.x][current_pos.y] = 5;
-
 
             while(steps < _totalsteps)
             {
                 performAction();
-
-                if(savedata == 1)
+                if(i == _episodes - 1)
                 {
-                    if(i == _episodes - 1)
+                    if(savedata == 1)
                     {
-                        printAgentinRoom(steps);
-                        printAgentReward(steps);
+                        setSensorInformation();
+                        save.printAgentinRoom(steps, printMap);
+                        save.printAgentReward(rewardVec);
                     }
                 }
-
                 sol_met->update(this, num_act);
-                // std::cout << "The reward was: " << reward << "\n";
-
             }
-
-        printAgentRewardperEpisode(i);
-        totalRewardVec[i] = totalreward;
-
-        printAgentExploration(i);
+            if (i % 100 == 0)
+            {
+                totalRewardVec.push_back(std::pair<int,double> (i, totalreward));
+                save.printAgentExploration(i,explorationMap);
+            }
         cleanExplorationMap();
-
-            }
-
+    }
+    save.printAgentRewardperEpisode(totalRewardVec);
 }
 
 
