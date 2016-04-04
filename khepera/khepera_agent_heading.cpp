@@ -172,11 +172,9 @@ void Agent_H::performAction()
 
 void Agent_H::setSensorInformation()
 {
-
     double obserstatecolor = 4.2;
     printMap = m_Room->worldMap;
     printMap[current_pos.x][current_pos.y] = 5;
-
 
     if(heading == NORTH)
     {
