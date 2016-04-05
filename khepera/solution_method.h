@@ -22,6 +22,8 @@ public:
 
     virtual void update(Agent_H *m_Agent, int _number_of_actions){}  // for current state, old state and reward
 
+    virtual void updateTransitionMatrix(StateVec state0, StateVec state1, int action){}
+
 
 //    virtual void SaveData(int x, int y){};
 

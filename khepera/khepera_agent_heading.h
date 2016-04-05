@@ -89,11 +89,8 @@ public:
     std::vector<std::vector<int>> positionPlot;
     std::vector<std::vector<int>> *foo = new std::vector<std::vector<int>>;
     std::vector<std::vector<int>> explorationMap;
-
     std::vector<std::pair<int,double>> totalRewardVec;
-
     std::vector<double> *rewardVec  = new std::vector<double>;
-
 
     // Member function
     void performAction();
@@ -101,10 +98,7 @@ public:
     void setSensorInformation();
     void printAgentExploration(int episode);
     void cleanExplorationMap();
-
     void checkBlockedSensor(int s0x, int s0y, int s1x, int s1y, int s2x, int s2y, int s3x, int s3y);
-
-
 
 };
 

@@ -336,6 +336,7 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
             while(steps < _totalsteps)
             {
                 performAction();
+                sol_met->updateTransitionMatrix(current_state, old_state, action);
                 if(i == _episodes - 1)
                 {
                     if(savedata == 1)

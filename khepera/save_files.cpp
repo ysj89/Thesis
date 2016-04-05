@@ -45,3 +45,13 @@ void Save::printAgentinRoom(int steps, std::vector<std::vector<double> > &m_prin
     Print::outputMatrix(m_printMap, fs);
     fs.close();
 }
+
+void Save::printQtable(std::unordered_map<std::string, ActionScoreMap> &m_Qtable)
+{
+            std::stringstream filename;
+            filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/QTable/QTable.txt";
+            std::ofstream fs;
+            fs.open(filename.str(), std::ios::out);
+            Print::outputQTable(m_Qtable, fs);
+            fs.close();
+}

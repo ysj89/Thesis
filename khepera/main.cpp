@@ -14,7 +14,8 @@ int main(int argc, char *argv[])
     // Calculate execution time
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
-        bool SAVEDATA = 1;
+        bool SAVEDATA = 0;
+        Save save;
 
         // /////////////
         // Define World and Agent objects
@@ -35,13 +36,10 @@ int main(int argc, char *argv[])
         // Khepera.runAgent(500, 1000);
         Khepera_heading.runAgent(2000,500);
 
-        std::stringstream filename;
-        filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/QTable/QTable.txt";
-        std::ofstream fs;
-        fs.open(filename.str(), std::ios::out);
-        Print::outputQTable(sol_met->Qtable, fs);
-        fs.close();
-
+        if(SAVEDATA == 1)
+        {
+            save.printQtable(sol_met->Qtable);
+        }
 
     // Calculate execution time
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
