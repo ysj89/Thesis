@@ -2,6 +2,7 @@
 
 #include "khepera_agent_heading.h"
 #include "khepera_agent.h"
+#include "transitionmatrix.h"
 
 void Agent_H::performAction()
 {
@@ -320,6 +321,9 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
     m_Room->initializeTrash(15);
     *rewardVec = std::vector<double>(_totalsteps);
 
+    int size_TPM = 500;
+    TransitionMatrix TM(size_TPM, num_act);
+
     for(int i = 0; i < _episodes; i++ )
     {
         current_pos = { x_start , y_start };
@@ -337,6 +341,12 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
             {
                 performAction();
                 sol_met->updateTransitionMatrix(current_state, old_state, action);
+
+                if(i > _episodes/2)
+                {
+                    TM.increment(old_state, current_state, action);
+                }
+
                 if(i == _episodes - 1)
                 {
                     if(savedata == 1)
@@ -355,22 +365,12 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
             }
         cleanExplorationMap();
     }
+
+    TM.calculateTPM(size_TPM, num_act);
+//    save.printTPM(TM.TPM);
+    save.printTPM3D(TM.TPM2);
     save.printAgentRewardperEpisode(totalRewardVec);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

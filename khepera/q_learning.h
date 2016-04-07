@@ -17,9 +17,6 @@ public:
         gamma(GAMMA_),
         epsilon(EPSILON_)
     {
-//        TransitionMatrix = std::vector<std::vector<int> > (1, std::vector<int>(1,0));
-
-
     }
 
     // Member variables
@@ -30,9 +27,9 @@ public:
 
     std::vector<double>dummy;
     std::vector<double>::iterator max_q_value;
-//    TransitionMatrix transitionMatrix;
+
     std::unordered_map<std::string, ActionScoreMap> Qtable;
-//    std::unordered_map<std::string, int> string2intMap;
+
 
     // Member functions
     virtual int getAction(StateVec _state , int _number_of_actions);

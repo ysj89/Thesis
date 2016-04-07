@@ -27,14 +27,14 @@ int main(int argc, char *argv[])
         // /////////////
         // Define Agent
         // /////////////
-//      Agent Khepera(&room1, 5,5, 8, 4,sol_met,SAVEDATA);
+//        Agent Khepera(&room1, 5,5, 8, 4,sol_met,SAVEDATA);
         Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met, SAVEDATA);
 
         // /////////////
         // Run Agent
         // /////////////
-        // Khepera.runAgent(500, 1000);
-        Khepera_heading.runAgent(2000,500);
+//         Khepera.runAgent(1000, 500);
+        Khepera_heading.runAgent(1000,500);
 
         if(SAVEDATA == 1)
         {
