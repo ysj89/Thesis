@@ -13,7 +13,7 @@ struct Save
     void printAgentinRoom(int steps, std::vector<std::vector<double> > &m_printMap);
     void printQtable(std::unordered_map<std::string, ActionScoreMap> &m_Qtable);
     void printTPM(std::vector<std::vector<double> > & m_TPM);
-    void printTPM3D(std::vector<std::vector<std::vector<double> > > & m_TPM);
+    void printTPM3D(std::vector<std::vector<std::vector<double> > > & m_TPM, int TPM_size);
 
 
 };

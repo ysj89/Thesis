@@ -40,7 +40,6 @@ void TransitionMatrix::sumTransitions(unsigned size_tm, int num_of_action)
 
 void TransitionMatrix::calculateTPM(unsigned size_tm, int num_of_action)
 {
-
     sumTransitions(size_tm, num_of_action);
 
     for(unsigned a = 0; a < num_of_action; a++)
@@ -93,14 +92,4 @@ unsigned TransitionMatrix::getIndexFromString1(std::string s)
     }
     return string2intMap1[s];
 }
-
-//unsigned TransitionMatrix::getIndexFromString2(std::string s)
-//{
-//    if(string2intMap2.find(s) == string2intMap2.end())
-//    {
-//        string2intMap2[s] = currentStringIndex2++;
-//    }
-//    return string2intMap2[s];
-//}
-
 

@@ -14,13 +14,13 @@ int main(int argc, char *argv[])
     // Calculate execution time
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
-        bool SAVEDATA = 0;
+        bool SAVEDATA = 1;
         Save save;
 
         // /////////////
         // Define World and Agent objects
         // /////////////
-        Room room1(10,15);
+        Room room1(15,25);
         Q_learning *sol_met = new Q_learning(0.5, 0.9, 0.5, 8, 3);
 //        Random_action *sol_met1 = new Random_action();
 
@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
         // Run Agent
         // /////////////
 //         Khepera.runAgent(1000, 500);
-        Khepera_heading.runAgent(1000,500);
+        Khepera_heading.runAgent(50000,500);
 
         if(SAVEDATA == 1)
         {

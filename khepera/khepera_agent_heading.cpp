@@ -366,10 +366,16 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
         cleanExplorationMap();
     }
 
-    TM.calculateTPM(size_TPM, num_act);
-//    save.printTPM(TM.TPM);
-    save.printTPM3D(TM.TPM2);
+    int size_Qtable =  sol_met->getSizeQtable();
+
+    std::cout << "This is the QTable size: " << size_Qtable << "\n";
+    TM.calculateTPM(size_Qtable, num_act);
+
+    if(savedata == 1)
+    {
+    save.printTPM3D(TM.TPM2, size_Qtable);
     save.printAgentRewardperEpisode(totalRewardVec);
+    }
 }
 
 

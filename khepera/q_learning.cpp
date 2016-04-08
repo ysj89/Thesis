@@ -9,7 +9,6 @@ int Q_learning::getAction(StateVec _state, int _number_of_actions)
     if (this->Qtable.find(str_state) == this->Qtable.end() )
     {
          return static_cast<Action>(rand() % _number_of_actions); // return random action
-
     }
     else
     {
@@ -110,37 +109,14 @@ void Q_learning::update(Agent_H *m_Agent, int _number_of_actions)  // Changed in
 
 
         // Qtable[str_state_old][m_Agent->old_action] = Qnew;
+        //Qtable[str_state_old][m_Agent->old_action] = Qnew;
         Qold = Qnew;
-//            Qtable[str_state_old][m_Agent->old_action] = Qnew;
 
 }
 
-//void Q_learning::updateTransitionMatrix(StateVec state0, StateVec state1, int action)
-//{
-//    std::string str_state_0 = vec2str(state0);
-//    std::string str_state_1 = vec2str(state1);
+int Q_learning::getSizeQtable()
+{
+    return Qtable.size();
+}
 
-//    if (this->string2intMap.find(str_state_0) == this->string2intMap.end() )
-//    {
-//        counter = counter + 1;
-//        string2intMap[str_state_0] = counter;
-//    }
 
-//    if (this->string2intMap.find(str_state_1) == this->string2intMap.end() )
-//    {
-//        counter = counter + 1;
-//        string2intMap[str_state_0] = counter;
-//    }
-
-////    TransitionMatrix.resize(counter, std::vector<int>(counter));
-
-////    int state_0 = this->string2intMap[str_state_0];
-////    int state_1 = this->string2intMap[str_state_1];
-
-////    TransitionMatrix.push_back(std::vector<int> (counter,0));
-
-////    TransitionMatrix[state_0][state_1] = TransitionMatrix[state_0][state_1] + 1;
-
-//      transitionMatrix.increment(str_state_0, str_state_1);
-
-//}

@@ -66,22 +66,22 @@ void Save::printTPM(std::vector<std::vector<double> > &m_TPM)
     fs.close();
 }
 
-void Save::printTPM3D(std::vector<std::vector<std::vector<double> > > &m_TPM)
+void Save::printTPM3D(std::vector<std::vector<std::vector<double> > > &m_TPM, int TPM_size)
 {
-    std::vector<std::vector<double> > tempMatrix (m_TPM[1].size(), std::vector<double>(m_TPM[2].size(),0));
+    std::vector<std::vector<double> > tempMatrix (TPM_size, std::vector<double>(TPM_size,0));
 
-    for(int a = 0; a < m_TPM[0][1].size(); a++ )
+    for(unsigned int a = 0; a < m_TPM[0][1].size(); a++ )
     {
-        for(unsigned int i = 0; i < m_TPM[0].size(); i++ )
+        for(int i = 0; i < TPM_size; i++ )
         {
-            for(unsigned int j = 0; j < m_TPM[1].size(); j++ )
+            for(int j = 0; j < TPM_size; j++ )
             {
                 tempMatrix[i][j] = m_TPM[i][j][a];
             }
         }
 
         std::stringstream filename;
-        filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM" << a << ".txt";
+        filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM" << a + 1 << ".txt";
         std::ofstream fs;
         fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
         Print::outputMatrix(tempMatrix, fs);
