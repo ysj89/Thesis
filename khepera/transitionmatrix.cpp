@@ -1,10 +1,10 @@
 //#include "iostream"
 #include "transitionmatrix.h"
+#include "save_files.h"
 
 
 TransitionMatrix::TransitionMatrix(unsigned size_tm, unsigned num_of_actions) :
-    currentStringIndex1(0),
-    currentStringIndex2(0)
+    currentStringIndex1(0)
 {   // Unsigned vs Int
     transitionMatrix = std::vector<std::vector<std::vector<unsigned> > > {size_tm,std::vector<std::vector<unsigned> > (size_tm, std::vector<unsigned>(num_of_actions,0))};
     sum_of_row_vec = std::vector<std::vector<int> >{size_tm, std::vector<int>(num_of_actions,0)};
@@ -12,7 +12,7 @@ TransitionMatrix::TransitionMatrix(unsigned size_tm, unsigned num_of_actions) :
     TPM2 = std::vector<std::vector<std::vector<double> > >{size_tm, std::vector<std::vector<double> >(size_tm,std::vector<double>(num_of_actions,0))};
 }
 
-//void TransitionMatrix::increment(std::string x1, std::string x2)
+
 void TransitionMatrix::increment(StateVec state_1, StateVec state_2, int action)
 {
     std::string x1 = vec2str(state_1);
@@ -26,7 +26,7 @@ void TransitionMatrix::increment(StateVec state_1, StateVec state_2, int action)
 
 void TransitionMatrix::sumTransitions(unsigned size_tm, int num_of_action)
 {
-    for(unsigned int a; a < num_of_action; a++)
+    for(int a; a < num_of_action; a++)
     {
         for(unsigned int i = 0; i < size_tm; i++ )
         {
@@ -42,7 +42,7 @@ void TransitionMatrix::calculateTPM(unsigned size_tm, int num_of_action)
 {
     sumTransitions(size_tm, num_of_action);
 
-    for(unsigned a = 0; a < num_of_action; a++)
+    for(int a = 0; a < num_of_action; a++)
     {
         for(unsigned int i = 0; i < size_tm; i++ )
         {
@@ -59,6 +59,35 @@ void TransitionMatrix::calculateTPM(unsigned size_tm, int num_of_action)
             }
         }
     }
+}
+
+void TransitionMatrix::getTP(std::string state1, std::string state2)
+{
+
+    if(string2intMap1.find(state1) != string2intMap1.end() || string2intMap1.find(state2) != string2intMap1.end())
+    {
+        unsigned int x1 = string2intMap1[state1];
+        unsigned int x2 = string2intMap1[state2];
+        std::cout << "state1: " << x1 << " " << "state2: " <<  x2 << std::endl;
+        std::cout<< "Transition probabilityes from " << state1 << " to " << state2 << " are: " << TPM2[x1][x2][0] << " " << TPM2[x1][x2][1] << " " << TPM2[x1][x2][2] << std::endl;
+    }
+    else
+    {
+        std::cout << "TRANSITION MATRIX: States not transitioned during run" << std::endl;
+    }
+}
+
+
+
+
+unsigned TransitionMatrix::getIndexFromString1(std::string s)
+{
+    if(string2intMap1.find(s) == string2intMap1.end())
+    {
+        string2intMap1[s] = currentStringIndex1++;
+    }
+
+    return string2intMap1[s];
 }
 
 //void TransitionMatrix::calculatePTM(unsigned size_tm)
@@ -81,15 +110,4 @@ void TransitionMatrix::calculateTPM(unsigned size_tm, int num_of_action)
 //        }
 //    }
 //}
-
-
-
-unsigned TransitionMatrix::getIndexFromString1(std::string s)
-{
-    if(string2intMap1.find(s) == string2intMap1.end())
-    {
-        string2intMap1[s] = currentStringIndex1++;
-    }
-    return string2intMap1[s];
-}
 

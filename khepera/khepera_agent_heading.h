@@ -1,8 +1,6 @@
 #ifndef KHEPERA_AGENT_HEADING_H
 #define KHEPERA_AGENT_HEADING_H
 
-
-
 #include "posvec_struct.h"
 #include "room.h"
 #include "solution_method.h"

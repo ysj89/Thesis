@@ -15,6 +15,8 @@ struct Save
     void printTPM(std::vector<std::vector<double> > & m_TPM);
     void printTPM3D(std::vector<std::vector<std::vector<double> > > & m_TPM, int TPM_size);
 
+    void printTPMunorderedMap(std::unordered_map<std::string, unsigned int> &m_string2intMap1);
+
 
 };
 

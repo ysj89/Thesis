@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
         // Define World and Agent objects
         // /////////////
         Room room1(15,25);
-        Q_learning *sol_met = new Q_learning(0.5, 0.9, 0.5, 8, 3);
+        Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.3, 8, 3);
 //        Random_action *sol_met1 = new Random_action();
 
         // /////////////
@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
         // Run Agent
         // /////////////
 //         Khepera.runAgent(1000, 500);
-        Khepera_heading.runAgent(50000,500);
+        Khepera_heading.runAgent(100000,500);
 
         if(SAVEDATA == 1)
         {
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     // Calculate execution time
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
     double duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
-    std::cout << "\n" << duration / 1000000 << " seconds" << "\n"  ;
+    std::cout << "\n" << duration / 1000000 << " seconds" << "\n";
 
     return 0;
 

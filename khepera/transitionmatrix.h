@@ -19,16 +19,14 @@ public:
     void increment(StateVec state_1, StateVec state_2, int action);
     void sumTransitions(unsigned size_tm, int num_of_action);
     void calculateTPM(unsigned size_tm, int num_of_action);
-
-
-    // std::vector<std::pair<std::string,int> getVecX2(std::string x1)
+    void getTP(std::string state1, std::string state2);
 
     // string2intMap interface
     unsigned getIndexFromString1(std::string s);
-    unsigned getIndexFromString2(std::string s);
 
     std::vector<std::vector<double> > TPM;
     std::vector<std::vector<std::vector<double> > > TPM2;
+    std::unordered_map<std::string, unsigned> string2intMap1;
 
 
 
@@ -36,11 +34,9 @@ private:
 
 //    std::vector<std::vector<unsigned> > transitionMatrix;
     std::vector<std::vector<std::vector<unsigned> > > transitionMatrix;
-    std::unordered_map<std::string, unsigned> string2intMap1;
     unsigned currentStringIndex1;
-    unsigned currentStringIndex2;
 
-//    std::vector<int> sum_of_row_vec;
+
     std::vector<std::vector<int> > sum_of_row_vec;
 };
 

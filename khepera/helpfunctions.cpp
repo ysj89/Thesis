@@ -25,3 +25,14 @@ void Print::outputVectorPair(std::vector<std::pair<int,double> > VectorPair, std
         stream << ep << seperator << score << seperator << std::endl;
     }
 }
+
+void Print::outputUMstr2int(std::unordered_map<std::string, unsigned int> UM, std::ostream &stream, char seperator)
+{
+    for(std::pair<std::string, unsigned int> m : UM)
+    {
+        std::string &str = m.first;
+        unsigned int &in = m.second;
+
+        stream << str << seperator << in << std::endl;
+    }
+}

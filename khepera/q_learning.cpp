@@ -13,31 +13,20 @@ int Q_learning::getAction(StateVec _state, int _number_of_actions)
     else
     {
         ActionScoreMap a = this->Qtable[str_state];
-
         Score max_score;
-//        Action best_action;
         int best_action;
 
         for(std::unordered_map<int,Score>::iterator it=a.begin(); it != a.end(); it++)
         {
             if(it == a.begin())
             {
-//              best_action =  distance(a.begin(), max_element(a.begin(), a.end()));
-
                 max_score = it->second;
-//              index = std::distance(a.begin(), it);
-//                best_action = it->first;
-
                 best_action = static_cast<int>(it->first);
-//                best_action = std::distance(a.begin(), it);
             }
 
             if(it->second > max_score)  // NOTE: In case two same scores, returns first
             {
                 max_score = it->second;
-//                index = std::distance(a.begin(), it);
-//                best_action = std::distance(a.begin(), it);
-//                best_action = it->first;
                 best_action = static_cast<int>(it->first);
             }
         }
@@ -46,7 +35,7 @@ int Q_learning::getAction(StateVec _state, int _number_of_actions)
         // TODO: Implement epsilon-greedy !
         if( ((rand()% 100 + 1 ) / 100) > (1-epsilon))
         {
-//            std::cout << "A random action has been selected" << "\n";
+            //std::cout << "A random action has been selected" << "\n";
             return rand()%_number_of_actions;
 
         }
@@ -67,7 +56,6 @@ void Q_learning::update(Agent_H *m_Agent, int _number_of_actions)  // Changed in
         {
             a[i] = 0;
         }
-
         Qtable[str_state_old] = a;
     }
 
@@ -104,7 +92,6 @@ void Q_learning::update(Agent_H *m_Agent, int _number_of_actions)  // Changed in
 
         double &Qold = Qtable[str_state_old][m_Agent->action];  // NOTE: changed old_action to current_old
         double &Qmax = Qtable[str_state_current][best_action];
-
         double Qnew = (Qold + alpha * (m_Agent->reward + gamma*Qmax - Qold ));
 
 

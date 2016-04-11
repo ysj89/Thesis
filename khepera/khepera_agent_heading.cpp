@@ -24,13 +24,15 @@ void Agent_H::performAction()
             case TURN_LEFT:     // 0
                 head = static_cast<int>(heading);
                 new_head = head - 1;
-                    if(new_head < 0)
+
+                if(new_head < 0)
                     {
                         new_head = 3;
                     }
                 heading = static_cast<Heading>(new_head);
 //                reward = -4;
                 break;
+
             case TURN_RIGHT:    // 1
                 head = static_cast<int>(heading);
                 new_head = head + 1;
@@ -49,7 +51,7 @@ void Agent_H::performAction()
                     current_pos.y += 1;
                 if(heading == SOUTH)
                     current_pos.x += 1;
-                if(heading == WEST) // 3
+                if(heading == WEST)
                     current_pos.y -= 1;
 
 //                reward = -1;
@@ -78,88 +80,80 @@ void Agent_H::performAction()
             {
             case NORTH: // 0
 
-                sensor3x = current_pos.x - 1;
-                sensor3y = current_pos.y    ;
-                sensor2x = current_pos.x - 2;
-                sensor2y = current_pos.y    ;
-                sensor1x = current_pos.x - 3;
-                sensor1y = current_pos.y    ;
                 sensor0x = current_pos.x - 4;
                 sensor0y = current_pos.y;
+                sensor1x = current_pos.x - 3;
+                sensor1y = current_pos.y    ;
+                sensor2x = current_pos.x - 2;
+                sensor2y = current_pos.y    ;
+                sensor3x = current_pos.x - 1;
+                sensor3y = current_pos.y    ;
 
                 checkBlockedSensor(sensor0x, sensor0y, sensor1x, sensor1y, sensor2x, sensor2y, sensor3x, sensor3y);
 
-                current_state[4] = m_Room->worldMap[current_pos.x][current_pos.y + 1];
-                current_state[6] = m_Room->worldMap[current_pos.x][current_pos.y - 1];
-
-
-                current_state[5] = m_Room->worldMap[current_pos.x - 1][current_pos.y + 1];
-                current_state[7] = m_Room->worldMap[current_pos.x - 1][current_pos.y - 1];
-
+                current_state[4] = m_Room->worldMap[current_pos.x - 1][current_pos.y + 1];
+                current_state[5] = m_Room->worldMap[current_pos.x ][current_pos.y + 1];
+                current_state[6] = m_Room->worldMap[current_pos.x - 1 ][current_pos.y - 1];
+                current_state[7] = m_Room->worldMap[current_pos.x][current_pos.y - 1];
                 current_state[8] = NORTH;
 
                 break;
             case EAST: // 1
 
-                sensor3x = current_pos.x;
-                sensor3y = current_pos.y + 1;
-                sensor2x = current_pos.x;
-                sensor2y = current_pos.y + 2;
-                sensor1x = current_pos.x;
-                sensor1y = current_pos.y + 3;
                 sensor0x = current_pos.x;
                 sensor0y = current_pos.y + 4;
+                sensor1x = current_pos.x;
+                sensor1y = current_pos.y + 3;
+                sensor2x = current_pos.x;
+                sensor2y = current_pos.y + 2;
+                sensor3x = current_pos.x;
+                sensor3y = current_pos.y + 1;
 
                 checkBlockedSensor(sensor0x, sensor0y, sensor1x, sensor1y, sensor2x, sensor2y, sensor3x, sensor3y);
 
-
-                current_state[4] = m_Room->worldMap[current_pos.x + 1][current_pos.y];
-                current_state[5] = m_Room->worldMap[current_pos.x + 1][current_pos.y + 1];
-                current_state[6] = m_Room->worldMap[current_pos.x - 1][current_pos.y];
-                current_state[7] = m_Room->worldMap[current_pos.x - 1][current_pos.y + 1];
+                current_state[4] = m_Room->worldMap[current_pos.x + 1][current_pos.y + 1];
+                current_state[5] = m_Room->worldMap[current_pos.x + 1][current_pos.y];
+                current_state[6] = m_Room->worldMap[current_pos.x - 1][current_pos.y + 1];
+                current_state[7] = m_Room->worldMap[current_pos.x - 1][current_pos.y];
 
                 current_state[8] = EAST;
                 break;
 
             case SOUTH: // 2
-                sensor3x = current_pos.x + 1;
-                sensor3y = current_pos.y;
-                sensor2x = current_pos.x + 2;
-                sensor2y = current_pos.y;
-                sensor1x = current_pos.x + 3;
-                sensor1y = current_pos.y;
                 sensor0x = current_pos.x + 4;
                 sensor0y = current_pos.y;
+                sensor1x = current_pos.x + 3;
+                sensor1y = current_pos.y;
+                sensor2x = current_pos.x + 2;
+                sensor2y = current_pos.y;
+                sensor3x = current_pos.x + 1;
+                sensor3y = current_pos.y;
 
                 checkBlockedSensor(sensor0x, sensor0y, sensor1x, sensor1y, sensor2x, sensor2y, sensor3x, sensor3y);
 
-                current_state[4] = m_Room->worldMap[current_pos.x][current_pos.y - 1];
-                current_state[5] = m_Room->worldMap[current_pos.x + 1][current_pos.y - 1];
-                current_state[6] = m_Room->worldMap[current_pos.x][current_pos.y + 1];
-                current_state[7] = m_Room->worldMap[current_pos.x + 1][current_pos.y + 1];
-
+                current_state[4] = m_Room->worldMap[current_pos.x + 1][current_pos.y - 1];
+                current_state[5] = m_Room->worldMap[current_pos.x][current_pos.y - 1];
+                current_state[6] = m_Room->worldMap[current_pos.x + 1][current_pos.y + 1];
+                current_state[7] = m_Room->worldMap[current_pos.x][current_pos.y + 1];
                 current_state[8] = SOUTH;
-
                 break;
 
             case WEST: // 3
-
-                sensor3x = current_pos.x;
-                sensor3y = current_pos.y - 1;
-                sensor2x = current_pos.x;
-                sensor2y = current_pos.y - 2;
-                sensor1x = current_pos.x;
-                sensor1y = current_pos.y - 3;
                 sensor0x = current_pos.x;
                 sensor0y = current_pos.y - 4;
+                sensor1x = current_pos.x;
+                sensor1y = current_pos.y - 3;
+                sensor2x = current_pos.x;
+                sensor2y = current_pos.y - 2;
+                sensor3x = current_pos.x;
+                sensor3y = current_pos.y - 1;
 
                 checkBlockedSensor(sensor0x, sensor0y, sensor1x, sensor1y, sensor2x, sensor2y, sensor3x, sensor3y);
 
-
-                current_state[4] = m_Room->worldMap[current_pos.x - 1][current_pos.y];
-                current_state[5] = m_Room->worldMap[current_pos.x - 1][current_pos.y - 1];
-                current_state[6] = m_Room->worldMap[current_pos.x + 1][current_pos.y];
-                current_state[7] = m_Room->worldMap[current_pos.x + 1][current_pos.y - 1];
+                current_state[4] = m_Room->worldMap[current_pos.x - 1][current_pos.y - 1];
+                current_state[5] = m_Room->worldMap[current_pos.x - 1][current_pos.y];
+                current_state[6] = m_Room->worldMap[current_pos.x + 1][current_pos.y - 1];
+                current_state[7] = m_Room->worldMap[current_pos.x + 1][current_pos.y];
 
                 current_state[8] = WEST;
                 break;
@@ -340,7 +334,6 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
             while(steps < _totalsteps)
             {
                 performAction();
-                sol_met->updateTransitionMatrix(current_state, old_state, action);
 
                 if(i > _episodes/2)
                 {
@@ -358,24 +351,34 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
                 }
                 sol_met->update(this, num_act);
             }
+
             if (i % 100 == 0)
             {
                 totalRewardVec.push_back(std::pair<int,double> (i, totalreward));
                 save.printAgentExploration(i,explorationMap);
             }
-        cleanExplorationMap();
+
+            cleanExplorationMap();
     }
 
     int size_Qtable =  sol_met->getSizeQtable();
-
     std::cout << "This is the QTable size: " << size_Qtable << "\n";
+
     TM.calculateTPM(size_Qtable, num_act);
 
     if(savedata == 1)
     {
     save.printTPM3D(TM.TPM2, size_Qtable);
     save.printAgentRewardperEpisode(totalRewardVec);
+    save.printTPMunorderedMap(TM.string2intMap1);
     }
+
+    TM.getTP("1,1,1,1,3,1,1,1,0","1,1,1,1,1,3,1,1,0");
+    TM.getTP("1,1,1,1,3,1,1,1,0","1,1,1,1,1,1,3,1,0");
+    TM.getTP("1,3,1,1,1,1,1,1,0","1,1,3,1,1,1,1,1,0");
+    TM.getTP("1,1,1,1,1,1,1,1,0","1,1,1,1,1,1,1,1,1");
+    TM.getTP("1,1,1,1,3,1,0,0,0","1,1,1,1,1,1,3,1,0");
+
 }
 
 

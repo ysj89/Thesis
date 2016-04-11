@@ -14,6 +14,7 @@ namespace Print
 
 void outputQTable(std::unordered_map<std::string, ActionScoreMap> Qtable, std::ostream& stream, char seperatpr =',');
 void outputVectorPair(std::vector< std::pair<int,double> > VectorPair, std::ostream& stream, char seperator = '\t');
+void outputUMstr2int(std::unordered_map<std::string, unsigned int> UM, std::ostream& stream, char seperator = '\t');
 
 
 template <typename T>

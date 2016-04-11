@@ -91,3 +91,13 @@ void Save::printTPM3D(std::vector<std::vector<std::vector<double> > > &m_TPM, in
 
     tempMatrix.clear();
 }
+
+void Save::printTPMunorderedMap(std::unordered_map<std::string, unsigned int> &m_string2intMap1)
+{
+    std::stringstream filename;
+    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/string2int/str2int.txt";
+    std::ofstream fs;
+    fs.open(filename.str(), std::ios::out);
+    Print::outputUMstr2int(m_string2intMap1, fs);
+    fs.close();
+}
