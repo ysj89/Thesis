@@ -13,10 +13,10 @@ void Agent_H::performAction()
     action = static_cast<Action_heading> ( sol_met->getAction(current_state, num_act));
 
         // Probability of succesfull execution of action
-//            if ( (rand() % 100 + 1) / 100.0  > 1-succes_probability)
-//            {
-//                action = static_cast<Action_heading> ( rand()%num_act );
-//            }
+            if ( (rand() % 100 + 1) / 100.0  > 1-succes_probability/steps)
+            {
+                action = static_cast<Action_heading> ( rand()%num_act );
+            }
 
         // Perform action
             switch(action)
