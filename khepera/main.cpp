@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     // Calculate execution time
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
-        bool SAVEDATA = 0;
+        bool SAVEDATA = 1;
         Save save;
 
         // /////////////
@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
         // Run Agent
         // /////////////
 //         Khepera.runAgent(1000, 500);
-        Khepera_heading.runAgent(1000,1000);
+        Khepera_heading.runAgent(10000,300);
 
         if(SAVEDATA == 1)
         {

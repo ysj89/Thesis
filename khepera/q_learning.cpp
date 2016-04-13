@@ -37,8 +37,8 @@ int Q_learning::getAction(StateVec _state, int _number_of_actions)
         {
             //std::cout << "A random action has been selected" << "\n";
             return rand()%_number_of_actions;
-
         }
+
         return best_action;
     }
 

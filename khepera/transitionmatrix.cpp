@@ -1,4 +1,5 @@
 //#include "iostream"
+#include <algorithm>    // std::find
 #include "transitionmatrix.h"
 #include "save_files.h"
 
@@ -10,6 +11,9 @@ TransitionMatrix::TransitionMatrix(unsigned size_tm, unsigned num_of_actions) :
     sum_of_row_vec = std::vector<std::vector<int> >{size_tm, std::vector<int>(num_of_actions,0)};
     TPM = std::vector<std::vector<double> > {size_tm, std::vector<double>(size_tm,0)};
     TPM2 = std::vector<std::vector<std::vector<double> > >{size_tm, std::vector<std::vector<double> >(size_tm,std::vector<double>(num_of_actions,0))};
+
+    keys.reserve(size_tm);
+    vals.reserve(size_tm);
 }
 
 
@@ -77,6 +81,44 @@ void TransitionMatrix::getTP(std::string state1, std::string state2)
     }
 }
 
+std::vector<double> TransitionMatrix::getTP2(StateVec state1, int action)
+{
+    std::vector<double> TP;
+
+    std::string str_state = vec2str(state1);
+    int in_state = string2intMap1[str_state];
+
+    for(unsigned i = 0; i <  (TPM2[1].size() + 1); i++ )
+    {
+        TP[i] = TPM2[in_state][i][action];
+    }
+
+    return TP;
+}
+
+std::string TransitionMatrix::returnNextState(std::vector<double> TPvec)
+{
+    // Using the transition vector, return index
+    // transform index to state
+
+    unsigned next_state;
+
+
+    std::vector<int>::iterator it = std::find(vals.begin(), vals.end(), next_state);
+    std::string new_state = keys[*it];
+
+    return new_state;
+
+}
+
+void TransitionMatrix::storeKeyandMap(std::unordered_map<std::string, unsigned> stateID)
+{
+
+    for(auto kv : stateID) {
+        keys.push_back(kv.first);
+        vals.push_back(kv.second);
+    }
+}
 
 
 
@@ -89,6 +131,9 @@ unsigned TransitionMatrix::getIndexFromString1(std::string s)
 
     return string2intMap1[s];
 }
+
+
+
 
 //void TransitionMatrix::calculatePTM(unsigned size_tm)
 //{
