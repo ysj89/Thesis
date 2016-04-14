@@ -302,9 +302,9 @@ void Agent_H::checkBlockedSensor(int s0x, int s0y, int s1x, int s1y, int s2x, in
     else
     {
         current_state[0] = m_Room->worldMap[sensor0x][sensor0y];
-        current_state[1] = m_Room->worldMap[sensor1x][sensor0y];
-        current_state[2] = m_Room->worldMap[sensor2x][sensor0y];
-        current_state[3] = m_Room->worldMap[sensor3x][sensor0y];
+        current_state[1] = m_Room->worldMap[sensor1x][sensor1y];
+        current_state[2] = m_Room->worldMap[sensor2x][sensor2y];
+        current_state[3] = m_Room->worldMap[sensor3x][sensor3y];
     }
 }
 
@@ -334,21 +334,18 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
             while(steps < _totalsteps)
             {
                 performAction();
+                TM.increment(old_state, current_state, action);
 
-                if(i > _episodes/2)
-                {
-                    TM.increment(old_state, current_state, action);
-                }
-
-                if(i == _episodes - 1)
-                {
-                    if(savedata == 1)
+                    if(i == _episodes - 1)
                     {
-                        setSensorInformation();
-                        save.printAgentinRoom(steps, printMap);
-                        save.printAgentReward(rewardVec);
+                        if(savedata == 1)
+                        {
+                            setSensorInformation();
+                            save.printAgentinRoom(steps, printMap);
+                            save.printAgentReward(rewardVec);
+                        }
                     }
-                }
+
                 sol_met->update(this, num_act);
             }
 
@@ -378,7 +375,13 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
     TM.getTP("1,3,1,1,1,1,1,1,0","1,1,3,1,1,1,1,1,0");
     TM.getTP("1,1,1,1,1,1,1,1,0","1,1,1,1,1,1,1,1,1");
     TM.getTP("1,1,1,1,3,1,0,0,0","1,1,1,1,1,1,3,1,0");
+    TM.getTP("1,1,1,1,3,1,1,1,0","1,1,1,1,3,1,1,3,2");
 
+    TM.storeKeyandMap();
+
+    TM.transition("1,1,1,1,3,1,1,1,0", 0);
+
+    TM.TransitionMatrixCOUT("1,1,1,1,3,1,1,3,2");
 }
 
 

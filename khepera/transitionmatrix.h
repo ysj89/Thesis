@@ -20,13 +20,16 @@ public:
     void sumTransitions(unsigned size_tm, int num_of_action);
     void calculateTPM(unsigned size_tm, int num_of_action);
     void getTP(std::string state1, std::string state2);
-    std::vector<double> getTP2(StateVec state1, int action);
+    std::vector<double> getTransitionsForState(std::string state1, int action);
     std::string returnNextState(std::vector<double> TPvec);
 
-    void storeKeyandMap(std::unordered_map<std::string, unsigned> stateID);
+    std::string transition(std::string state1, int action);
+
+    void storeKeyandMap();
 
     // string2intMap interface
     unsigned getIndexFromString1(std::string s);
+    void TransitionMatrixCOUT(std::string s);
 
     std::vector<std::vector<double> > TPM;
     std::vector<std::vector<std::vector<double> > > TPM2;

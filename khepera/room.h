@@ -20,6 +20,7 @@ public:
         // Initialize world with walls
         setWalls();
         setWall();
+        setBlock();
 
     };
     // X-size = number of row, Y-size number of colums (c++)
@@ -35,6 +36,7 @@ public:
     void cleanWorldMap();
     void setWalls();
     void setWall();
+    void setBlock();
     void initializeTrash(int _num_of_trash);
     void setTrash();
 

@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
         // Run Agent
         // /////////////
 //         Khepera.runAgent(1000, 500);
-        Khepera_heading.runAgent(10000,300);
+        Khepera_heading.runAgent(1000,300);
 
         if(SAVEDATA == 1)
         {

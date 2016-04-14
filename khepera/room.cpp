@@ -24,6 +24,14 @@ void Room::setWall()
     }
 }
 
+void Room::setBlock()
+{
+    worldMap[(x_size/3)*2][(y_size/3)*2] = 0;
+    worldMap[((x_size/3)*2)+1][(y_size/3)*2] = 0;
+    worldMap[(x_size/3)*2][((y_size/3)*2) + 1] = 0;
+    worldMap[((x_size/3)*2)+1][((y_size/3)*2)+1] = 0;
+}
+
 
 void Room::initializeTrash(int _num_of_trash) // TODO: Implement walls, trash cannot lie at a wall position
 {

@@ -1,5 +1,8 @@
 //#include "iostream"
 #include <algorithm>    // std::find
+#include <random>       // random
+
+
 #include "transitionmatrix.h"
 #include "save_files.h"
 
@@ -81,16 +84,19 @@ void TransitionMatrix::getTP(std::string state1, std::string state2)
     }
 }
 
-std::vector<double> TransitionMatrix::getTP2(StateVec state1, int action)
+std::vector<double> TransitionMatrix::getTransitionsForState(std::string state1, int action)
 {
     std::vector<double> TP;
 
-    std::string str_state = vec2str(state1);
-    int in_state = string2intMap1[str_state];
+    TP.reserve(string2intMap1.size());
 
-    for(unsigned i = 0; i <  (TPM2[1].size() + 1); i++ )
+//    std::string str_state = vec2str(state1);
+    int in_state = string2intMap1[state1];
+
+    for(unsigned i = 0; i <  (TPM2[1].size()); i++ )
     {
-        TP[i] = TPM2[in_state][i][action];
+        //TP[i] = TPM2[in_state][i][action];
+        TP.push_back(TPM2[in_state][i][action]);
     }
 
     return TP;
@@ -98,10 +104,10 @@ std::vector<double> TransitionMatrix::getTP2(StateVec state1, int action)
 
 std::string TransitionMatrix::returnNextState(std::vector<double> TPvec)
 {
-    // Using the transition vector, return index
-    // transform index to state
 
-    unsigned next_state;
+    std::mt19937 gen(1701);
+    std::discrete_distribution<> distr(TPvec.begin(), TPvec.end());
+    unsigned next_state = distr(gen);
 
 
     std::vector<int>::iterator it = std::find(vals.begin(), vals.end(), next_state);
@@ -111,10 +117,24 @@ std::string TransitionMatrix::returnNextState(std::vector<double> TPvec)
 
 }
 
-void TransitionMatrix::storeKeyandMap(std::unordered_map<std::string, unsigned> stateID)
+std::string TransitionMatrix::transition(std::string state1, int action)
 {
 
-    for(auto kv : stateID) {
+    std::vector<double> probability;
+
+    probability = getTransitionsForState(state1, action);
+
+    std::string new_state = returnNextState(probability);
+
+    std::cout << new_state << std::endl;
+
+    return new_state;
+}
+
+void TransitionMatrix::storeKeyandMap()
+{
+
+    for(auto kv : string2intMap1) {
         keys.push_back(kv.first);
         vals.push_back(kv.second);
     }
@@ -128,9 +148,18 @@ unsigned TransitionMatrix::getIndexFromString1(std::string s)
     {
         string2intMap1[s] = currentStringIndex1++;
     }
-
     return string2intMap1[s];
 }
+
+void TransitionMatrix::TransitionMatrixCOUT(std::string s)
+{
+
+    std::cout <<  string2intMap1[s] << std::endl;
+}
+
+
+
+
 
 
 
