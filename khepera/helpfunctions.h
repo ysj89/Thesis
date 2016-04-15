@@ -16,7 +16,6 @@ void outputQTable(std::unordered_map<std::string, ActionScoreMap> Qtable, std::o
 void outputVectorPair(std::vector< std::pair<int,double> > VectorPair, std::ostream& stream, char seperator = '\t');
 void outputUMstr2int(std::unordered_map<std::string, unsigned int> UM, std::ostream& stream, char seperator = '\t');
 
-
 template <typename T>
 void outputMatrix(std::vector<std::vector<T> > &matrix, std::ostream& stream, char seperator='\t')
     {
@@ -72,7 +71,11 @@ void outputTwoValues(T first, Y second, std::ostream& stream)
     stream << std::endl;
 }
 
-
-
 }
+
+namespace Read
+{
+    void readQtable();
+}
+
 #endif // HELPFUNCTIONS_H

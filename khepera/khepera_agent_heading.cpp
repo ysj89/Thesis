@@ -21,29 +21,29 @@ void Agent_H::performAction()
         // Perform action
             switch(action)
             {
-            case TURN_LEFT:     // 0
+            case TURN_RIGHT:    // 0
                 head = static_cast<int>(heading);
-                new_head = head - 1;
-
-                if(new_head < 0)
+                head_new = head + 1;
+                    if(head_new > 3)
                     {
-                        new_head = 3;
+                        head_new = 0;
                     }
-                heading = static_cast<Heading>(new_head);
+                heading = static_cast<Heading>(head_new);
+                reward = -1;
+                break;
+            case TURN_LEFT:     // 1
+                head = static_cast<int>(heading);
+                head_new = head - 1;
+
+                if(head_new < 0)
+                    {
+                        head_new = 3;
+                    }
+                heading = static_cast<Heading>(head_new);
                 reward = -1;
                 break;
 
-            case TURN_RIGHT:    // 1
-                head = static_cast<int>(heading);
-                new_head = head + 1;
-                    if(new_head > 3)
-                    {
-                        new_head = 0;
-                    }
-                heading = static_cast<Heading>(new_head);
-                reward = -1;
-                break;
-            case MOVE_FORWARD:
+            case MOVE_FORWARD: // 2
 
                 if(heading == NORTH)
                     current_pos.x -= 1;
@@ -372,16 +372,22 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
 
     TM.getTP("1,1,1,1,3,1,1,1,0","1,1,1,1,1,3,1,1,0");
     TM.getTP("1,1,1,1,3,1,1,1,0","1,1,1,1,1,1,3,1,0");
-    TM.getTP("1,3,1,1,1,1,1,1,0","1,1,3,1,1,1,1,1,0");
-    TM.getTP("1,1,1,1,1,1,1,1,0","1,1,1,1,1,1,1,1,1");
-    TM.getTP("1,1,1,1,3,1,0,0,0","1,1,1,1,1,1,3,1,0");
-    TM.getTP("1,1,1,1,3,1,1,1,0","1,1,1,1,3,1,1,3,2");
+
 
     TM.storeKeyandMap();
 
-    TM.transition("1,1,1,1,3,1,1,1,0", 0);
+    TM.transition("1,1,1,1,3,1,1,1,0", 0, sol_met->getQtable() ); // go right
+//    TM.transition("1,1,1,1,3,1,1,1,0", 1); // go left
+//    TM.transition("1,1,1,1,3,1,1,1,0", 2); // move forward
 
-    TM.TransitionMatrixCOUT("1,1,1,1,3,1,1,3,2");
+//    std::cout << "\n";
+
+//    TM.transition("0,0,0,0,1,1,1,1,0", 2);
+//    TM.transition("0,0,0,0,0,1,0,1,1", 1);
+//    TM.transition("0,0,0,0,0,1,0,1,2", 2);
+//    TM.transition("0,0,0,0,0,1,0,1,3", 2);
+
+
 }
 
 

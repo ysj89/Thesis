@@ -106,4 +106,9 @@ int Q_learning::getSizeQtable()
     return Qtable.size();
 }
 
+std::unordered_map<std::string, ActionScoreMap> &Q_learning::getQtable()
+{
+    return Qtable;
+}
+
 

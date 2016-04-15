@@ -32,8 +32,6 @@ struct pair_hash {
     }
 };
 
-
-
 struct PosVec
 {
         int x, y;

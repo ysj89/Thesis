@@ -23,7 +23,7 @@ public:
     std::vector<double> getTransitionsForState(std::string state1, int action);
     std::string returnNextState(std::vector<double> TPvec);
 
-    std::string transition(std::string state1, int action);
+    std::pair<std::string, double> transition(std::string state1, int action, std::unordered_map<std::string, ActionScoreMap> m_Qtable);
 
     void storeKeyandMap();
 

@@ -17,7 +17,7 @@ typedef enum Action_heading
 
 typedef enum Heading
 {
-    NORTH,
+    NORTH = 0,
     EAST,
     SOUTH,
     WEST
@@ -57,11 +57,12 @@ public:
     Solution_method *sol_met;
     Save save;
 
+
     // Member variables
     int steps;
     int x_start, y_start;
     int num_act;
-    int head, new_head;
+    int head, head_new;
 
     int sensor3x;
     int sensor3y;

@@ -23,9 +23,7 @@ public:
 
     virtual int getSizeQtable(){return 0;}
 
-
-//    virtual void SaveData(int x, int y){};
-
+    virtual std::unordered_map<std::string, ActionScoreMap> & getQtable(){}
 
     ~Solution_method(){}
 
