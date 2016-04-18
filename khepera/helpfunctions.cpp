@@ -37,7 +37,4 @@ void Print::outputUMstr2int(std::unordered_map<std::string, unsigned int> UM, st
     }
 }
 
-void Read::readQtable()
-{
 
-}

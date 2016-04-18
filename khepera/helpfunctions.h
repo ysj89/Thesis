@@ -17,7 +17,7 @@ void outputVectorPair(std::vector< std::pair<int,double> > VectorPair, std::ostr
 void outputUMstr2int(std::unordered_map<std::string, unsigned int> UM, std::ostream& stream, char seperator = '\t');
 
 template <typename T>
-void outputMatrix(std::vector<std::vector<T> > &matrix, std::ostream& stream, char seperator='\t')
+void outputMatrix(std::vector<std::vector<T> > &matrix, std::ostream& stream, char seperator=',')
     {
         for(std::vector<T> &v : matrix)
         {
@@ -73,9 +73,5 @@ void outputTwoValues(T first, Y second, std::ostream& stream)
 
 }
 
-namespace Read
-{
-    void readQtable();
-}
 
 #endif // HELPFUNCTIONS_H

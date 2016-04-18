@@ -53,6 +53,22 @@ std::string vec2str( std::vector<T> _vec, std::string sep=",")
     return ss.str();
 }
 
+template<typename T>
+std::string vec2str2( std::vector<T> _vec, std::string sep=",")
+{
+    std::stringstream ss;
+
+    for(typename std::vector<T>::iterator it = _vec.begin() ; it != (_vec.end()-2) ; it++)
+    {
+        if(it != _vec.begin() )
+        {
+            ss << sep;
+        }
+            ss << *it;
+    }
+    return ss.str();
+}
+
 
 
 #endif // POSVEC_STRUCT_H

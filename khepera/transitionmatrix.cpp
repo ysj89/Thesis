@@ -115,7 +115,35 @@ std::string TransitionMatrix::returnNextState(std::vector<double> TPvec)
 
 }
 
-std::pair<std::string, double> TransitionMatrix::transition(std::string state1, int action, std::unordered_map<std::string, ActionScoreMap> m_Qtable)
+std::string TransitionMatrix::transition(std::string state1, int action)
+{
+    std::vector<double> probability;
+
+    probability = getTransitionsForState(state1, action);
+
+    double sum_of_elems = 0;
+
+    for (double n : probability)
+    {
+        sum_of_elems += n;
+    }
+
+    if(sum_of_elems != 0)
+    {
+
+        std::string new_state = returnNextState(probability);
+        std::cout << "The new state is: " <<new_state << std::endl;
+        return new_state;
+    }
+    else
+    {
+        std::cout << "This transition did not happen during exploration/learning" << std::endl;
+        return state1;
+    }
+
+}
+
+std::pair<std::string, double> TransitionMatrix::transition_full(std::string state1, int action, std::unordered_map<std::string, ActionScoreMap> m_Qtable)
 {
     std::pair<std::string, double> stateScorePair;
     std::vector<double> probability;
@@ -143,7 +171,7 @@ std::pair<std::string, double> TransitionMatrix::transition(std::string state1, 
         stateScorePair.first = new_state;
         stateScorePair.second = score;
 
-        std::cout << "The new state is: " <<new_state << "With a score of: " << score << std::endl;
+        std::cout << "The new state is: " <<new_state << "\t With a score of: " << score << std::endl;
         return stateScorePair;
     }
     else
