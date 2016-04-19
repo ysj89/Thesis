@@ -370,28 +370,10 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
     save.printTPMunorderedMap(TM.string2intMap1);
     }
 
-    TM.getTP("1,1,1,1,3,1,1,1,0","1,1,1,1,1,3,1,1,0");
-    TM.getTP("1,1,1,1,3,1,1,1,0","1,1,1,1,1,1,3,1,0");
-    TM.getTP("0,0,0,0,0,1,0,1,2","0,0,0,0,0,1,0,1,2");
 
     std::cout << std::endl;
+
     TM.storeKeyandMap();
-
-    TM.transition_full("1,1,1,1,3,1,1,1,0", 0, sol_met->getQtable() ); // go right
-    TM.transition_full("0,0,0,0,0,1,0,1,0", 2, sol_met->getQtable() ); // move forward
-    TM.transition_full("0,0,0,0,0,1,0,1,1", 2, sol_met->getQtable() ); // move forward
-    TM.transition_full("0,0,0,0,0,1,0,1,2", 2, sol_met->getQtable() ); // move forward
-    TM.transition_full("0,0,0,0,0,1,0,1,3", 2, sol_met->getQtable() ); // move forward
-//    TM.transition("1,1,1,1,3,1,1,1,0", 1); // go left
-//    TM.transition("1,1,1,1,3,1,1,1,0", 2); // move forward
-
-//    std::cout << "\n";
-
-//    TM.transition("0,0,0,0,1,1,1,1,0", 2);
-//    TM.transition("0,0,0,0,0,1,0,1,1", 1);
-//    TM.transition("0,0,0,0,0,1,0,1,2", 2);
-//    TM.transition("0,0,0,0,0,1,0,1,3", 2);
-
 
 }
 

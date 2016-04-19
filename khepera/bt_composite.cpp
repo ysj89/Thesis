@@ -1,13 +1,15 @@
-#include <iostream>
-#include <list>
-
-#include "windygridworld.h"
 #include "bt_composite.h"
+
+//bt_composite::bt_composite()
+//{
+
+//}
+
 
 namespace BT_Structure
 {
 
-enum Status Selector::update(Agent* P_AGENT)
+enum Status Selector::update(Agent_H *P_AGENT)
 {
     for (Node* child : getChildren())
     {  // The generic Selector implementation
@@ -19,7 +21,7 @@ enum Status Selector::update(Agent* P_AGENT)
         return BH_FAILURE;  // All children failed so the entire run() operation fails.
 }
 
-enum Status Sequence::update(Agent* P_AGENT)
+enum Status Sequence::update(Agent_H* P_AGENT)
 {
     for (Node* child : getChildren())
     {   // The generic Sequence implementation.
@@ -33,6 +35,3 @@ enum Status Sequence::update(Agent* P_AGENT)
 }
 
 }
-
-
-

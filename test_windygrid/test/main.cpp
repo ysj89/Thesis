@@ -53,13 +53,11 @@ int main()
 
     // Run Sarsa-algorithm and/or Behavior Tree
     run_sarsa(pAgent1);
-    //run_bt(pAgent1,0,1);
+    run_bt(pAgent1,0,1);
 
 
     //std::vector<std::vector<double> > dummy;
     vector<vector<vector<double> > > dummy;
-
-
 
     for(int i = 0; i < 2; i++)
     {

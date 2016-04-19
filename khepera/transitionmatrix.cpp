@@ -111,6 +111,7 @@ std::string TransitionMatrix::returnNextState(std::vector<double> TPvec)
 
     std::string new_state = keys[pos];
 
+
     return new_state;
 
 }
@@ -143,50 +144,50 @@ std::string TransitionMatrix::transition(std::string state1, int action)
 
 }
 
-std::pair<std::string, double> TransitionMatrix::transition_full(std::string state1, int action, std::unordered_map<std::string, ActionScoreMap> m_Qtable)
-{
-    std::pair<std::string, double> stateScorePair;
-    std::vector<double> probability;
+//std::pair<std::string, double> TransitionMatrix::transition_full(std::string state1, int action, std::unordered_map<std::string, ActionScoreMap> m_Qtable)
+//{
+//    std::pair<std::string, double> stateScorePair;
+//    std::vector<double> probability;
 
-    probability = getTransitionsForState(state1, action);
+//    probability = getTransitionsForState(state1, action);
 
-    double sum_of_elems = 0;
+//    double sum_of_elems = 0;
 
-    for (double n : probability)
-    {
-        sum_of_elems += n;
-    }
+//    for (double n : probability)
+//    {
+//        sum_of_elems += n;
+//    }
 
-    if(sum_of_elems != 0)
-    {
-        ActionScoreMap Qscore;
-        double score;
-        std::string new_state = returnNextState(probability);
-
-
-        Qscore = m_Qtable[new_state];
-
-        score = Qscore[action];
-
-        stateScorePair.first = new_state;
-        stateScorePair.second = score;
-
-        std::cout << "The new state is: " <<new_state << "\t With a score of: " << score << std::endl;
-        return stateScorePair;
-    }
-    else
-    {
-        std::cout << "This transition did not happen during exploration/learning" << std::endl;
-        stateScorePair.first = state1;
-        stateScorePair.second = 0.0;
-
-        return stateScorePair;
-        return stateScorePair;
-    }
+//    if(sum_of_elems != 0)
+//    {
+//        ActionScoreMap Qscore;
+//        double score;
+//        std::string new_state = returnNextState(probability);
 
 
+//        Qscore = m_Qtable[new_state];
 
-}
+//        score = Qscore[action];
+
+//        stateScorePair.first = new_state;
+//        stateScorePair.second = score;
+
+//        std::cout << "The new state is: " <<new_state << "\t With a score of: " << score << std::endl;
+//        return stateScorePair;
+//    }
+//    else
+//    {
+//        std::cout << "This transition did not happen during exploration/learning" << std::endl;
+//        stateScorePair.first = state1;
+//        stateScorePair.second = 0.0;
+
+//        return stateScorePair;
+//        return stateScorePair;
+//    }
+
+
+
+//}
 
 void TransitionMatrix::storeKeyandMap()
 {
@@ -210,6 +211,21 @@ unsigned TransitionMatrix::getIndexFromString1(std::string s)
 
     return string2intMap1[s];
 }
+
+std::string TransitionMatrix::getStringFromIndex(unsigned index)
+{
+    for(auto kv : string2intMap1) {
+        keys.push_back(kv.first);
+        vals.push_back(kv.second);
+    }
+
+    std::vector<int>::iterator it = std::find(vals.begin(), vals.end(), index);
+    int pos = std::distance(vals.begin(), it);
+
+    std::string new_state = keys[pos];
+}
+
+
 
 void TransitionMatrix::TransitionMatrixCOUT(std::string s)
 {

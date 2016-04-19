@@ -54,11 +54,11 @@ std::string vec2str( std::vector<T> _vec, std::string sep=",")
 }
 
 template<typename T>
-std::string vec2str2( std::vector<T> _vec, std::string sep=",")
+std::string vec2str2( std::vector<T> _vec,int cut_of, std::string sep=",")
 {
     std::stringstream ss;
 
-    for(typename std::vector<T>::iterator it = _vec.begin() ; it != (_vec.end()-2) ; it++)
+    for(typename std::vector<T>::iterator it = _vec.begin() ; it != (_vec.end()-cut_of) ; it++)
     {
         if(it != _vec.begin() )
         {

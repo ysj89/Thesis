@@ -54,6 +54,7 @@ void run_bt(Agent* BT_AGENT, bool bt_seq, bool bt_prio)
 
    while(!BT_AGENT->madeIt())
        {
+
        root->update(BT_AGENT);
        BT_AGENT->performAction();
        }
@@ -89,8 +90,11 @@ void run_bt(Agent* BT_AGENT, bool bt_seq, bool bt_prio)
 
         while(!BT_AGENT->madeIt())
             {
+
             root->update(BT_AGENT);
+
             BT_AGENT->performAction();
+
             }
 
     }

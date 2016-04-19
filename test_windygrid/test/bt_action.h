@@ -6,7 +6,6 @@
 namespace BT_Structure
 {
 
-
 class Action : public Node
 {
 public:

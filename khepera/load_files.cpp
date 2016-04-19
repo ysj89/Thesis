@@ -38,25 +38,22 @@ std::unordered_map<std::string, ActionScoreMap> Load::loadQtable1()
 
     for(std::vector<double> &i : values)
     {
-        states.push_back(vec2str2(i));
+        states.push_back(vec2str2(i,2));
         actions.push_back(i[9]);
         scores.push_back(i[10]);
     }
 
     std::unordered_map<std::string, ActionScoreMap> Qtable;
 
-    for(int i = 0; i < states.size(); i+=3)
+    for(unsigned i = 0; i < states.size(); i+=3)
     {
-
         ActionScoreMap a;
         for(int j = 0; j < 3 ; j++)
         {
             a[actions[i+j]] = scores[i+j];
         }
-
         Qtable[states[i]] = a;
     }
-
 
      if (!inFile.eof())
      {
@@ -64,24 +61,74 @@ std::unordered_map<std::string, ActionScoreMap> Load::loadQtable1()
      }
 
     inFile.close();
-
     return Qtable;
+
 }
 
-std::vector<std::vector<double> > Load::loadTransitionMatrix()
+std::vector<std::vector<std::vector<double> > >Load::loadTransitionMatrix()
 {
 
+    std::ifstream myfile("/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM1.txt");
+
+    // new lines will be skipped unless we stop it from happening:
+    myfile.unsetf(std::ios_base::skipws);
+
+    // count the newlines with an algorithm specialized for counting:
+    unsigned line_count = std::count(
+        std::istream_iterator<char>(myfile),
+        std::istream_iterator<char>(),
+        '\n');
+
+    std::vector<std::vector<std::vector<double> > > transistionProbabilityMatrix
+            (line_count, std::vector<std::vector<double> > (line_count, std::vector<double> (3,0)));
+    std::vector<std::vector<double> > values;
+
+    for(int count = 1; count < 4; count++)
+    {
+        values.resize(0);
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM1.txt";
+    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM" << count << ".txt";
     std::ifstream inFile;
     inFile.open(filename.str());
-
 
     if(!inFile.is_open())
     {
         std::cout << "LOAD: failed to open file." << "\n";
     }
 
+    for (std::string line; std::getline(inFile, line); )
+    {
+        std::replace(line.begin(), line.end(), ',', ' ');
+        std::istringstream in(line);
+        values.push_back(
+            std::vector<double>(std::istream_iterator<double>(in),
+                                std::istream_iterator<double>()));
+    }
+
+    for(unsigned i = 0; i < (values.size() - 1); i ++)
+    {
+        for(unsigned j = 0; j < values.size(); j++)
+        {
+            transistionProbabilityMatrix[i][j][count-1] = values[i][j];
+        }
+    }
+
+    inFile.close();
+    }
+
+    return transistionProbabilityMatrix;
+}
+
+std::unordered_map<std::string, int> Load::loadString2Int()
+{
+    std::stringstream filename;
+    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/string2int/str2int.txt";
+    std::ifstream inFile;
+    inFile.open(filename.str());
+
+    if(!inFile.is_open()){
+        std::cout << "LOAD: failed to open file." << "\n";
+    }
     std::vector<std::vector<double> > values;
     for (std::string line; std::getline(inFile, line); )
     {
@@ -92,20 +139,27 @@ std::vector<std::vector<double> > Load::loadTransitionMatrix()
                                 std::istream_iterator<double>()));
     }
 
-    std::vector<std::vector<std::vector<double> > > transistionProbabilityMatrix
-            (values.size(), std::vector<std::vector<double> > (values.size(), std::vector<double> (3,0)));
+    std::vector<unsigned> identifier;
+    std::vector<std::string> states;
 
-    for(int i = 0; i < values.size(); i ++)
+    for(std::vector<double> &i : values)
     {
-        for(int j = 0; j < values.size(); j++)
-        {
-            transistionProbabilityMatrix[i][j][0] = values[i][j];
-        }
+        states.push_back(vec2str2(i,1));
+        identifier.push_back(i[9]);
     }
 
+    inFile.close();
+
+    std::unordered_map<std::string, int> string2intconversion;
 
 
-    return values;
+    for(int i = 0; i < values.size() ; i++)
+    {
+    string2intconversion[states[i]] = identifier[i];
+    }
 
+    return string2intconversion;
 
 }
+
+

@@ -20,16 +20,19 @@ public:
     void sumTransitions(unsigned size_tm, int num_of_action);
     void calculateTPM(unsigned size_tm, int num_of_action);
     void getTP(std::string state1, std::string state2);
+
+
     std::vector<double> getTransitionsForState(std::string state1, int action);
     std::string returnNextState(std::vector<double> TPvec);
 
-    std::pair<std::string, double> transition_full(std::string state1, int action, std::unordered_map<std::string, ActionScoreMap> m_Qtable);
+    //std::pair<std::string, double> transition_full(std::string state1, int action, std::unordered_map<std::string, ActionScoreMap> m_Qtable);
     std::string transition(std::string state1, int action);
 
     void storeKeyandMap();
 
     // string2intMap interface
     unsigned getIndexFromString1(std::string s);
+    std::string getStringFromIndex(unsigned index);
     void TransitionMatrixCOUT(std::string s);
 
     std::vector<std::vector<double> > TPM;
@@ -39,8 +42,8 @@ public:
 
 
 private:
-        std::vector<std::string> keys;
-        std::vector<int> vals;
+    std::vector<std::string> keys;
+    std::vector<int> vals;
 
 //    std::vector<std::vector<unsigned> > transitionMatrix;
     std::vector<std::vector<std::vector<unsigned> > > transitionMatrix;
