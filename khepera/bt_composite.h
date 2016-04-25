@@ -33,6 +33,9 @@ class Selector : public CompositeNode
 {
     childs::iterator m_currentChild;
 
+    void getAction(Agent_H *m_Agent){} ;
+    //virtual void getAction(Agent_H *m_Agent) = 0;
+
     public:
         virtual void onInitialise(){m_currentChild = m_children.begin();}
 
@@ -49,6 +52,8 @@ class Sequence : public CompositeNode
 {
     childs::iterator m_current;
 
+    void getAction(Agent_H *m_Agent){} ;
+
 public:
     virtual void onInitialise(){m_current = m_children.begin();}
 
@@ -56,7 +61,7 @@ public:
     virtual enum Status update(Agent_H* P_AGENT);
 
 
-protected:
+
     virtual ~Sequence()
     {
     }

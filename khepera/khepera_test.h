@@ -38,10 +38,6 @@ public:
     std::string returnNextState(std::vector<double> transitionVector);
 
 
-
-
-
-
 };
 
 #endif // KHEPERA_TEST_H

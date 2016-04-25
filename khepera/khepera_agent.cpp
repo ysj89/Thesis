@@ -1,3 +1,4 @@
+/*
 #include <sstream>
 
 #include "khepera_agent.h"
@@ -237,7 +238,7 @@ void Agent::runAgent(int _episodes, int _totalsteps)
                     }
 
                 }
-                sol_met->update(this, num_act);
+                sol_met->updateQtable(this, num_act);
                 // std::cout << "The reward was: " << reward << "\n";
 
             }
@@ -246,6 +247,8 @@ void Agent::runAgent(int _episodes, int _totalsteps)
 
 }
 
+
+*/
 
 
 

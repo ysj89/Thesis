@@ -1,13 +1,32 @@
+#include "khepera_agent_heading.h"
+#include "bt_test.h"
 #include "bt_structure.h"
 #include "bt_composite.h"
+#include "bt_conditions.h"
 #include "bt_actions.h"
-#include "bt_test.h"
-#include "khepera_agent_heading.h"
 
 using namespace BT_Structure;
 
-void bt_run()
+BehaviorTree::~BehaviorTree()
 {
-    Action_turn_right* action_turn_right = new Action_turn_right;
+    delete root;
+    delete sequence;
+    delete action_turn_right;
+    delete action_move;
 }
 
+void BehaviorTree::buildingTree()
+{
+    root->addChild(sequence);
+    root->addChild(action_move);
+
+    sequence->addChild(check_for_wall_in_front);
+    sequence->addChild(action_turn_right);
+}
+
+void BehaviorTree::runTree(Agent_H *m_Agent)
+{
+
+
+    root->update(m_Agent);
+}

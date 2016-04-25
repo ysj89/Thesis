@@ -56,6 +56,7 @@ void run_bt(Agent* BT_AGENT, bool bt_seq, bool bt_prio)
        {
 
        root->update(BT_AGENT);
+
        BT_AGENT->performAction();
        }
     }

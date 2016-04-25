@@ -1,3 +1,4 @@
+/*
 #ifndef KHEPERA_AGENT_H
 #define KHEPERA_AGENT_H
 
@@ -71,4 +72,6 @@ public:
 
 #endif // KHEPERA_AGENT_H
 
+
+*/
 

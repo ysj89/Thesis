@@ -200,7 +200,6 @@ void TransitionMatrix::storeKeyandMap()
 }
 
 
-
 unsigned TransitionMatrix::getIndexFromString1(std::string s)
 {
 
@@ -223,6 +222,8 @@ std::string TransitionMatrix::getStringFromIndex(unsigned index)
     int pos = std::distance(vals.begin(), it);
 
     std::string new_state = keys[pos];
+
+    return new_state;
 }
 
 

@@ -29,6 +29,7 @@ namespace BT_Structure
 
         // General
         virtual enum Status update(Agent_H* P_AGENT) = 0; // (Virtual) abstract makes sure you have to have a subclass with the function run
+
         enum Status tick(Agent_H *P_AGENT);
 
 

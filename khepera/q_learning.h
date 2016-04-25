@@ -5,7 +5,7 @@
 #include <tuple>
 
 #include "solution_method.h"
-#include "posvec_struct.h"
+//#include "posvec_struct.h"
 #include "transitionmatrix.h"
 
 class Q_learning : public Solution_method
@@ -32,10 +32,10 @@ public:
 
 
     // Member functions
-    virtual int getAction(StateVec _state , int _number_of_actions);
-    virtual void update(Agent_H *m_Agent, int _number_of_actions); // for current state, old state and reward
+    virtual void getAction(Agent_H *m_Agent );
+    virtual void updateQtable(Agent_H *m_Agent); // for current state, old state and reward
     int getSizeQtable();
-    std::unordered_map<std::string, ActionScoreMap> & getQtable();
+    //std::unordered_map<std::string, ActionScoreMap> & getQtable();
 };
 
 #endif // Q_LEARNING_H

@@ -3,16 +3,19 @@
 
 #include "room.h"
 #include "posvec_struct.h"
-#include "khepera_agent.h"
+//#include "khepera_agent.h"
 #include "q_learning.h"
-#include "random_action.h"
+#include "random_action.h"   //When random actions are required
 #include "save_files.h"
 #include "load_files.h"
 #include "khepera_test.h"
 
+#include "bt_structure.h"
+#include "bt_test.h"
 
 
 
+using namespace BT_Structure;
 
 int main(int argc, char *argv[])
 {
@@ -20,39 +23,38 @@ int main(int argc, char *argv[])
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
         bool SAVEDATA = 1;
-        bool RUN = 0;
-        bool LOAD = 1;
+        bool RUN = 1;
+        //bool LOAD = 1;
         Save save;
         Load load;
 
 
         if(RUN == 1)
         {
-
         // /////////////
-        // Define World and Agent objects
+        // Initiate World and Solution method objects
         // /////////////
         Room room1(15,25);
-        Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.1, 8, 3);
+        //Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.1, 8, 3);
+        BehaviorTree *sol_met = new BehaviorTree();
         //Random_action *sol_met1 = new Random_action();
 
         // /////////////
-        // Define Agent
+        // Initiate Agent
         // /////////////
-        //Agent Khepera(&room1, 5,5, 8, 4,sol_met,SAVEDATA);
         Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met, SAVEDATA);
 
         // /////////////
         // Run Agent
         // /////////////
-         //Khepera.runAgent(1000, 500);
         Khepera_heading.runAgent(10000,300);
 
-        if(SAVEDATA == 1)
-        {
-            save.printQtable(sol_met->Qtable);
+//        if(SAVEDATA == 1){
+//            save.printQtable(sol_met->Qtable);
+//        }
         }
-        }
+
+
         std::unordered_map<std::string, ActionScoreMap> Qtable;
         std::vector<std::vector<std::vector<double> > >transitionPM;
         std::unordered_map<std::string, int> string2intConversion;
@@ -61,8 +63,17 @@ int main(int argc, char *argv[])
         transitionPM = load.loadTransitionMatrix();
         string2intConversion = load.loadString2Int();
 
-
         Khepera_T test_agent;
+
+        // BT TEST CODE
+//        Room room1(15,25);
+//        Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.1, 8, 3);
+
+
+//        Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met, SAVEDATA);
+//        Agent_H * pKhepera_heading = &Khepera_heading;
+
+//        bt_run(pKhepera_heading);
 
         test_agent.runKhepera_test(100, "0,0,0,3,1,1,1,1,0");
 

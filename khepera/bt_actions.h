@@ -11,17 +11,23 @@ class Action_turn_right : public Node
 {
 public:
     Action_turn_right()
-
     {};
 
-    virtual enum Status update(Agent_H *P_AGENT) override
-    {
-        P_AGENT->action = TURN_RIGHT;
+    void getAction(Agent_H *m_Agent);
+    virtual enum Status update(Agent_H *m_Agent) override;
+};
 
-        //cout << "Action right should be 1 and is: " << P_AGENT->action << endl;
 
-        return BH_SUCCES;
-    }
+class Action_move_forward : public Node
+{
+public:
+    Action_move_forward()
+    {};
+
+//    int getAction(StateVec state){return 0;};
+    void getAction(Agent_H *m_Agent);
+    virtual enum Status update(Agent_H *m_Agent) override;
+
 
 };
 

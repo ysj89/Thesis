@@ -1,8 +1,8 @@
 #ifndef RANDOM_ACTION_H
 #define RANDOM_ACTION_H
 
-#include "solution_method.h"
 #include "posvec_struct.h"
+#include "solution_method.h"
 
 class Random_action : public Solution_method
 

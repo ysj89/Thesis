@@ -23,7 +23,9 @@ typedef enum Heading
     WEST
 }Heading;
 
+
 class Solution_method;
+
 
 class Agent_H
 {
@@ -51,8 +53,8 @@ public:
 
         }
 
-    Room* m_Room;
     Action_heading action;
+    Room* m_Room;
     Heading heading;
     Solution_method *sol_met;
     Save save;
@@ -83,6 +85,7 @@ public:
     StateVec current_state;
     StateVec old_state;
 
+private:
     std::vector<std::vector<double> > printMap;
     std::vector<std::vector<double> > printReward;
     std::vector<std::vector<int>> positionPlot;
@@ -91,9 +94,13 @@ public:
     std::vector<std::pair<int,double>> totalRewardVec;
     std::vector<double> *rewardVec  = new std::vector<double>;
 
+public:
+    void runAgent(int _episodes, int _totalsteps);
+
+private:
     // Member function
     void performAction();
-    void runAgent(int _episodes, int _totalsteps);
+    void getAction();
     void setSensorInformation();
     void printAgentExploration(int episode);
     void cleanExplorationMap();

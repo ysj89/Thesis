@@ -1,8 +1,15 @@
 #include <sstream>
 
 #include "khepera_agent_heading.h"
-#include "khepera_agent.h"
+//#include "khepera_agent.h"
 #include "transitionmatrix.h"
+
+
+
+void Agent_H::getAction()
+{
+   sol_met->getAction(this);
+}
 
 void Agent_H::performAction()
 {
@@ -10,7 +17,8 @@ void Agent_H::performAction()
     old_state = current_state;
     reward = 0;
 
-    action = static_cast<Action_heading> ( sol_met->getAction(current_state, num_act));
+    getAction();
+
 
         // Probability of succesfull execution of action
 //            if ( (rand() % 100 + 1) / 100.0  > 1-succes_probability/steps)
@@ -163,6 +171,8 @@ void Agent_H::performAction()
             steps = steps + 1;
             totalreward = totalreward + reward;
 }
+
+
 
 
 void Agent_H::setSensorInformation()
@@ -334,6 +344,8 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
             while(steps < _totalsteps)
             {
                 performAction();
+                sol_met->updateQtable(this);
+
                 TM.increment(old_state, current_state, action);
 
                     if(i == _episodes - 1)
@@ -346,7 +358,6 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
                         }
                     }
 
-                sol_met->update(this, num_act);
             }
 
             if (i % 100 == 0)

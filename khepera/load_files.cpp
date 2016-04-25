@@ -153,7 +153,7 @@ std::unordered_map<std::string, int> Load::loadString2Int()
     std::unordered_map<std::string, int> string2intconversion;
 
 
-    for(int i = 0; i < values.size() ; i++)
+    for(unsigned i = 0; i < values.size() ; i++)
     {
     string2intconversion[states[i]] = identifier[i];
     }

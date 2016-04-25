@@ -2,13 +2,17 @@
 
 #include "q_learning.h"
 
-int Q_learning::getAction(StateVec _state, int _number_of_actions)
+
+
+void Q_learning::getAction(Agent_H *m_Agent )
 {
-    std::string str_state = vec2str(_state);
+//    StateVec _state
+    std::string str_state = vec2str(m_Agent->current_state);
 
     if (this->Qtable.find(str_state) == this->Qtable.end() )
     {
-         return static_cast<Action>(rand() % _number_of_actions); // return random action
+         //return static_cast<Action_heading>(rand() % 3); // return random action
+         m_Agent->action = static_cast<Action_heading> (rand() % 3);
     }
     else
     {
@@ -36,15 +40,17 @@ int Q_learning::getAction(StateVec _state, int _number_of_actions)
         if( ((rand()% 100 + 1 ) / 100) > (1-epsilon))
         {
             //std::cout << "A random action has been selected" << "\n";
-            return rand()%_number_of_actions;
+            m_Agent->action = static_cast<Action_heading> (rand() % 3);
+            //return rand()% 3;
         }
 
-        return best_action;
+//        return best_action;
+        m_Agent->action = static_cast<Action_heading> (best_action);
     }
 
 }
 
-void Q_learning::update(Agent_H *m_Agent, int _number_of_actions)  // Changed input for heading agent
+void Q_learning::updateQtable(Agent_H *m_Agent)  // Changed input for heading agent
 {
     std::string str_state_current = vec2str(m_Agent->current_state);
     std::string str_state_old = vec2str(m_Agent->old_state);
@@ -52,7 +58,7 @@ void Q_learning::update(Agent_H *m_Agent, int _number_of_actions)  // Changed in
     if (this->Qtable.find(str_state_old) == this->Qtable.end() )  // NOTE: CURRENT OR OLD STATE?
     {
         ActionScoreMap a;
-        for(int i = 0; i <  _number_of_actions; i++)
+        for(int i = 0; i <  m_Agent->num_act; i++)
         {
             a[i] = 0;
         }
@@ -63,7 +69,7 @@ void Q_learning::update(Agent_H *m_Agent, int _number_of_actions)  // Changed in
     {
         ActionScoreMap a;
 
-        for(int i = 0; i <  _number_of_actions; i++)
+        for(int i = 0; i <  m_Agent->num_act; i++)
         {
             a[i] = 0;
         }
@@ -106,9 +112,9 @@ int Q_learning::getSizeQtable()
     return Qtable.size();
 }
 
-std::unordered_map<std::string, ActionScoreMap> &Q_learning::getQtable()
-{
-    return Qtable;
-}
+//std::unordered_map<std::string, ActionScoreMap> &Q_learning::getQtable()
+//{
+//    return Qtable;
+//}
 
 
