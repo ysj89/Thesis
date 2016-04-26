@@ -15,8 +15,8 @@ class Agent_H;
 class BehaviorTree : public Solution_method
 {
 public:
-    BehaviorTree() :
-        check_for_wall_in_front(new Equal_to(3, -1)),
+    BehaviorTree(std::vector<int> state) :
+        check_for_wall_in_front(new Equal_to(3, state[3])),
         action_turn_right(new Action_turn_right),
         action_move(new Action_move_forward),
         root(new Selector),

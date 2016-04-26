@@ -14,7 +14,7 @@ public:
     {};
 
     void getAction(Agent_H *m_Agent);
-    virtual enum Status update(Agent_H *m_Agent) override;
+    virtual enum Status update(blackboard *BLKB) override;
 };
 
 
@@ -26,7 +26,7 @@ public:
 
 //    int getAction(StateVec state){return 0;};
     void getAction(Agent_H *m_Agent);
-    virtual enum Status update(Agent_H *m_Agent) override;
+    virtual enum Status update(blackboard *BLKB) override;
 
 
 };

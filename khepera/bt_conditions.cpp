@@ -2,8 +2,11 @@
 
 namespace BT_Structure {
 
-enum Status Equal_to::update(Agent_H *m_Agent)
+enum Status Equal_to::update(blackboard *BLKB)
 {
+
+    //double data = BLKB->get(var.data());
+
     if (var_check == limit)
     {
         std::cout << var_check << " is equal to " << limit << std::endl;

@@ -2,7 +2,7 @@
 
 namespace BT_Structure {
 
-Status Node::tick(Agent_H* P_AGENT)
+Status Node::tick(blackboard *BLKB)
 {
     // If node is not intialised, initialise!
     if (m_eStatus == BH_INVALID)
@@ -11,7 +11,7 @@ Status Node::tick(Agent_H* P_AGENT)
     }
 
     // Run node behavior
-    m_eStatus = update(P_AGENT);
+    m_eStatus = update(BLKB);
     return m_eStatus;
 
 

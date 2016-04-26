@@ -39,7 +39,7 @@ class Selector : public CompositeNode
     public:
         virtual void onInitialise(){m_currentChild = m_children.begin();}
 
-    virtual enum Status update(Agent_H* P_AGENT);
+    virtual enum Status update(blackboard *BLKB);
 
     virtual ~Selector()
     {
@@ -58,7 +58,7 @@ public:
     virtual void onInitialise(){m_current = m_children.begin();}
 
 public:
-    virtual enum Status update(Agent_H* P_AGENT);
+    virtual enum Status update(blackboard *BLKB);
 
 
 

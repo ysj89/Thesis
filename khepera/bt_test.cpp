@@ -26,7 +26,5 @@ void BehaviorTree::buildingTree()
 
 void BehaviorTree::runTree(Agent_H *m_Agent)
 {
-
-
-    root->update(m_Agent);
+    //root->update(m_Agent);
 }

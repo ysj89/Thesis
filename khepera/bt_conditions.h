@@ -29,7 +29,7 @@ public:
     {}
 
     virtual void getAction(Agent_H *m_Agent)  {}
-    virtual enum Status update(Agent_H *m_Agent) override;
+    virtual enum Status update(blackboard *BLKB) override;
 
 
 

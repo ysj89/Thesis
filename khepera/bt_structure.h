@@ -28,10 +28,9 @@ namespace BT_Structure
         };
 
         // General
-        virtual enum Status update(Agent_H* P_AGENT) = 0; // (Virtual) abstract makes sure you have to have a subclass with the function run
+        virtual enum Status update(blackboard *BLKB) = 0; // (Virtual) abstract makes sure you have to have a subclass with the function run
 
-        enum Status tick(Agent_H *P_AGENT);
-
+        enum Status tick(blackboard *BLKB);
 
         virtual void onInitialise() {}
         virtual void onTerminate(Status) {}

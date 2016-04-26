@@ -12,6 +12,7 @@
 
 #include "bt_structure.h"
 #include "bt_test.h"
+#include "solution_method.h"
 
 
 
@@ -35,14 +36,14 @@ int main(int argc, char *argv[])
         // Initiate World and Solution method objects
         // /////////////
         Room room1(15,25);
-        //Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.1, 8, 3);
-        BehaviorTree *sol_met = new BehaviorTree();
+        Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.1, 8, 3);
         //Random_action *sol_met1 = new Random_action();
 
         // /////////////
         // Initiate Agent
         // /////////////
         Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met, SAVEDATA);
+
 
         // /////////////
         // Run Agent
