@@ -2,20 +2,21 @@
 
 namespace BT_Structure {
 
-enum Status Equal_to::update(blackboard *BLKB)
+enum Status Equal_to::update()
 {
 
     //double data = BLKB->get(var.data());
+    double sensor_val_d = Solution_method::get(sensor_val);
 
-    if (var_check == limit)
+    if (sensor_val_d == limit)
     {
-        std::cout << var_check << " is equal to " << limit << std::endl;
+        std::cout << sensor_val_d << " is equal to " << limit << std::endl;
         return BH_SUCCES;
     }
 
     else
     {
-        std::cout << var_check << " is equal not to " << limit << std::endl;
+        std::cout << sensor_val_d << " is equal not to " << limit << std::endl;
         return BH_FAILURE;
     }
 

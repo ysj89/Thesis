@@ -11,8 +11,9 @@
 class Q_learning : public Solution_method
 {
 public:
-    Q_learning(double ALPHA_, double GAMMA_, double EPSILON_, int number_of_states_, int battery_life_)
+    Q_learning(double ALPHA_, double GAMMA_, double EPSILON_, int number_of_states_, int battery_life_, blackboard *p_BLKB)
     :   Solution_method(),
+        BLKB(p_BLKB),
         alpha(ALPHA_),
         gamma(GAMMA_),
         epsilon(EPSILON_)
@@ -20,7 +21,9 @@ public:
     }
 
     // Member variables
-    int best_action;
+    blackboard *BLKB;
+
+    //int best_action;
     int index;
     int counter = 0;
     double alpha, gamma, epsilon;
@@ -32,9 +35,10 @@ public:
 
 
     // Member functions
-    virtual void getAction(Agent_H *m_Agent );
+    virtual int getAction();
     virtual void updateQtable(Agent_H *m_Agent); // for current state, old state and reward
     int getSizeQtable();
+    double getQtableincrement(Agent_H *m_Agent);
     //std::unordered_map<std::string, ActionScoreMap> & getQtable();
 };
 

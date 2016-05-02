@@ -9,14 +9,14 @@ namespace BT_Structure {
 class Condition : public Node
 {
 public:
-    Condition(int n_limit, int m_var_check)
+    Condition(int n_limit, std::string m_sensor_val)
         :limit(n_limit),
-         var_check(m_var_check)
+         sensor_val(m_sensor_val)
     {}
 
 protected:
     int limit;      // Threshold
-    int var_check;   // State (variable) to be checked, must be reference to sensor value
+    std::string sensor_val;   // State (variable) to be checked, must be reference to sensor value
 
 };
 
@@ -24,12 +24,12 @@ protected:
 class Equal_to : public Condition
 {
 public:
-    Equal_to(int m_limit, int check)
-        : Condition(m_limit, check)
+    Equal_to(int m_limit, std::string m_sensor_val)
+        : Condition(m_limit, m_sensor_val)
     {}
 
-    virtual void getAction(Agent_H *m_Agent)  {}
-    virtual enum Status update(blackboard *BLKB) override;
+    virtual int getAction()  {return 0;}
+    virtual enum Status update() override;
 
 
 

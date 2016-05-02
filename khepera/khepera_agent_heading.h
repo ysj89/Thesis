@@ -23,9 +23,7 @@ typedef enum Heading
     WEST
 }Heading;
 
-
 class Solution_method;
-
 
 class Agent_H
 {
@@ -51,6 +49,7 @@ public:
 
         explorationMap = std::vector<std::vector<int> > (m_Room->x_size, std::vector<int>(m_Room->y_size,0));
 
+
         }
 
     Action_heading action;
@@ -58,6 +57,8 @@ public:
     Heading heading;
     Solution_method *sol_met;
     Save save;
+    //blackboard BB;
+
 
 
     // Member variables
@@ -93,6 +94,7 @@ private:
     std::vector<std::vector<int>> explorationMap;
     std::vector<std::pair<int,double>> totalRewardVec;
     std::vector<double> *rewardVec  = new std::vector<double>;
+    std::vector<double> *Qincrement = new std::vector<double>;
 
 public:
     void runAgent(int _episodes, int _totalsteps);
@@ -100,7 +102,7 @@ public:
 private:
     // Member function
     void performAction();
-    void getAction();
+    int getAction_f();
     void setSensorInformation();
     void printAgentExploration(int episode);
     void cleanExplorationMap();

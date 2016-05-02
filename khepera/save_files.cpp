@@ -16,6 +16,16 @@ void Save::printAgentReward(std::vector<double> *rewardVec)
 
 }
 
+void Save::printQincrement(std::vector<double> *Qincrement)
+{
+    std::stringstream filename;
+    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Qvalues/deltaQ.txt";
+    std::ofstream fs;
+    fs.open(filename.str(), std::ios::out);
+    Print::outputVector(Qincrement, fs);
+    fs.close();
+}
+
 void Save::printAgentRewardperEpisode(std::vector<std::pair<int, double> > totalRewardVec)
 {
     std::stringstream filename;

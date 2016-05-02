@@ -7,6 +7,7 @@
 struct Save
 {
     void printAgentReward(std::vector<double> *rewardVec);
+    void printQincrement(std::vector<double> *Qincrement);
     void printAgentRewardperEpisode(std::vector<std::pair<int,double>> totalRewardVec);
     void printAgentExploration(int episode, std::vector<std::vector<int> > &m_explorationmap);
     void printAgentinRoom(int steps, std::vector<std::vector<double> > &m_printMap);

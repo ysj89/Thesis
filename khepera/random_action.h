@@ -15,7 +15,7 @@ public:
 
     int action;
 
-    virtual int getAction(StateVec _state, int _number_of_actions);
+    virtual int getAction();
 };
 
 #endif // RANDOM_ACTION_H

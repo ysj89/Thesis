@@ -15,8 +15,8 @@ class Agent_H;
 class BehaviorTree : public Solution_method
 {
 public:
-    BehaviorTree(std::vector<int> state) :
-        check_for_wall_in_front(new Equal_to(3, state[3])),
+    BehaviorTree() :
+        check_for_wall_in_front(new Equal_to(3, "sensor3")),
         action_turn_right(new Action_turn_right),
         action_move(new Action_move_forward),
         root(new Selector),
@@ -27,7 +27,7 @@ public:
 
     ~BehaviorTree();
 
-    virtual void getAction(Agent_H *m_Agent){}
+    virtual int getAction();
 
 private:
     // Conditions
@@ -42,7 +42,7 @@ private:
 
 
     void buildingTree();
-    void runTree(Agent_H *m_Agent);
+    void runTree();
 
 
 };

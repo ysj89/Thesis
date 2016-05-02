@@ -15,6 +15,12 @@ BehaviorTree::~BehaviorTree()
     delete action_move;
 }
 
+int BehaviorTree::getAction()
+{
+    root->update();
+
+}
+
 void BehaviorTree::buildingTree()
 {
     root->addChild(sequence);
@@ -24,7 +30,7 @@ void BehaviorTree::buildingTree()
     sequence->addChild(action_turn_right);
 }
 
-void BehaviorTree::runTree(Agent_H *m_Agent)
+void BehaviorTree::runTree()
 {
-    //root->update(m_Agent);
+    root->update();
 }

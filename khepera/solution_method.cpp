@@ -2,30 +2,36 @@
 #include <string.h>
 
 
-double blackboard::get(const char* var, const int k /*= -1*/)
+double Solution_method::get(std::string var, const int k /*= -1*/)
 {
-    char name [255];
-    if (k >=0)
-        sprintf(name, "%s%d", var,k);
-    else
-        strcpy(name, var);
+//    char name [255];
+//    if (k >=0)
+//        sprintf(name, "%s%d", var,k);
+//    else
+//        strcpy(name, var);
 
-    if (blackboard::BB.find(name) == blackboard::BB.end()){
-        printf("get Requested element does not exist in the blackboard: %s %s\n", var, name);
+    std::string name;
+    name = var;
+    if (Solution_method::BB.find(name) == Solution_method::BB.end()){
+        printf("get Requested element does not exist in the blackboard \n");
         return 0.;
     }
 
-    return blackboard::BB[name];
+    return Solution_method::BB[name];
 }
 
 // write data identified by string var to blackboard data manager
-void blackboard::set(const char* var, double data, const int k/* = -1*/)
+//void blackboard::set(const char* var, double data, const int k/* = -1*/)
+void Solution_method::set(std::string var, int data)
 {
-    char name [255];
-    if (k >=0)
-        sprintf(name, "%s%d", var,k);
-    else
-        strcpy(name, var);
+//    char name [255];
+//    if (k >=0)
+//        sprintf(name, "%s%d", var,k);
+//    else
+//        strcpy(name, var);
 
-    blackboard::BB[name] = data;
+        Solution_method::BB[var] = data;
 }
+
+
+

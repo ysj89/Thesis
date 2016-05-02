@@ -6,9 +6,16 @@
 
 
 
-void Agent_H::getAction()
+int Agent_H::getAction_f()
 {
-   sol_met->getAction(this);
+
+    int action;
+    action = sol_met->getAction();
+
+    return action;
+    // When running behavior tree
+    //sol_met->getAction(BB)
+
 }
 
 void Agent_H::performAction()
@@ -17,7 +24,7 @@ void Agent_H::performAction()
     old_state = current_state;
     reward = 0;
 
-    getAction();
+    action = static_cast<Action_heading> ( getAction_f() ) ;
 
 
         // Probability of succesfull execution of action
@@ -170,6 +177,20 @@ void Agent_H::performAction()
             rewardVec->at(steps) = reward;
             steps = steps + 1;
             totalreward = totalreward + reward;
+
+            // Set BB information for BT
+            sol_met->set("sensor0", current_state[0] );
+            sol_met->set("sensor1", current_state[1] );
+            sol_met->set("sensor2", current_state[2] );
+            sol_met->set("sensor3", current_state[3] );
+            sol_met->set("sensor4", current_state[4] );
+            sol_met->set("sensor5", current_state[5] );
+            sol_met->set("sensor6", current_state[6] );
+            sol_met->set("sensor7", current_state[7] );
+            sol_met->set("sensor8", current_state[8] ); // sensor8 == heading
+
+
+
 }
 
 
@@ -324,6 +345,7 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
 {
     m_Room->initializeTrash(15);
     *rewardVec = std::vector<double>(_totalsteps);
+    *Qincrement = std::vector<double>(_totalsteps + 1);
 
     int size_TPM = 500;
     TransitionMatrix TM(size_TPM, num_act);
@@ -346,6 +368,8 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
                 performAction();
                 sol_met->updateQtable(this);
 
+                Qincrement->at(steps) = sol_met->getQtableincrement(this);
+
                 TM.increment(old_state, current_state, action);
 
                     if(i == _episodes - 1)
@@ -355,10 +379,18 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
                             setSensorInformation();
                             save.printAgentinRoom(steps, printMap);
                             save.printAgentReward(rewardVec);
+
                         }
                     }
 
             }
+
+            if (i == _episodes - 1)
+            {
+                save.printQincrement(Qincrement);
+            }
+
+
 
             if (i % 100 == 0)
             {

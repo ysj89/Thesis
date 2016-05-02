@@ -4,6 +4,7 @@
 //#include "khepera_agent.h"
 #include "khepera_agent_heading.h"
 #include "solution_method.h"
+#include "blackboard.h"
 
 
 namespace BT_Structure
@@ -28,7 +29,7 @@ namespace BT_Structure
         };
 
         // General
-        virtual enum Status update(blackboard *BLKB) = 0; // (Virtual) abstract makes sure you have to have a subclass with the function run
+        virtual enum Status update() = 0; // (Virtual) abstract makes sure you have to have a subclass with the function run
 
         enum Status tick(blackboard *BLKB);
 

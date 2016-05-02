@@ -19,7 +19,6 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
     {
         int action = rand() % 3;
 
-
         // get new state
 
         state_new = transition(state, action);
