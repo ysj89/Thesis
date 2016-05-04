@@ -13,8 +13,8 @@ public:
     Action_turn_right()
     {};
 
-    int getAction();
-    virtual enum Status update() override;
+    virtual enum Status update(blackboard *BLKB) override;
+    virtual int chooseAction(blackboard *BLKB){return 0;}
 };
 
 
@@ -24,9 +24,8 @@ public:
     Action_move_forward()
     {};
 
-//    int getAction(StateVec state){return 0;};
-    int getAction();
-    virtual enum Status update() override;
+    virtual int chooseAction(blackboard *BLKB){return 0;}
+    virtual enum Status update(blackboard *BLKB) override;
 
 
 };

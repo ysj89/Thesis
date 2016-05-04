@@ -6,6 +6,8 @@
 #include "solution_method.h"
 #include "helpfunctions.h"
 #include "save_files.h"
+#include "blackboard.h"
+
 
 typedef enum Action_heading
 {
@@ -28,36 +30,34 @@ class Solution_method;
 class Agent_H
 {
 public:
-    Agent_H(Room *p_Room, int _START_X, int _START_Y, Heading _PSI, int _number_of_states, int _number_of_actions, Solution_method *_sol_met, bool _savedata)
+    Agent_H(Room *p_Room, int _START_X, int _START_Y, Heading _PSI, int _number_of_states, int _number_of_actions,
+            Solution_method *_sol_met, blackboard *p_BLKB, bool _savedata)
         :   heading(_PSI),
-            sol_met(_sol_met),
-            x_start(_START_X),
-            y_start(_START_Y),
-            num_act(_number_of_actions),
-            savedata(_savedata),
-            current_pos{_START_X, _START_Y},
-            old_pos{_START_X, _START_Y},
-            current_state(_number_of_states,0),
-            old_state(_number_of_states,0)
-        {
-            this->m_Room = p_Room;
+          sol_met(_sol_met),
+          BLKB(p_BLKB),
+          x_start(_START_X),
+          y_start(_START_Y),
+          num_act(_number_of_actions),
+          savedata(_savedata),
+          current_pos{_START_X, _START_Y},
+          old_pos{_START_X, _START_Y},
+          current_state(_number_of_states,0),
+          old_state(_number_of_states,0)
 
+    {
+        this->m_Room = p_Room;
         StateVec current_state(_number_of_states,0);
         action = static_cast<Action_heading>(rand()%3);
-
         succes_probability = 0.8;
-
         explorationMap = std::vector<std::vector<int> > (m_Room->x_size, std::vector<int>(m_Room->y_size,0));
-
-
-        }
+    }
 
     Action_heading action;
     Room* m_Room;
     Heading heading;
     Solution_method *sol_met;
     Save save;
-    //blackboard BB;
+    blackboard *BLKB;
 
 
 
@@ -67,14 +67,7 @@ public:
     int num_act;
     int head, head_new;
 
-    int sensor3x;
-    int sensor3y;
-    int sensor2x;
-    int sensor2y;
-    int sensor1x;
-    int sensor1y;
-    int sensor0x;
-    int sensor0y;
+    int sensor3x, sensor3y, sensor2x, sensor2y, sensor1x, sensor1y, sensor0x, sensor0y;
 
     double succes_probability;
     double reward;
@@ -94,13 +87,14 @@ private:
     std::vector<std::vector<int>> explorationMap;
     std::vector<std::pair<int,double>> totalRewardVec;
     std::vector<double> *rewardVec  = new std::vector<double>;
+    std::vector<double> *Qvalue = new std::vector<double>;
+    std::vector<double> *Qvaluetotal = new std::vector<double>;
     std::vector<double> *Qincrement = new std::vector<double>;
 
 public:
     void runAgent(int _episodes, int _totalsteps);
 
 private:
-    // Member function
     void performAction();
     int getAction_f();
     void setSensorInformation();

@@ -18,13 +18,23 @@ struct blackboard
 public:
     blackboard()
     {
+        BB["sensor0"] = 1;
+        BB["sensor1"] = 1;
+        BB["sensor2"] = 1;
+        BB["sensor3"] = 1;
+        BB["sensor4"] = 1;
+        BB["sensor5"] = 1;
+        BB["sensor6"] = 1;
+        BB["sensor7"] = 1;
+        BB["sensor8"] = 1;
+        BB["action"] = 1;
     }
 
     ~blackboard()
     {
-//		for (std::map< std::string,  std::vector<double>* >::iterator it = BB.begin(); it != BB.end(); ++it)
-//			delete it->second;
-//		BB.clear();
+        //		for (std::map< std::string,  std::vector<double>* >::iterator it = BB.begin(); it != BB.end(); ++it)
+        //			delete it->second;
+        //		BB.clear();
     }
 
     double get(std::string var, const int k = -1);

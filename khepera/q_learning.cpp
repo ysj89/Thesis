@@ -1,32 +1,20 @@
 #include <algorithm>
-
 #include "q_learning.h"
 
 
-
-int Q_learning::getAction()
+int Q_learning::chooseAction(blackboard *BLKB)
 {
+    getStateVec();
 
-    std::vector<int> state_vec(9);
-
-    state_vec[0] = Solution_method::get("sensor0");
-    state_vec[1] = Solution_method::get("sensor1");
-    state_vec[2] = Solution_method::get("sensor2");
-    state_vec[3] = Solution_method::get("sensor3");
-    state_vec[4] = Solution_method::get("sensor4");
-    state_vec[5] = Solution_method::get("sensor5");
-    state_vec[6] = Solution_method::get("sensor6");
-    state_vec[7] = Solution_method::get("sensor7");
-    state_vec[8] = Solution_method::get("sensor8");
-
-
-    //std::string str_state = vec2str(m_Agent->current_state);
     std::string str_state = vec2str(state_vec);
+
+
 
     if (this->Qtable.find(str_state) == this->Qtable.end() )
     {
-        Solution_method::set("action",rand()%3);
-         return rand() %3;
+
+        BLKB->set("action",rand()%3);
+        return rand() %3;
     }
     else
     {
@@ -52,12 +40,11 @@ int Q_learning::getAction()
         if( ((rand()% 100 + 1 ) / 100) > (1-epsilon))
         {
             //std::cout << "A random action has been selected" << "\n";
-            Solution_method::set("action",rand()%3);
+            BLKB->set("action",rand()%3);
             return rand()% 3;
         }
 
-        Solution_method::set("action",best_action);
-
+        BLKB->set("action",best_action);
 
         return best_action;
 
@@ -91,33 +78,33 @@ void Q_learning::updateQtable(Agent_H *m_Agent)  // Changed input for heading ag
         Qtable[str_state_current] = a;
     }
 
-        ActionScoreMap a = this->Qtable[str_state_current];
-        Score max_score;
-        int best_action;
+    ActionScoreMap a = this->Qtable[str_state_current];
+    Score max_score;
+    int best_action;
 
-            for(std::unordered_map<int,Score>::iterator it=a.begin(); it != a.end(); it++)
-            {
-                if(it == a.begin())
-                {
-                    max_score = it->second;
-                    best_action = it->first;
-                }
+    for(std::unordered_map<int,Score>::iterator it=a.begin(); it != a.end(); it++)
+    {
+        if(it == a.begin())
+        {
+            max_score = it->second;
+            best_action = it->first;
+        }
 
-                if(it->second > max_score)  // NOTE: In case two same scores, returns first
-                {
-                    max_score = it->second;
-                    best_action = it->first;
-                }
-            }
+        if(it->second > max_score)  // NOTE: In case two same scores, returns first
+        {
+            max_score = it->second;
+            best_action = it->first;
+        }
+    }
 
-        double &Qold = Qtable[str_state_old][m_Agent->action];  // NOTE: changed old_action to current_old
-        double &Qmax = Qtable[str_state_current][best_action];
-        double Qnew = (Qold + alpha * (m_Agent->reward + gamma*Qmax - Qold ));
+    double &Qold = Qtable[str_state_old][m_Agent->action];  // NOTE: changed old_action to current_old
+    double &Qmax = Qtable[str_state_current][best_action];
+    double Qnew = (Qold + alpha * (m_Agent->reward + gamma*Qmax - Qold ));
 
 
-        // Qtable[str_state_old][m_Agent->old_action] = Qnew;
-        //Qtable[str_state_old][m_Agent->old_action] = Qnew;
-        Qold = Qnew;
+    // Qtable[str_state_old][m_Agent->old_action] = Qnew;
+    //Qtable[str_state_old][m_Agent->old_action] = Qnew;
+    Qold = Qnew;
 
 }
 
@@ -135,20 +122,20 @@ double Q_learning::getQtableincrement(Agent_H *m_Agent)
     Score max_score;
     int best_action;
 
-        for(std::unordered_map<int,Score>::iterator it=a.begin(); it != a.end(); it++)
+    for(std::unordered_map<int,Score>::iterator it=a.begin(); it != a.end(); it++)
+    {
+        if(it == a.begin())
         {
-            if(it == a.begin())
-            {
-                max_score = it->second;
-                best_action = it->first;
-            }
-
-            if(it->second > max_score)  // NOTE: In case two same scores, returns first
-            {
-                max_score = it->second;
-                best_action = it->first;
-            }
+            max_score = it->second;
+            best_action = it->first;
         }
+
+        if(it->second > max_score)  // NOTE: In case two same scores, returns first
+        {
+            max_score = it->second;
+            best_action = it->first;
+        }
+    }
 
     double &Qold = Qtable[str_state_old][m_Agent->action];  // NOTE: changed old_action to current_old
     double &Qmax = Qtable[str_state_current][best_action];
@@ -160,6 +147,56 @@ double Q_learning::getQtableincrement(Agent_H *m_Agent)
     double Qincrement = Qold - Qnew;
 
     return Qincrement;
+
+}
+
+double Q_learning::getQvalue(Agent_H *m_Agent)
+{
+        std::string str_state_old = vec2str(m_Agent->old_state);
+        ActionScoreMap a = this->Qtable[str_state_old];
+
+        double score;
+        score = a[m_Agent->action];
+
+        return score;
+
+}
+
+double Q_learning::sumQvalues()
+{
+    double sum_of_elem;
+
+    for(std::pair<std::string, ActionScoreMap> q : Qtable)
+    {
+        //std::string &s = q.first;
+        ActionScoreMap &m = q.second;
+
+        for(std::pair<int, double> w : m)
+        {
+            //int &a = w.first;
+            //double &v = w.second;
+
+            sum_of_elem += w.second;
+
+        }
+    }
+
+    //std::cout << "Q-LEARNING:: sum of Qtable is: " << sum_of_elem << "\n";
+    return sum_of_elem;
+}
+
+void Q_learning::getStateVec()
+{
+    state_vec[0] = BLKB->get("sensor0");
+    state_vec[1] = BLKB->get("sensor1");
+    state_vec[2] = BLKB->get("sensor2");
+    state_vec[3] = BLKB->get("sensor3");
+    state_vec[4] = BLKB->get("sensor4");
+    state_vec[5] = BLKB->get("sensor5");
+    state_vec[6] = BLKB->get("sensor6");
+    state_vec[7] = BLKB->get("sensor7");
+    state_vec[8] = BLKB->get("sensor8");
+
 
 }
 

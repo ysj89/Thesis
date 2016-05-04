@@ -11,7 +11,7 @@ class Condition : public Node
 public:
     Condition(int n_limit, std::string m_sensor_val)
         :limit(n_limit),
-         sensor_val(m_sensor_val)
+          sensor_val(m_sensor_val)
     {}
 
 protected:
@@ -28,10 +28,8 @@ public:
         : Condition(m_limit, m_sensor_val)
     {}
 
-    virtual int getAction()  {return 0;}
-    virtual enum Status update() override;
-
-
+    virtual int chooseAction(blackboard *BLKB)  {return 0;}
+    virtual enum Status update(blackboard *BLKB) override;
 
 };
 

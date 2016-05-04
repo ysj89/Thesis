@@ -26,6 +26,26 @@ void Save::printQincrement(std::vector<double> *Qincrement)
     fs.close();
 }
 
+void Save::printQvalue(std::vector<double> *Qvalues)
+{
+    std::stringstream filename;
+    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Qvalues/Qvalue.txt";
+    std::ofstream fs;
+    fs.open(filename.str(), std::ios::out);
+    Print::outputVector(Qvalues, fs);
+    fs.close();
+}
+
+void Save::printQvaluetotal(std::vector<double> *Qvaluetotal)
+{
+    std::stringstream filename;
+    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Qvalues/Qvaluetotal.txt";
+    std::ofstream fs;
+    fs.open(filename.str(), std::ios::out);
+    Print::outputVector(Qvaluetotal, fs);
+    fs.close();
+}
+
 void Save::printAgentRewardperEpisode(std::vector<std::pair<int, double> > totalRewardVec)
 {
     std::stringstream filename;
@@ -91,7 +111,7 @@ void Save::printTPM3D(std::vector<std::vector<std::vector<double> > > &m_TPM, in
         }
 
         std::stringstream filename;
-        filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM" << a + 1 << ".txt";
+        filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM" << a << ".txt";
         std::ofstream fs;
         fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
         Print::outputMatrix(tempMatrix, fs);

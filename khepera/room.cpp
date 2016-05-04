@@ -11,8 +11,8 @@ void Room::setWalls()
     }
     for(int i = 0; i < x_size; i++)
     {
-         worldMap[i][0] = 0 ;
-         worldMap[i][y_size-1] = 0;
+        worldMap[i][0] = 0 ;
+        worldMap[i][y_size-1] = 0;
     }
 }
 
@@ -37,17 +37,17 @@ void Room::initializeTrash(int _num_of_trash) // TODO: Implement walls, trash ca
 {
     int i = 0;
     while(++i < _num_of_trash)
-     {
-         int xx = rand()% (x_size - 2) + 1;
-         int yy = rand()% (y_size - 2) + 1;
+    {
+        int xx = rand()% (x_size - 2) + 1;
+        int yy = rand()% (y_size - 2) + 1;
 
-         if(worldMap[xx][yy] != 0)
-         {
-             worldMap[xx][yy] = 3;
-         }
-     }
+        if(worldMap[xx][yy] != 0)
+        {
+            worldMap[xx][yy] = 3;
+        }
+    }
 
-     setMap = worldMap;
+    setMap = worldMap;
 }
 
 void Room::setTrash()

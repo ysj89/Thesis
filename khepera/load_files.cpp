@@ -17,7 +17,7 @@ std::unordered_map<std::string, ActionScoreMap> Load::loadQtable1()
     filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/QTable/QTable.txt";
     std::ifstream inFile;
     inFile.open(filename.str());
-//    std::string word;
+    //    std::string word;
 
     if(!inFile.is_open()){
         std::cout << "LOAD: failed to open file." << "\n";
@@ -28,8 +28,8 @@ std::unordered_map<std::string, ActionScoreMap> Load::loadQtable1()
         std::replace(line.begin(), line.end(), ',', ' ');
         std::istringstream in(line);
         values.push_back(
-            std::vector<double>(std::istream_iterator<double>(in),
-                                std::istream_iterator<double>()));
+                    std::vector<double>(std::istream_iterator<double>(in),
+                                        std::istream_iterator<double>()));
     }
 
     std::vector<std::string> states;
@@ -55,10 +55,10 @@ std::unordered_map<std::string, ActionScoreMap> Load::loadQtable1()
         Qtable[states[i]] = a;
     }
 
-     if (!inFile.eof())
-     {
-       std::cerr << "Fooey!\n";
-     }
+    if (!inFile.eof())
+    {
+        std::cerr << "Fooey!\n";
+    }
 
     inFile.close();
     return Qtable;
@@ -68,52 +68,54 @@ std::unordered_map<std::string, ActionScoreMap> Load::loadQtable1()
 std::vector<std::vector<std::vector<double> > >Load::loadTransitionMatrix()
 {
 
-    std::ifstream myfile("/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM1.txt");
+    std::ifstream myfile("/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM0.txt");
 
     // new lines will be skipped unless we stop it from happening:
     myfile.unsetf(std::ios_base::skipws);
 
     // count the newlines with an algorithm specialized for counting:
     unsigned line_count = std::count(
-        std::istream_iterator<char>(myfile),
-        std::istream_iterator<char>(),
-        '\n');
+                std::istream_iterator<char>(myfile),
+                std::istream_iterator<char>(),
+                '\n');
 
     std::vector<std::vector<std::vector<double> > > transistionProbabilityMatrix
             (line_count, std::vector<std::vector<double> > (line_count, std::vector<double> (3,0)));
     std::vector<std::vector<double> > values;
 
-    for(int count = 1; count < 4; count++)
+    for(int count = 0; count < 3; count++)
     {
         values.resize(0);
-    std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM" << count << ".txt";
-    std::ifstream inFile;
-    inFile.open(filename.str());
+        std::stringstream filename;
+        filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM" << count << ".txt";
+        std::ifstream inFile;
+        inFile.open(filename.str());
 
-    if(!inFile.is_open())
-    {
-        std::cout << "LOAD: failed to open file." << "\n";
-    }
-
-    for (std::string line; std::getline(inFile, line); )
-    {
-        std::replace(line.begin(), line.end(), ',', ' ');
-        std::istringstream in(line);
-        values.push_back(
-            std::vector<double>(std::istream_iterator<double>(in),
-                                std::istream_iterator<double>()));
-    }
-
-    for(unsigned i = 0; i < (values.size() - 1); i ++)
-    {
-        for(unsigned j = 0; j < values.size(); j++)
+        if(!inFile.is_open())
         {
-            transistionProbabilityMatrix[i][j][count-1] = values[i][j];
+            std::cout << "LOAD: failed to open file." << "\n";
         }
-    }
 
-    inFile.close();
+
+
+        for (std::string line; std::getline(inFile, line); )
+        {
+            std::replace(line.begin(), line.end(), ',', ' ');
+            std::istringstream in(line);
+            values.push_back(
+                        std::vector<double>(std::istream_iterator<double>(in),
+                                            std::istream_iterator<double>()));
+        }
+
+        for(unsigned i = 0; i < (values.size() - 1); i ++)
+        {
+            for(unsigned j = 0; j < values.size(); j++)
+            {
+                transistionProbabilityMatrix[i][j][count] = values[i][j];
+            }
+        }
+
+        inFile.close();
     }
 
     return transistionProbabilityMatrix;
@@ -135,8 +137,8 @@ std::unordered_map<std::string, int> Load::loadString2Int()
         std::replace(line.begin(), line.end(), ',', ' ');
         std::istringstream in(line);
         values.push_back(
-            std::vector<double>(std::istream_iterator<double>(in),
-                                std::istream_iterator<double>()));
+                    std::vector<double>(std::istream_iterator<double>(in),
+                                        std::istream_iterator<double>()));
     }
 
     std::vector<unsigned> identifier;
@@ -155,7 +157,7 @@ std::unordered_map<std::string, int> Load::loadString2Int()
 
     for(unsigned i = 0; i < values.size() ; i++)
     {
-    string2intconversion[states[i]] = identifier[i];
+        string2intconversion[states[i]] = identifier[i];
     }
 
     return string2intconversion;

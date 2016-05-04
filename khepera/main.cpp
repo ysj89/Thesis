@@ -23,63 +23,65 @@ int main(int argc, char *argv[])
     // Calculate execution time
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
-        bool SAVEDATA = 1;
-        bool RUN = 1;
-        bool LOAD = 0;
-        Save save;
-        Load load;
+    bool SAVEDATA = 0;
+    bool RUN = 1;
+    bool TESTCASE = 0;
+    Save save;
+    Load load;
 
 
-        if(RUN == 0)
-        {
+    if(RUN == 1)
+    {
         // /////////////
         // Initiate World and Solution method objects
         // /////////////
         Room room1(15,25);
-        blackboard *BLKB;
-
-        Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.01, 8, 3, BLKB);
-        //BehaviorTree *sol_met_bt = new BehaviorTree;
-        //Random_action *sol_met1 = new Random_action();
+        blackboard BB;
+        Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.01, 8, 3, &BB);
+        //Random_action *sol_met = new Random_action();
 
         // /////////////
         // Initiate Agent
         // /////////////
-        Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met, SAVEDATA);
-
+        Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met, &BB, SAVEDATA);
 
         // /////////////
         // Run Agent
         // /////////////
-        Khepera_heading.runAgent(4500,150);
+        Khepera_heading.runAgent(100000,150);
 
         if(SAVEDATA == 1)
         {
             save.printQtable(sol_met->Qtable);
         }
-        }
+
+    }
 
 
-        std::unordered_map<std::string, ActionScoreMap> Qtable;
-        std::vector<std::vector<std::vector<double> > >transitionPM;
-        std::unordered_map<std::string, int> string2intConversion;
+    //        std::unordered_map<std::string, ActionScoreMap> Qtable;
+    //        std::vector<std::vector<std::vector<double> > >transitionPM;
+    //        std::unordered_map<std::string, int> string2intConversion;
 
-        if(LOAD == 1)
-        {
-        Qtable = load.loadQtable1();
-        transitionPM = load.loadTransitionMatrix();
-        string2intConversion = load.loadString2Int();
-        }
+    //        if(LOAD == 1)
+    //        {
+    //        Qtable = load.loadQtable1();
+    //        transitionPM = load.loadTransitionMatrix();
+    //        string2intConversion = load.loadString2Int();
+    //        }
 
-
+    if(TESTCASE == 1)
+    {
         // BT TEST CODE
+        SAVEDATA = 0;
         Room room1(15,25);
-        BehaviorTree *sol_met_bt = new BehaviorTree;
-        Agent_H Khepera_heading_bt(&room1, 3, 4, EAST, 9, 3, sol_met_bt, SAVEDATA);
+        blackboard BB;
+        BehaviorTree *sol_met = new BehaviorTree(&BB);
+        //Random_action *sol_met = new Random_action();
+        Agent_H Khepera_heading_bt(&room1, 3, 4, EAST, 9, 3, sol_met, &BB, SAVEDATA);
 
-        Khepera_heading_bt.runAgent(100,10);
-
-
+        Khepera_T Khepera_test_agent(sol_met, &BB);
+        Khepera_test_agent.runKhepera_test(150, "0,0,1,1,1,1,1,1,0");
+    }
 
     // Calculate execution time
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();

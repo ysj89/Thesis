@@ -2,7 +2,7 @@
 #include "random_action.h"
 
 
-int Random_action::getAction()
+int Random_action::chooseAction(blackboard *BLKB)
 {
     action = static_cast<Action_heading> ( rand()%3 );
 

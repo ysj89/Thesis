@@ -17,14 +17,16 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
 
     for(int steps = 0; steps < totalsteps; steps++)
     {
+        // Get action from choose-method
         int action = rand() % 3;
 
-        // get new state
+        sol_met->chooseAction(BLKB);
+        action = static_cast<int> (BLKB->get("action") ); // read action from blackboard
 
+        // get new state
         state_new = transition(state, action);
 
         // get value new state
-
         ActionScoreMap as;
         as = Qtable[state_new];
 
@@ -32,10 +34,35 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
         score = as[action];
         score_total = score_total + score;
 
+        // convert state back to vector and put on BB
+        state_vec_temp = string2vec(state_new);
+        BLKB->set("sensor0", state_vec_temp[0]);
+        BLKB->set("sensor1", state_vec_temp[1]);
+        BLKB->set("sensor2", state_vec_temp[2]);
+        BLKB->set("sensor3", state_vec_temp[3]);
+        BLKB->set("sensor4", state_vec_temp[4]);
+        BLKB->set("sensor5", state_vec_temp[5]);
+        BLKB->set("sensor6", state_vec_temp[6]);
+        BLKB->set("sensor7", state_vec_temp[7]);
+
         state = state_new;
     }
 
     std::cout << "The total score is: " << score_total << std::endl;
+}
+
+std::vector<int> Khepera_T::string2vec(std::string state)
+{
+        std::vector<int> state_vec;
+
+        // Fill DataNumbers
+        for (int i=0; i < 17; i+=2 )
+        {
+            char s = state.at(i);
+            int int_state = s - 48 ;
+            state_vec.push_back(int_state);
+        }
+        return state_vec;
 }
 
 std::string Khepera_T::transition(std::string state, int action)

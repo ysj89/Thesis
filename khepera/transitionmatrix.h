@@ -12,7 +12,17 @@
 class TransitionMatrix
 {
 public:
-    TransitionMatrix(unsigned size_tm, unsigned num_of_actions);
+    TransitionMatrix(unsigned size_tm, unsigned num_of_actions)
+        : currentStringIndex1(0)
+{   // Unsigned vs Int
+    transitionMatrix_count = std::vector<std::vector<std::vector<unsigned> > > {size_tm,std::vector<std::vector<unsigned> > (size_tm, std::vector<unsigned>(num_of_actions,0))};
+    sum_of_row_vec = std::vector<std::vector<int> >{size_tm, std::vector<int>(num_of_actions,0)};
+    TPM = std::vector<std::vector<std::vector<double> > >{size_tm, std::vector<std::vector<double> >(size_tm,std::vector<double>(num_of_actions,0))};
+
+    keys.reserve(size_tm);
+    vals.reserve(size_tm);
+}
+
 
     // Main interface
     int get(std::string x1, std::string x2);
@@ -35,8 +45,8 @@ public:
     std::string getStringFromIndex(unsigned index);
     void TransitionMatrixCOUT(std::string s);
 
-    std::vector<std::vector<double> > TPM;
-    std::vector<std::vector<std::vector<double> > > TPM2;
+
+    std::vector<std::vector<std::vector<double> > > TPM;
     std::unordered_map<std::string, unsigned> string2intMap1;
 
 
@@ -45,9 +55,10 @@ private:
     std::vector<std::string> keys;
     std::vector<int> vals;
 
-//    std::vector<std::vector<unsigned> > transitionMatrix;
-    std::vector<std::vector<std::vector<unsigned> > > transitionMatrix;
+    //    std::vector<std::vector<unsigned> > transitionMatrix;
+    std::vector<std::vector<std::vector<unsigned> > > transitionMatrix_count;
     unsigned currentStringIndex1;
+
 
 
     std::vector<std::vector<int> > sum_of_row_vec;

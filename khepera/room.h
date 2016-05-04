@@ -40,7 +40,7 @@ public:
     void initializeTrash(int _num_of_trash);
     void setTrash();
 
-~Room(){}
+    ~Room(){}
 };
 
 

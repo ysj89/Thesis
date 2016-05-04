@@ -15,7 +15,7 @@ public:
 
     int action;
 
-    virtual int getAction();
+    virtual int chooseAction(blackboard *BLKB);
 };
 
 #endif // RANDOM_ACTION_H
