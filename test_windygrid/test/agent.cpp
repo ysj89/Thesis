@@ -60,8 +60,6 @@ void Agent::performAction()
     pos.oldx = pos.x;
     pos.oldy = pos.y;
 
-
-
     // Probability that action selected is executed (90%)
     if ( (rand() % 100 + 1) / 100.0  < succes_probability)
     {
@@ -226,20 +224,6 @@ double Agent::sumQvalues(vector<vector<vector<double> > > vector_3D)
     std::cout << sum_of_elements << std::endl;
     return sum_of_elements;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

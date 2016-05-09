@@ -42,7 +42,9 @@ public:
     std::string transition(std::string state, int action);
 
     std::vector<double> getTransitions(std::string state, int action);
+    //std::vector<int> getTransitions_count(std::string state, int action);
     std::string returnNextState(std::vector<double> transitionVector);
+    std::string returnNextState_int(std::vector<int> transitionvec);
     std::vector<int> string2vec(std::string state);
 
 

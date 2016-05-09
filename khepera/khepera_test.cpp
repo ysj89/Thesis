@@ -18,7 +18,7 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
     for(int steps = 0; steps < totalsteps; steps++)
     {
         // Get action from choose-method
-        int action = rand() % 3;
+        int action; //  = rand() % 3;
 
         sol_met->chooseAction(BLKB);
         action = static_cast<int> (BLKB->get("action") ); // read action from blackboard
@@ -110,6 +110,7 @@ std::string Khepera_T::returnNextState(std::vector<double> transitionVector)
 {
     std::mt19937 gen(1701);
     std::discrete_distribution<> distr(transitionVector.begin(), transitionVector.end());
+
     unsigned next_state = distr(gen);
 
     std::vector<int>::iterator it = std::find(vals.begin(), vals.end(), next_state);

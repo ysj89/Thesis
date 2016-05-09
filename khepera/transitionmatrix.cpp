@@ -86,7 +86,22 @@ std::vector<double> TransitionMatrix::getTransitionsForState(std::string state1,
     return TP;
 }
 
-std::string TransitionMatrix::returnNextState(std::vector<double> TPvec)
+std::vector<int> TransitionMatrix::getTransitionsForState_number(std::string state1, int action)
+{
+    std::vector<int> TV;
+    TV.reserve(string2intMap1.size());
+
+    int in_state = string2intMap1[state1];
+
+    for(unsigned i = 0; i < (TPM[1].size()) ; i++ )
+    {
+        TV.push_back(transitionMatrix_count[in_state][i][action]);
+    }
+
+    return TV;
+}
+
+std::string TransitionMatrix::returnNextState_double(std::vector<double> TPvec)
 {
 
     std::mt19937 gen(1701);
@@ -103,11 +118,28 @@ std::string TransitionMatrix::returnNextState(std::vector<double> TPvec)
 
 }
 
+std::string TransitionMatrix::returnNextState_int(std::vector<int> TPvec)
+{
+    std::mt19937 gen(1701);
+    std::discrete_distribution<> distr(TPvec.begin(), TPvec.end());
+    unsigned next_state = distr(gen);
+
+    std::vector<int>::iterator it = std::find(vals.begin(), vals.end(), next_state);
+    int pos = std::distance(vals.begin(), it);
+
+    std::string new_state = keys[pos];
+
+
+    return new_state;
+}
+
 std::string TransitionMatrix::transition(std::string state1, int action)
 {
     std::vector<double> probability;
+    std::vector<int> transition_count;
 
     probability = getTransitionsForState(state1, action);
+    transition_count = getTransitionsForState_number(state1, action);
 
     double sum_of_elems = 0;
 
@@ -118,7 +150,9 @@ std::string TransitionMatrix::transition(std::string state1, int action)
 
     if(sum_of_elems != 0)
     {
-        std::string new_state = returnNextState(probability);
+        //std::string new_state = returnNextState_double(probability);
+        std::string new_state = returnNextState_int(transition_count);
+
         std::cout << "The new state is: " <<new_state << std::endl;
         return new_state;
     }

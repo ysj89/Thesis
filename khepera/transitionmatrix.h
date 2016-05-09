@@ -33,8 +33,9 @@ public:
 
 
     std::vector<double> getTransitionsForState(std::string state1, int action);
-    std::string returnNextState(std::vector<double> TPvec);
-
+    std::vector<int> getTransitionsForState_number(std::string state1, int action);
+    std::string returnNextState_double(std::vector<double> TPvec);
+    std::string returnNextState_int(std::vector<int> TPvec);
     //std::pair<std::string, double> transition_full(std::string state1, int action, std::unordered_map<std::string, ActionScoreMap> m_Qtable);
     std::string transition(std::string state1, int action);
 

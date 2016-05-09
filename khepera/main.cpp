@@ -24,10 +24,10 @@ int main(int argc, char *argv[])
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
     bool SAVEDATA = 0;
-    bool RUN = 1;
-    bool TESTCASE = 0;
+    bool RUN = 0;
+    bool TESTCASE = 1;
     Save save;
-    Load load;
+    //Load load;
 
 
     if(RUN == 1)
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
         // /////////////
         // Run Agent
         // /////////////
-        Khepera_heading.runAgent(100000,150);
+        Khepera_heading.runAgent(1000000,150);
 
         if(SAVEDATA == 1)
         {
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
         Agent_H Khepera_heading_bt(&room1, 3, 4, EAST, 9, 3, sol_met, &BB, SAVEDATA);
 
         Khepera_T Khepera_test_agent(sol_met, &BB);
-        Khepera_test_agent.runKhepera_test(150, "0,0,1,1,1,1,1,1,0");
+        Khepera_test_agent.runKhepera_test(20, "0,0,0,0,0,1,0,1,0");
     }
 
     // Calculate execution time
