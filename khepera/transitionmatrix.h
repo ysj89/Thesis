@@ -49,6 +49,7 @@ public:
 
     std::vector<std::vector<std::vector<double> > > TPM;
     std::unordered_map<std::string, unsigned> string2intMap1;
+    std::vector<std::vector<std::vector<unsigned> > > transitionMatrix_count;
 
 
 
@@ -57,7 +58,6 @@ private:
     std::vector<int> vals;
 
     //    std::vector<std::vector<unsigned> > transitionMatrix;
-    std::vector<std::vector<std::vector<unsigned> > > transitionMatrix_count;
     unsigned currentStringIndex1;
 
 

@@ -122,6 +122,32 @@ void Save::printTPM3D(std::vector<std::vector<std::vector<double> > > &m_TPM, in
     tempMatrix.clear();
 }
 
+void Save::printTPM_discrete_distribution(std::vector<std::vector<std::vector<unsigned> > > &m_TPM, int TPM_size)
+{
+    std::vector<std::vector<unsigned> > tempMatrix (TPM_size, std::vector<unsigned>(TPM_size,0));
+
+    for(unsigned int a = 0; a < m_TPM[0][1].size(); a++ )
+    {
+        for(int i = 0; i < TPM_size; i++ )
+        {
+            for(int j = 0; j < TPM_size; j++ )
+            {
+                tempMatrix[i][j] = m_TPM[i][j][a];
+            }
+        }
+
+        std::stringstream filename;
+        filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM_discrete_dis" << a << ".txt";
+        std::ofstream fs;
+        fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
+        Print::outputMatrix(tempMatrix, fs);
+        fs.close();
+
+    }
+
+    tempMatrix.clear();
+}
+
 void Save::printTPMunorderedMap(std::unordered_map<std::string, unsigned int> &m_string2intMap1)
 {
     std::stringstream filename;

@@ -67,13 +67,13 @@ std::vector<int> Khepera_T::string2vec(std::string state)
 
 std::string Khepera_T::transition(std::string state, int action)
 {
-    std::vector<double> probability;
+    std::vector<int> discrete_distribution_vec;
 
-    probability = getTransitions(state, action);
+    discrete_distribution_vec = getTransitions(state, action);
 
     double sum_of_elems = 0;
 
-    for (double n : probability)
+    for (int n : discrete_distribution_vec)
     {
         sum_of_elems += n;
     }
@@ -81,7 +81,7 @@ std::string Khepera_T::transition(std::string state, int action)
     if(sum_of_elems != 0)
     {
 
-        std::string new_state = returnNextState(probability);
+        std::string new_state = returnNextState(discrete_distribution_vec);
         std::cout << "The new state is: " <<new_state << std::endl;
         return new_state;
     }
@@ -92,26 +92,28 @@ std::string Khepera_T::transition(std::string state, int action)
     }
 }
 
-std::vector<double> Khepera_T::getTransitions(std::string state, int action)
+std::vector<int> Khepera_T::getTransitions(std::string state, int action)
 {
-    std::vector<double> TP;
+    std::vector<int> TP;
     TP.reserve(string2int.size());
     int in_state = string2int[state];
 
-    for(unsigned i = 0; i <  (transitionMatrix[1].size()); i++ )
+    for(unsigned i = 0; i <  (transitionMatrix_discrete_distribution[1].size()); i++ )
     {
-        TP.push_back(transitionMatrix[in_state][i][action]);
+        TP.push_back(transitionMatrix_discrete_distribution[in_state][i][action]);
     }
 
     return TP;
 }
 
-std::string Khepera_T::returnNextState(std::vector<double> transitionVector)
+std::string Khepera_T::returnNextState(std::vector<int> transitionVector)
 {
-    std::mt19937 gen(1701);
+    //std::mt19937 gen(1701);
+    std::default_random_engine generator(seed1);
+
     std::discrete_distribution<> distr(transitionVector.begin(), transitionVector.end());
 
-    unsigned next_state = distr(gen);
+    unsigned next_state = distr(generator);
 
     std::vector<int>::iterator it = std::find(vals.begin(), vals.end(), next_state);
     int pos = std::distance(vals.begin(), it);

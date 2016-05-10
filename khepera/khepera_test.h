@@ -1,6 +1,9 @@
 #ifndef KHEPERA_TEST_H
 #define KHEPERA_TEST_H
 
+#include <chrono>
+#include <random>
+
 #include "load_files.h"
 #include "transitionmatrix.h"
 #include "solution_method.h"
@@ -15,6 +18,7 @@ public:
     {
         Qtable = load.loadQtable1();
         transitionMatrix = load.loadTransitionMatrix();
+        transitionMatrix_discrete_distribution = load.loadTransitionMatrix_discrete_distribution();
         string2int = load.loadString2Int();
 
         // to get string from index
@@ -31,6 +35,7 @@ public:
 
     std::unordered_map<std::string, ActionScoreMap> Qtable;
     std::vector<std::vector<std::vector<double> > >transitionMatrix;
+    std::vector<std::vector<std::vector<int> > > transitionMatrix_discrete_distribution;
     std::unordered_map<std::string, int> string2int;
 
     std::vector<std::string> keys;
@@ -39,11 +44,14 @@ public:
 
     void runKhepera_test(int totalsteps, std::string start);
 
+    unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
+
+
     std::string transition(std::string state, int action);
 
-    std::vector<double> getTransitions(std::string state, int action);
+    std::vector<int> getTransitions(std::string state, int action);
     //std::vector<int> getTransitions_count(std::string state, int action);
-    std::string returnNextState(std::vector<double> transitionVector);
+    std::string returnNextState(std::vector<int> transitionVector);
     std::string returnNextState_int(std::vector<int> transitionvec);
     std::vector<int> string2vec(std::string state);
 

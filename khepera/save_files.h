@@ -17,6 +17,7 @@ struct Save
     void printQtable(std::unordered_map<std::string, ActionScoreMap> &m_Qtable);
     void printTPM(std::vector<std::vector<double> > & m_TPM);
     void printTPM3D(std::vector<std::vector<std::vector<double> > > & m_TPM, int TPM_size);
+    void printTPM_discrete_distribution(std::vector<std::vector<std::vector<unsigned> > > &m_TPM, int TPM_size);
 
     void printTPMunorderedMap(std::unordered_map<std::string, unsigned int> &m_string2intMap1);
 

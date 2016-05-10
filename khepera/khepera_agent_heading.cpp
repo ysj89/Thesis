@@ -429,12 +429,17 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
     if(savedata == 1)
     {
         save.printTPM3D(TM.TPM, size_Qtable);
+        save.printTPM_discrete_distribution(TM.transitionMatrix_count, size_Qtable);
         save.printAgentRewardperEpisode(totalRewardVec);
         TM.storeKeyandMap();
         save.printTPMunorderedMap(TM.string2intMap1);
     }
 
 
+    if(_episodes == 1)
+    {
+        std::cout << "AGENT:: The total reward is: " << totalreward << " \n";
+    }
     std::cout << std::endl;
 
 

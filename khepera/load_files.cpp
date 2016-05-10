@@ -121,6 +121,62 @@ std::vector<std::vector<std::vector<double> > >Load::loadTransitionMatrix()
     return transistionProbabilityMatrix;
 }
 
+std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete_distribution()
+{
+    std::ifstream myfile("/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM_discrete_dis0.txt");
+
+    // new lines will be skipped unless we stop it from happening:
+    myfile.unsetf(std::ios_base::skipws);
+
+    // count the newlines with an algorithm specialized for counting:
+    unsigned line_count = std::count(
+                std::istream_iterator<char>(myfile),
+                std::istream_iterator<char>(),
+                '\n');
+
+    std::vector<std::vector<std::vector<int> > > transistionProbabilityMatrix
+            (line_count, std::vector<std::vector<int> > (line_count, std::vector<int> (3,0)));
+    std::vector<std::vector<int> > values;
+
+    for(int count = 0; count < 3; count++)
+    {
+        values.resize(0);
+        std::stringstream filename;
+
+        filename << "../Visualisation_heading/TransitionPM/TPM_discrete_dis" << count << ".txt";
+        std::ifstream inFile;
+        inFile.open(filename.str());
+
+        if(!inFile.is_open())
+        {
+            std::cout << "LOAD: failed to open file." << "\n";
+        }
+
+
+
+        for (std::string line; std::getline(inFile, line); )
+        {
+            std::replace(line.begin(), line.end(), ',', ' ');
+            std::istringstream in(line);
+            values.push_back(
+                        std::vector<int>(std::istream_iterator<int>(in),
+                                            std::istream_iterator<int>()));
+        }
+
+        for(unsigned i = 0; i < (values.size() - 1); i ++)
+        {
+            for(unsigned j = 0; j < values.size(); j++)
+            {
+                transistionProbabilityMatrix[i][j][count] = values[i][j];
+            }
+        }
+
+        inFile.close();
+    }
+
+    return transistionProbabilityMatrix;
+}
+
 std::unordered_map<std::string, int> Load::loadString2Int()
 {
     std::stringstream filename;
