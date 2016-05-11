@@ -24,8 +24,8 @@ int main(int argc, char *argv[])
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
     bool SAVEDATA = 0;
-    bool RUN = 1;
-    bool TESTCASE = 0;
+    bool RUN = 0;
+    bool TESTCASE = 1;
     Save save;
     //Load load;
 
@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
         blackboard BB;
         BehaviorTree *sol_met = new BehaviorTree(&BB);
         //Random_action *sol_met = new Random_action();
-        Agent_H Khepera_heading_bt(&room1, 3, 4, EAST, 9, 3, sol_met, &BB, SAVEDATA);
+        //Agent_H Khepera_heading_bt(&room1, 3, 4, EAST, 9, 3, sol_met, &BB, SAVEDATA);
 
         Khepera_T Khepera_test_agent(sol_met, &BB);
         Khepera_test_agent.runKhepera_test(150, "1,1,1,3,1,1,1,1,0");

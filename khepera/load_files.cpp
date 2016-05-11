@@ -14,7 +14,7 @@
 std::unordered_map<std::string, ActionScoreMap> Load::loadQtable1()
 {
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/QTable/QTable.txt";
+    filename << "../Visualisation_heading/QTable/QTable.txt";
     std::ifstream inFile;
     inFile.open(filename.str());
     //    std::string word;
@@ -68,7 +68,7 @@ std::unordered_map<std::string, ActionScoreMap> Load::loadQtable1()
 std::vector<std::vector<std::vector<double> > >Load::loadTransitionMatrix()
 {
 
-    std::ifstream myfile("/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM0.txt");
+    std::ifstream myfile("../Visualisation_heading/TransitionPM/TPM0.txt");
 
     // new lines will be skipped unless we stop it from happening:
     myfile.unsetf(std::ios_base::skipws);
@@ -87,7 +87,7 @@ std::vector<std::vector<std::vector<double> > >Load::loadTransitionMatrix()
     {
         values.resize(0);
         std::stringstream filename;
-        filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM" << count << ".txt";
+        filename << "../Visualisation_heading/TransitionPM/TPM" << count << ".txt";
         std::ifstream inFile;
         inFile.open(filename.str());
 
@@ -123,7 +123,7 @@ std::vector<std::vector<std::vector<double> > >Load::loadTransitionMatrix()
 
 std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete_distribution()
 {
-    std::ifstream myfile("/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM_discrete_dis0.txt");
+    std::ifstream myfile("../Visualisation_heading/TransitionPM/TPM_discrete_dis0.txt");
 
     // new lines will be skipped unless we stop it from happening:
     myfile.unsetf(std::ios_base::skipws);
@@ -180,7 +180,7 @@ std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete
 std::unordered_map<std::string, int> Load::loadString2Int()
 {
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/string2int/str2int.txt";
+    filename << "../Visualisation_heading/string2int/str2int.txt";
     std::ifstream inFile;
     inFile.open(filename.str());
 

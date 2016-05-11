@@ -8,7 +8,7 @@
 void Save::printAgentReward(std::vector<double> *rewardVec)
 {
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Reward/reward_last_eps.txt";
+    filename << "../Visualisation_heading/Reward/reward_last_eps.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputVector(rewardVec, fs);
@@ -19,7 +19,7 @@ void Save::printAgentReward(std::vector<double> *rewardVec)
 void Save::printQincrement(std::vector<double> *Qincrement)
 {
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Qvalues/deltaQ.txt";
+    filename << "../Visualisation_heading/Qvalues/deltaQ.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputVector(Qincrement, fs);
@@ -29,7 +29,8 @@ void Save::printQincrement(std::vector<double> *Qincrement)
 void Save::printQvalue(std::vector<double> *Qvalues)
 {
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Qvalues/Qvalue.txt";
+    //filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Qvalues/Qvalue.txt";
+    filename << "../Visualisation_heading/Qvalues/Qvalue.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputVector(Qvalues, fs);
@@ -39,7 +40,7 @@ void Save::printQvalue(std::vector<double> *Qvalues)
 void Save::printQvaluetotal(std::vector<double> *Qvaluetotal)
 {
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Qvalues/Qvaluetotal.txt";
+    filename << "../Visualisation_heading/Qvalues/Qvaluetotal.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputVector(Qvaluetotal, fs);
@@ -49,7 +50,7 @@ void Save::printQvaluetotal(std::vector<double> *Qvaluetotal)
 void Save::printAgentRewardperEpisode(std::vector<std::pair<int, double> > totalRewardVec)
 {
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Reward_per_eps/totalreward.txt";
+    filename << "../Visualisation_heading/Reward_per_eps/totalreward.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputVectorPair(totalRewardVec,fs);
@@ -59,7 +60,7 @@ void Save::printAgentRewardperEpisode(std::vector<std::pair<int, double> > total
 void Save::printAgentExploration(int episode, std::vector<std::vector<int> > &m_explorationmap)
 {
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Exploration/explore" << episode << ".txt";
+    filename << "../Visualisation_heading/Exploration/explore" << episode << ".txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputMatrix(m_explorationmap, fs);
@@ -69,7 +70,7 @@ void Save::printAgentExploration(int episode, std::vector<std::vector<int> > &m_
 void Save::printAgentinRoom(int steps, std::vector<std::vector<double> > &m_printMap)
 {
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/World/TotalWorld" << steps << ".txt";
+    filename << "../Visualisation_heading/World/TotalWorld" << steps << ".txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
     Print::outputMatrix(m_printMap, fs);
@@ -79,7 +80,7 @@ void Save::printAgentinRoom(int steps, std::vector<std::vector<double> > &m_prin
 void Save::printQtable(std::unordered_map<std::string, ActionScoreMap> &m_Qtable)
 {
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/QTable/QTable.txt";
+    filename << "../Visualisation_heading/QTable/QTable.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputQTable(m_Qtable, fs);
@@ -89,7 +90,7 @@ void Save::printQtable(std::unordered_map<std::string, ActionScoreMap> &m_Qtable
 void Save::printTPM(std::vector<std::vector<double> > &m_TPM)
 {
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM.txt";
+    filename << "../Visualisation_heading/TransitionPM/TPM.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
     Print::outputMatrix(m_TPM, fs);
@@ -111,7 +112,7 @@ void Save::printTPM3D(std::vector<std::vector<std::vector<double> > > &m_TPM, in
         }
 
         std::stringstream filename;
-        filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM" << a << ".txt";
+        filename << "../Visualisation_heading/TransitionPM/TPM" << a << ".txt";
         std::ofstream fs;
         fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
         Print::outputMatrix(tempMatrix, fs);
@@ -137,7 +138,7 @@ void Save::printTPM_discrete_distribution(std::vector<std::vector<std::vector<un
         }
 
         std::stringstream filename;
-        filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/TransitionPM/TPM_discrete_dis" << a << ".txt";
+        filename << "../Visualisation_heading/TransitionPM/TPM_discrete_dis" << a << ".txt";
         std::ofstream fs;
         fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
         Print::outputMatrix(tempMatrix, fs);
@@ -151,7 +152,7 @@ void Save::printTPM_discrete_distribution(std::vector<std::vector<std::vector<un
 void Save::printTPMunorderedMap(std::unordered_map<std::string, unsigned int> &m_string2intMap1)
 {
     std::stringstream filename;
-    filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/string2int/str2int.txt";
+    filename << "../Visualisation_heading/string2int/str2int.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputUMstr2int(m_string2intMap1, fs);
