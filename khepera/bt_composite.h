@@ -22,14 +22,14 @@ class CompositeNode : public Node  //  This type of Node follows the Composite P
 public:
     const std::vector<Node*>& getChildren() const {return m_children;}
     void addChild (Node* child) {m_children.emplace_back(child);}
+    void clearChildren();
+
 
     size_t kChildren();                                                 // KIRK: For GP
     Node* getChild(size_t k_child);                                     // KIRK: For GP
     Node* replaceChild(Node* task, size_t k_child, size_t isNew = 0);   // KIRK: For GP
     bool canFit(Node* task, size_t parallel_found);                     // KIRK: FOR GP
     void deleteChild(size_t k_child);                                   // KIRK: FOR GP
-
-    void clearChildren();
 
 protected:
     nodes m_children;
@@ -49,7 +49,7 @@ class Selector : public CompositeNode
 {
 protected:
     nodes::iterator m_currentChild;
-    int chooseAction(blackboard *BLKB){return 0;} ;
+    int chooseAction(blackboard *BLKB){return 0;};
 
 public:
     Selector():
@@ -61,7 +61,6 @@ public:
     virtual void onInitialise(){m_currentChild = m_children.begin();}
     virtual enum Status update(blackboard *BLKB);
 
-
 };
 
 // Sequence behavior
@@ -69,7 +68,7 @@ class Sequence : public CompositeNode
 {
 protected:
     nodes::iterator m_current;
-    int chooseAction(blackboard *BLKB){return 0;} ;
+    int chooseAction(blackboard *BLKB){return 0;};
 
 public:
     Sequence():
@@ -80,8 +79,6 @@ public:
 
     virtual void onInitialise(){m_current = m_children.begin();}
     virtual enum Status update(blackboard *BLKB);
-
-
 
 };
 

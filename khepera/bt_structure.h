@@ -28,8 +28,7 @@ public:
     {}
 
     virtual ~Node()
-    {
-    };
+    {};
 
     // General
     virtual enum Status update(blackboard *BLKB) = 0; // (Virtual) abstract makes sure you have to have a subclass with the function run
