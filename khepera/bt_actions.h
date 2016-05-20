@@ -11,6 +11,7 @@ class Action_turn_right : public Node
 {
 public:
     Action_turn_right()
+        : Node("khepera", "condition", "action")
     {};
 
     virtual enum Status update(blackboard *BLKB) override;
@@ -22,6 +23,7 @@ class Action_move_forward : public Node
 {
 public:
     Action_move_forward()
+        : Node("khepera", "condition", "action")
     {};
 
     virtual int chooseAction(blackboard *BLKB){return 0;}

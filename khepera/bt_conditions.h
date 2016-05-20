@@ -9,8 +9,9 @@ namespace BT_Structure {
 class Condition : public Node
 {
 public:
-    Condition(int n_limit, std::string m_sensor_val)
-        :limit(n_limit),
+    Condition(int n_limit, std::string m_sensor_val, std::string func_name)
+        : Node("khepera", "condition", func_name),
+        limit(n_limit),
           sensor_val(m_sensor_val)
     {}
 
@@ -25,7 +26,7 @@ class Equal_to : public Condition
 {
 public:
     Equal_to(int m_limit, std::string m_sensor_val)
-        : Condition(m_limit, m_sensor_val)
+        : Condition(m_limit, m_sensor_val, "equal_to")
     {}
 
     virtual int chooseAction(blackboard *BLKB)  {return 0;}

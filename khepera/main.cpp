@@ -37,9 +37,9 @@ int main(int argc, char *argv[])
         // /////////////
         Room room1(15,25);
         blackboard BB;
-        //Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.01, 8, 3, &BB);
+        Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.01, 8, 3, &BB);
         //BehaviorTree *sol_met = new BehaviorTree(&BB);
-        Random_action *sol_met = new Random_action();
+        //Random_action *sol_met = new Random_action();
 
         // /////////////
         // Initiate Agent
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 
         if(SAVEDATA == 1)
         {
-            //save.printQtable(sol_met->Qtable);
+            save.printQtable(sol_met->Qtable);
         }
 
     }

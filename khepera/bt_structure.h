@@ -20,8 +20,11 @@ enum Status
 class Node : public Solution_method  // This class represents each node in the behaviour tree.
 {
 public:
-    Node()
-        :m_eStatus(BH_INVALID)
+    Node(std::string Name, std::string Type, std::string Function)
+        :m_eStatus(BH_INVALID),
+          name(Name),
+          type(Type),
+          function(Function)
     {}
 
     virtual ~Node()
@@ -36,8 +39,11 @@ public:
     virtual void onInitialise() {}
     virtual void onTerminate(Status) {}
 
-
     Status m_eStatus;
+    std::string name;       // KIRK
+    std::string type;       // KIRK
+    std::string function;   // KIRK
+
 };
 
 

@@ -55,7 +55,8 @@ private:
     Action_move_forward* action_move;
 
     // Structure tree
-    Selector* root;
+    //Selector* root;
+    CompositeNode* root;
     Sequence* sequence1;
     Sequence* sequence2;
     Sequence* sequence3;
