@@ -34,15 +34,15 @@ bool composite::canFit(node* task, size_t parallel_found)
 void composite::addChild(node* child, int position /* = -1 */)
 {
 	// check parallel for concurrency issues
-	if(!this->canFit(child, 0))
-	{
-		if (child->type.compare("composite") == 0)
-			delete (composite*)child;
-		else
-			delete child;
-		child = NULL;
-		return;
-	}
+//	if(!this->canFit(child, 0))
+//	{
+//		if (child->type.compare("composite") == 0)
+//			delete (composite*)child;
+//		else
+//			delete child;
+//		child = NULL;
+//		return;
+//	}
 
 	if (position == -1)
 		m_children.push_back(child);

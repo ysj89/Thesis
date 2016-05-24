@@ -26,16 +26,16 @@ public:
           k_var(param),
 		  limit(value)
 	{
-    	std::tuple<std::string,double,double,double> set = input( k_var );
-		var = std::get<0>(set);
+//        std::tuple<std::string,double,double,double> set = input( k_var );
+//        var = std::get<0>(set);
 
-		vars.push_back(double(k_var));
-        vars_lower_lim.push_back(double(k_var));
-		vars_upper_lim.push_back(double(k_var));
+//        vars.push_back(double(k_var));
+//        vars_lower_lim.push_back(double(k_var));
+//        vars_upper_lim.push_back(double(k_var));
 
-        vars.push_back(limit);
-        vars_lower_lim.push_back(std::get<2>(set));
-		vars_upper_lim.push_back(std::get<3>(set));
+//        vars.push_back(limit);
+//        vars_lower_lim.push_back(std::get<2>(set));
+//        vars_upper_lim.push_back(std::get<3>(set));
     }
     condition(std::string vehicle_name, std::string func_name, size_t param = MAX_SIZE)
         : node(vehicle_name, "condition",func_name )
@@ -45,18 +45,18 @@ public:
 		else
 			k_var = param;
 
-		std::tuple<std::string,double,double,double> set = input( k_var );
+//		std::tuple<std::string,double,double,double> set = input( k_var );
 
-		var = std::get<0>(set);
-		limit = std::get<1>(set);
+//		var = std::get<0>(set);
+//		limit = std::get<1>(set);
 
-		vars.push_back(double(k_var));
-        vars_lower_lim.push_back(double(k_var));
-		vars_upper_lim.push_back(double(k_var));
+//		vars.push_back(double(k_var));
+//        vars_lower_lim.push_back(double(k_var));
+//		vars_upper_lim.push_back(double(k_var));
 
-        vars.push_back(limit);
-        vars_lower_lim.push_back(std::get<2>(set));
-		vars_upper_lim.push_back(std::get<3>(set));
+//        vars.push_back(limit);
+//        vars_lower_lim.push_back(std::get<2>(set));
+//		vars_upper_lim.push_back(std::get<3>(set));
     }
 
     size_t k_var;		// Parameter number
@@ -67,10 +67,12 @@ public:
 class less_than : public condition
 {
 public:
-	less_than(std::string vehicle_name, size_t param = MAX_SIZE)
+    less_than(std::string vehicle_name, std::string m_sensor_val ,size_t param = MAX_SIZE)
         : condition(vehicle_name, "less_than", param)
     {
+            var = m_sensor_val;
     }
+
     less_than(std::string vehicle_name, size_t param, double value)
     	: condition(vehicle_name, "less_than", param, value)
 	{
@@ -78,6 +80,7 @@ public:
 
     BT_Status update(blackboard *BLKB)
     {
+
 		double data = BLKB->get(var.data());
 		if ( data < limit )
 			return BH_SUCCESS;
@@ -89,9 +92,10 @@ public:
 class greater_than : public condition
 {
 public:
-	greater_than(std::string vehicle_name, size_t param = MAX_SIZE)
+    greater_than(std::string vehicle_name, std::string m_sensor_val, size_t param = MAX_SIZE)
 		: condition(vehicle_name, "greater_than", param)
     {
+                    var = m_sensor_val;
     }
     greater_than(std::string vehicle_name, size_t param, double value)
         : condition(vehicle_name, "greater_than", param, value)
@@ -106,31 +110,33 @@ public:
 		else
 			return BH_FAILURE;
     }
+
+    virtual int chooseAction(blackboard *BLKB)  {return 0;}
 };
 
-class memory_set : public condition
-{
-public:
-	memory_set(std::string vehicle_name, size_t param = MAX_SIZE)
-		: condition(vehicle_name, "memory_set", param)
-    {
-    }
-    memory_set(std::string vehicle_name, size_t param, double value)
-        : condition(vehicle_name, "memory_set", param, value)
-	{
-    }
+//class memory_set : public condition
+//{
+//public:
+//	memory_set(std::string vehicle_name, size_t param = MAX_SIZE)
+//		: condition(vehicle_name, "memory_set", param)
+//    {
+//    }
+//    memory_set(std::string vehicle_name, size_t param, double value)
+//        : condition(vehicle_name, "memory_set", param, value)
+//	{
+//    }
 
-    BT_Status update(blackboard *BLKB)
-    {
-		if ( BLKB->get("memory") ){
-			return BH_SUCCESS;
-		}
-		else{
-			return BH_FAILURE;
-		}
+//    BT_Status update(blackboard *BLKB)
+//    {
+//		if ( BLKB->get("memory") ){
+//			return BH_SUCCESS;
+//		}
+//		else{
+//			return BH_FAILURE;
+//		}
 
-    }
-};
+//    }
+//};
 
 }
 #endif // CONDITIONS_H

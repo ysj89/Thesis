@@ -9,6 +9,7 @@
 #include "../khepera/blackboard.h"
 #include "../khepera/solution_method.h"
 
+
 namespace BT
 {
 
@@ -43,6 +44,9 @@ public:
 	// general
 	BT_Status tick(blackboard *BLKB);
 	virtual BT_Status update(blackboard *BLKB) = 0;
+
+    virtual int chooseAction(blackboard *BLKB)  {return 0;}
+
 	virtual void onInitialise(){}
 	virtual void onTerminate(BT_Status){}
 
@@ -53,9 +57,9 @@ public:
 	size_t tick_counter;
 
 
-	std::vector<double> vars;      // node internal variables
-	std::vector<double> vars_upper_lim;
-        std::vector<double> vars_lower_lim;
+//	std::vector<double> vars;      // node internal variables
+//	std::vector<double> vars_upper_lim;
+//    std::vector<double> vars_lower_lim;
 };
 
 }

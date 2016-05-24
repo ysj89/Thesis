@@ -46,6 +46,7 @@ class sequence : public composite
 {
 protected:
 	BT_Status update(blackboard *BLKB);
+    virtual int chooseAction(blackboard *BLKB){return 0;}
 public:
 	sequence():
 		composite("sequence","composite","sequence")
@@ -58,6 +59,7 @@ class selector : public composite
 {
 protected:
 	BT_Status update(blackboard *BLKB);
+    virtual int chooseAction(blackboard *BLKB){return 0;}
 public:
 	selector():
 		composite("selector","composite","selector")
@@ -70,6 +72,7 @@ class parallel : public composite
 {
 protected:
 	BT_Status update(blackboard *BLKB);
+       virtual int chooseAction(blackboard *BLKB){return 0;}
 public:
 	parallel():
 		composite("parallel","composite","parallel")
