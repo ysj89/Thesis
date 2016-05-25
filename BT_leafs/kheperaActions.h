@@ -22,6 +22,17 @@ public:
     virtual int chooseAction(blackboard *BLKB){return 0;}
 };
 
+class turn_left : public node
+{
+public:
+    turn_left()
+        : node("khepera", "condition", "action")
+    {};
+
+    virtual enum BT_Status update(blackboard *BLKB) override;
+    virtual int chooseAction(blackboard *BLKB){return 0;}
+};
+
 class move : public node
 {
 public:

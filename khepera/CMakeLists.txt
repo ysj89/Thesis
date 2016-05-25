@@ -11,6 +11,14 @@ cmake_minimum_required(VERSION 2.8)
 file(GLOB SRC_LIST
     "*.h"
     "*.cpp"
+    "../BT/*.h"
+    "../BT/*.cpp"
+    "../BT_leafs/*.h"
+    "../BT_leafs/*.cpp"
+    "../EvolutionaryLearning/GP.h"
+    "../EvolutionaryLearning/GP.cpp"
+    "../EvolutionaryLearning/GP_utils.h"
+    "../EvolutionaryLearning/GP_utils.cpp"
 )
 
 add_definitions(-std=c++11)

@@ -57,9 +57,9 @@ public:
 	size_t tick_counter;
 
 
-//	std::vector<double> vars;      // node internal variables
-//	std::vector<double> vars_upper_lim;
-//    std::vector<double> vars_lower_lim;
+    std::vector<double> vars;      // node internal variables
+    std::vector<double> vars_upper_lim;
+    std::vector<double> vars_lower_lim;
 };
 
 }

@@ -5,9 +5,31 @@
 #include "load_files.h"
 #include "transitionmatrix.h"
 
+#include "bt_test_gp_kirk.h"
+#include "../EvolutionaryLearning/GP.h"
+
+
+
+using namespace BT;
+using namespace GP;
+
+struct run_gen_thread{
+    GP::citizens* population;
+    //delfly_sim_settings *settings;
+    //room* myroom;
+    int threadnr;
+    size_t k_run;
+    const char *log;
+};
+
 
 void Khepera_T::runKhepera_test(int totalsteps, std::string start)
 {
+
+
+
+
+
 
     TransitionMatrix TM1(500, 3);
 

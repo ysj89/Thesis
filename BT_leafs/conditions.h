@@ -14,9 +14,9 @@ namespace BT
 
 std::tuple<std::string,double,double,double> input ( int i );
 
-node* getCondition(std::string condition, size_t var = MAX_SIZE);
+node* getCondition(std::string condition,  std::string m_sensor, size_t var = MAX_SIZE);
 node* getCondition(std::string condition, std::vector<double> inputs);
-node* getCondition(size_t func = rand() % KCOND, size_t var = MAX_SIZE);
+node* getCondition(std::string m_sensor = ("sensor" + std::to_string(rand()%NUMBER_OF_SENSORS)) , size_t func = rand() % KCOND, size_t var = MAX_SIZE);
 
 class condition : public node
 {
@@ -109,6 +109,34 @@ public:
 			return BH_SUCCESS;
 		else
 			return BH_FAILURE;
+    }
+
+    virtual int chooseAction(blackboard *BLKB)  {return 0;}
+};
+
+
+
+class equal_to : public condition
+{
+public:
+    equal_to(std::string vehicle_name, std::string m_sensor_val, size_t param = MAX_SIZE)
+        : condition(vehicle_name, "equal_to", param)
+    {
+        var = m_sensor_val;
+    }
+    equal_to(std::string vehicle_name, std::string m_sensor_val, size_t param, double value)
+        : condition(vehicle_name, "equal_to", param, value)
+    {
+
+    }
+
+    BT_Status update(blackboard *BLKB)
+    {
+        double data = BLKB->get(var.data());
+        if ( data == limit )
+            return BH_SUCCESS;
+        else
+            return BH_FAILURE;
     }
 
     virtual int chooseAction(blackboard *BLKB)  {return 0;}

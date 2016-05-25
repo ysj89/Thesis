@@ -8,7 +8,7 @@
 #include "save_files.h"
 #include "blackboard.h"
 
-
+#define NUMBER_OF_SENSORS 8
 typedef enum Action_heading
 {
     TURN_RIGHT,

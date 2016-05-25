@@ -6,21 +6,24 @@
 #include "../BT_leafs/kheperaActions.h"
 #include "../BT/composites.h"
 #include "blackboard.h"
+#include "../EvolutionaryLearning/GP.h"
 
 
 namespace BT
 {
 
-class bt_test_gp_kirk
+class bt_test_gp_kirk : public Solution_method
 {
 public:
     bt_test_gp_kirk(blackboard *p_BLKB)
         : BLKB(p_BLKB),
           root(new selector),
-          sequence1(new sequence)
+          sequence1(new sequence),
+          equal_to1(new equal_to("khepera", "sensor3", 0)),
+          move1(new move),
+        turn_right1(new turn_right)
     {
-
-        root->addChild(sequence1);
+        buildingTree();
     }
 
 
@@ -32,11 +35,15 @@ public:
     blackboard* BLKB;
 
     composite* root;
-    node* sequence1;
+    sequence* sequence1;
+    equal_to* equal_to1;
+    move* move1;
+    turn_right* turn_right1;
+
 
     // Member functions
     void buildingTree();
-
+    virtual int chooseAction(blackboard *BLKB);
 
 
 

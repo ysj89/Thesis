@@ -127,51 +127,79 @@ void composite::reset()
 // sequence methods
 BT_Status sequence::update(blackboard* BLKB)
 {
-	// keep running while child behaviour is running
-	while(true)
-	{
-		BT_Status s = (*m_current)->tick(BLKB);
-		// if child succeeds, or keeps running, do the same
-		if (s != BH_SUCCESS)
-		{
-			return s;
-		}
+//	// keep running while child behaviour is running
+//	while(true)
+//	{
+//		BT_Status s = (*m_current)->tick(BLKB);
+//		// if child succeeds, or keeps running, do the same
+//		if (s != BH_SUCCESS)
+//		{
+//			return s;
+//		}
 
-		// hit the end of the array
-		if(++m_current == m_children.end())
-		{
-			return BH_SUCCESS;
-		}
-	}
-	std::cerr<<"Unexpected loop exit"<<std::endl;
-	assert(1);
-	return BH_INVALID;
+//		// hit the end of the array
+//		if(++m_current == m_children.end())
+//		{
+//			return BH_SUCCESS;
+//		}
+//	}
+//	std::cerr<<"Unexpected loop exit"<<std::endl;
+//	assert(1);
+//	return BH_INVALID;
+
+
+
+    for (node* child : getChildren())
+    {   // The generic Sequence implementation.
+        // If one child fails, then enter operation run() fails.  Success only results if all children succeed.
+
+        if (!child->update(BLKB))
+            return BH_FAILURE;
+    }
+    return BH_SUCCESS;  // All children suceeded, so the entire run() operation succeeds.
+
+
+
+
 }
 
 // ************************************************************************
 // selector methods
 BT_Status selector::update(blackboard* BLKB)
 {
-	// keep running while child behaviour is running
-	while(true)
-	{
-		BT_Status s = (*m_current)->tick(BLKB);
+//	// keep running while child behaviour is running
+//	while(true)
+//	{
+//		BT_Status s = (*m_current)->tick(BLKB);
 
-		// if child succeeds, or keeps running, do the same
-		if (s != BH_FAILURE)
-		{
-			return s;
-		}
+//		// if child succeeds, or keeps running, do the same
+//		if (s != BH_FAILURE)
+//		{
+//			return s;
+//		}
 
-		// hit the end of the array
-		if(++m_current == m_children.end())
-		{
-			return BH_FAILURE;
-		}
-	}
-	std::cerr<<"Unexpected loop exit"<<std::endl;
-	assert(1);
-	return BH_INVALID;
+//		// hit the end of the array
+//		if(++m_current == m_children.end())
+//		{
+//			return BH_FAILURE;
+//		}
+//	}
+//	std::cerr<<"Unexpected loop exit"<<std::endl;
+//	assert(1);
+//	return BH_INVALID;
+
+
+    for (node* child : getChildren())
+    {  // The generic Selector implementation
+        // If one child succeeds, the entire operation run() succeeds.  Failure only results if all children fail.
+
+        if (child->update(BLKB))
+            return BH_SUCCESS;
+    }
+    return BH_FAILURE;  // All children failed so the entire run() operation fails.
+
+
+
 }
 
 // ************************************************************************

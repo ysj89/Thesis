@@ -17,20 +17,21 @@ namespace BT
 // evaluate node
 BT_Status node::tick(blackboard *BLKB)
 {
-	BT_Status returnStatus;
-	// if not initialised, initialise
-	if (m_eStatus == BH_INVALID)
-		onInitialise();
-	// run node behaviour
+    BT_Status returnStatus;
+//	// if not initialised, initialise
+//	if (m_eStatus == BH_INVALID)
+//		onInitialise();
+
+    // run node behaviour
 	m_eStatus = update(BLKB);
 	returnStatus = m_eStatus;
 
-	// if completed, run terminate code and reinitialise
-	if(m_eStatus != BH_RUNNING)
-	{
-		onTerminate(m_eStatus);
-		m_eStatus = BH_INVALID;
-	}
+//	// if completed, run terminate code and reinitialise
+//	if(m_eStatus != BH_RUNNING)
+//	{
+//		onTerminate(m_eStatus);
+//		m_eStatus = BH_INVALID;
+//	}
 
 	tick_counter++;
 

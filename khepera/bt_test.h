@@ -63,7 +63,7 @@ private:
     Selector* selector1;
 
     void buildingTree();
-    void runTree(blackboard *BLKB);
+//    void runTree(blackboard *BLKB);
 
 
 };

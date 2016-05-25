@@ -76,7 +76,7 @@ void BehaviorTree::buildingTree()
 
 }
 
-void BehaviorTree::runTree(blackboard *BLKB)
-{
-    root->update(BLKB);
-}
+//void BehaviorTree::runTree(blackboard *BLKB)
+//{
+//    root->update(BLKB);
+//}
