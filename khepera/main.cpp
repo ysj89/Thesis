@@ -15,10 +15,12 @@
 #include "solution_method.h"
 
 #include "bt_test_gp_kirk.h"
+#include "../BT/btFile.h"
 
 
 
 using namespace BT_Structure;
+using namespace BT;
 
 int main(int argc, char *argv[])
 {
@@ -79,12 +81,13 @@ int main(int argc, char *argv[])
         Room room1(15,25);
         blackboard BB;
         BehaviorTree *sol_met = new BehaviorTree(&BB);
-        BT::bt_test_gp_kirk *sol_met1 = new BT::bt_test_gp_kirk(&BB);
+        bt_test_gp_kirk *sol_met1 = new BT::bt_test_gp_kirk(&BB);
 
         //Random_action *sol_met = new Random_action();
         //Agent_H Khepera_heading_bt(&room1, 3, 4, EAST, 9, 3, sol_met, &BB, SAVEDATA);
 
         Khepera_T Khepera_test_agent(sol_met1, &BB);
+        saveFile( "../../BT_saves/BT.txt" , sol_met1->root);
         Khepera_test_agent.runKhepera_test(150, "1,1,1,3,1,1,1,1,0");
     }
 

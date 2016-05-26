@@ -76,23 +76,49 @@ node* getCondition(std::string condition, std::vector<double> inputs)
     return task;
 }
 
-// Add all conditions to the if else if list below
-node* getCondition(std::string m_sensor /*=("sensor" + std::to_string(rand()%NUMBER_OF_SENSORS))*/ , size_t func /*= rand() % KCOND*/, size_t var /*= MAX_SIZE*/)
-{
+//// Add all conditions to the if else if list below
+//node* getCondition(std::string m_sensor /*=("sensor" + std::to_string(rand()%NUMBER_OF_SENSORS))*/ , size_t func /*= rand() % KCOND*/, size_t var /*= MAX_SIZE*/)
+//{
 
+//    node* task;
+//    switch (func)
+//    {
+//    case 0:
+//        task = (node*) new greater_than("khepera", "m_sensor", var);
+//        break;
+//    case 1:
+//        task = (node*) new less_than("khepera", "m_sensor", var);
+//        break;
+//    case 2:
+//        task = (node*) new equal_to("khepera", "m_sensor", var);
+//        break;
+//    default:
+//        std::cerr << "ERROR in getCondition(unsigned int func): number of conditions out of bounds"<<std::endl;
+//    }
+//    return task;
+//}
+
+
+
+node* getCondition(std::string m_sensor /*= ("sensor" + std::to_string(rand()%NUMBER_OF_SENSORS)) */, size_t func /* = rand() % KCOND*/, double value /* = rand()% NUMBER_OF_OBSERVATIONS*/)
+{
     node* task;
     switch (func)
     {
     case 0:
-        task = (node*) new greater_than("khepera", "m_sensor", var);
+        task = (node*) new greater_than("m_sensor", value);
         break;
     case 1:
-        task = (node*) new less_than("khepera", "m_sensor",  var);
-        break;   
+        task = (node*) new less_than("m_sensor", value);
+        break;
+    case 2:
+        task = (node*) new equal_to("m_sensor", value);
+        break;
     default:
         std::cerr << "ERROR in getCondition(unsigned int func): number of conditions out of bounds"<<std::endl;
     }
     return task;
 }
+
 
 }

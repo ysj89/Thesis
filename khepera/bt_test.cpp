@@ -29,26 +29,26 @@ int BehaviorTree::chooseAction(blackboard *BLKB)
 void BehaviorTree::buildingTree()
 {
     // TREE1
-//    root->addChild(sequence1);
-//    root->addChild(action_move);
-
-//    sequence1->addChild(check_for_wall_in_front);
-//    sequence1->addChild(action_turn_right);
-
-    // TREE2
     root->addChild(sequence1);
-    root->addChild(sequence2);
-    root->addChild(sequence3);
     root->addChild(action_move);
 
     sequence1->addChild(check_for_wall_in_front);
     sequence1->addChild(action_turn_right);
 
-    sequence2->addChild(check_apple_on_right_front);
-    sequence2->addChild(action_move);
+    // TREE2
+//    root->addChild(sequence1);
+//    root->addChild(sequence2);
+//    root->addChild(sequence3);
+//    root->addChild(action_move);
 
-    sequence3->addChild(check_apple_on_right);
-    sequence3->addChild(action_turn_right);
+//    sequence1->addChild(check_for_wall_in_front);
+//    sequence1->addChild(action_turn_right);
+
+//    sequence2->addChild(check_apple_on_right_front);
+//    sequence2->addChild(action_move);
+
+//    sequence3->addChild(check_apple_on_right);
+//    sequence3->addChild(action_turn_right);
 
     // TREE3
 //    root->addChild(sequence1);

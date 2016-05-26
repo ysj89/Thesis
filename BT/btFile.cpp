@@ -1,6 +1,5 @@
 
 
-
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -12,65 +11,65 @@
 namespace BT
 {
 
-//composite* loadFile(const char* file)
-//{
-//	node* root;
-//	nodes tasks;
+composite* loadFile(const char* file)
+{
+    node* root;
+    nodes tasks;
 
-//	std::string line;
-//	std::ifstream myfile;
+    std::string line;
+    std::ifstream myfile;
 
-//	size_t i_tab, currentTab = 0;
+    size_t i_tab, currentTab = 0;
 
-//	myfile.open(file);
-//	if (myfile.is_open())
-//	{
-//		//getfileInfo;
+    myfile.open(file);
+    if (myfile.is_open())
+    {
+        //getfileInfo;
 
-//		// get root node
-//		std::getline( myfile, line );
-//		line.erase (std::remove (line.begin(), line.end(), ' '), line.end());	// remove white spaces
-//		root = decodeLine( line );
-//		tasks.push_back(root);
+        // get root node
+        std::getline( myfile, line );
+        line.erase (std::remove (line.begin(), line.end(), ' '), line.end());	// remove white spaces
+        root = decodeLine( line );
+        tasks.push_back(root);
 
-//		// read rest of BT
-//		while ( std::getline(myfile, line) )
-//		{
-//			line.erase(std::remove (line.begin(), line.end(), ' '), line.end());	// remove white spaces
-//			// determine depth
-//			i_tab = std::count(line.begin(),line.end(),'\t');
+        // read rest of BT
+        while ( std::getline(myfile, line) )
+        {
+            line.erase(std::remove (line.begin(), line.end(), ' '), line.end());	// remove white spaces
+            // determine depth
+            i_tab = std::count(line.begin(),line.end(),'\t');
 
-//			// new sub task
-//			if(i_tab > currentTab)
-//			{
-//				tasks.push_back(newTask(tasks.back(),line));
-//				currentTab = i_tab;
-//				continue; // read next line
-//			}
+            // new sub task
+            if(i_tab > currentTab)
+            {
+                tasks.push_back(newTask(tasks.back(),line));
+                currentTab = i_tab;
+                continue; // read next line
+            }
 
-//			// end of sub tasks, move to new task
-//			else if(i_tab < currentTab)
-//			{
-//				while(i_tab != currentTab)
-//				{
-//					tasks.pop_back();
-//					--currentTab;
-//				}
-//			}
-//			// add new task
-//			tasks.pop_back();
-//			tasks.push_back(newTask(tasks.back(),line));
-//			//continue to next line
-//		}
-//		myfile.close();
-//	}
-//	else
-//	{
-//		printf("ERROR! Unable to open behaviour tree file:\n%s\n\n", file);
-//		exit(-1);
-//	}
-//	return (composite*) root;
-//}
+            // end of sub tasks, move to new task
+            else if(i_tab < currentTab)
+            {
+                while(i_tab != currentTab)
+                {
+                    tasks.pop_back();
+                    --currentTab;
+                }
+            }
+            // add new task
+            tasks.pop_back();
+            tasks.push_back(newTask(tasks.back(),line));
+            //continue to next line
+        }
+        myfile.close();
+    }
+    else
+    {
+        printf("ERROR! Unable to open behaviour tree file:\n%s\n\n", file);
+        exit(-1);
+    }
+    return (composite*) root;
+}
 
 bool saveFile(const char* file, composite* task)
 {
@@ -119,91 +118,91 @@ void writeComposite(std::ofstream &myfile, composite* parent, size_t tabs)
 ///*
 //  Create new child and add to parent composite
 // */
-//node* newTask(node* Parent, std::string line)
-//{
-//	// decode line and create new task
-//	composite* parent = (composite*)Parent;
-//	node* task = decodeLine(line);
+node* newTask(node* Parent, std::string line)
+{
+    // decode line and create new task
+    composite* parent = (composite*)Parent;
+    node* task = decodeLine(line);
 
-//	parent->addChild(task);
+    parent->addChild(task);
 
-//	return task;
-//}
+    return task;
+}
 
-///*
-//  Decode BT task from HTML style string line
-// */
-//node* decodeLine(std::string line)
-//{
-//	// std::stringstream ss(line);
-//	// std::string current;
-//	node* task;
+/*
+  Decode BT task from HTML style string line
+ */
+node* decodeLine(std::string line)
+{
+    // std::stringstream ss(line);
+    // std::string current;
+    node* task;
 
-//	std::string param, function, vars;
-//	std::vector<double> values;
+    std::string param, function, vars;
+    std::vector<double> values;
 
-//	// temporary place holders
-//	std::size_t start, end, pos1, pos2;
+    // temporary place holders
+    std::size_t start, end, pos1, pos2;
 
-//	// find function type
-//	start = line.find("<function>") + 10;
-//	end = line.find_first_of("<",start);
-//	function = line.substr(start,end-start);
+    // find function type
+    start = line.find("<function>") + 10;
+    end = line.find_first_of("<",start);
+    function = line.substr(start,end-start);
 
-//	// find task type
-//	start = line.find("<BTtype>") + 8;
-//	end = line.find_first_of("<",start);
-//	param = line.substr(start,end-start);
+    // find task type
+    start = line.find("<BTtype>") + 8;
+    end = line.find_first_of("<",start);
+    param = line.substr(start,end-start);
 
-//	// find task variables
-//	start = line.find("<vars>") + 6;
-//	end = line.find_first_of("<",start);
-//	vars = line.substr(start,end-start);
+    // find task variables
+    start = line.find("<vars>") + 6;
+    end = line.find_first_of("<",start);
+    vars = line.substr(start,end-start);
 
-//	if ((start - end) > 0)
-//	{
-//		pos1 = 0; pos2 = 0;
-//		while(pos1 < vars.length())
-//		{
-//			if (vars.find(",",pos1) == std::string::npos)
-//				pos2 = vars.length();
-//			else
-//				pos2 = vars.find(",", pos1);
-//			values.push_back(atof((vars.substr(pos1, pos2 - pos1)).c_str()));
-//			pos1 = pos2 + 1;
-//		}
-//	}
+    if ((start - end) > 0)
+    {
+        pos1 = 0; pos2 = 0;
+        while(pos1 < vars.length())
+        {
+            if (vars.find(",",pos1) == std::string::npos)
+                pos2 = vars.length();
+            else
+                pos2 = vars.find(",", pos1);
+            values.push_back(atof((vars.substr(pos1, pos2 - pos1)).c_str()));
+            pos1 = pos2 + 1;
+        }
+    }
 
-//	if (param.compare("action") == 0)
-//		task = getAction( function , values );
-//	else if (param.compare("condition") == 0)
-//		task = getCondition( function, values);
-//	else if (param.compare("composite") == 0)
-//		task = getComposite( function );
-//	else
-//		std::cout << "Unidentified BTtype: "<< param<<std::endl;
+    if (param.compare("action") == 0)
+        task = getAction( function , values );
+    else if (param.compare("condition") == 0)
+        task = getCondition( function, values);
+    else if (param.compare("composite") == 0)
+        task = getComposite( function );
+    else
+        std::cout << "Unidentified BTtype: "<< param<<std::endl;
 
-//	/*
-//    else
-//    {
-//        if (param.compare("Action") == 0)
-//            task = getAction( function );
-//        else if (param.compare("Condition") == 0)
-//            task = getCondition( function );
-//        else if (param.compare("composite") == 0)
-//            task = getComposite( function );
-//        else
-//            std::cout << "Unidentified BTtype: "<< param<<std::endl;
-//    }
-//	 */
-//	// find name of task
-//	start = line.find("<name>") + 6;
-//	end = line.find_first_of("<",start+1);
-//	param = line.substr(start,end-start);
-//	task->name = param;
+    /*
+    else
+    {
+        if (param.compare("Action") == 0)
+            task = getAction( function );
+        else if (param.compare("Condition") == 0)
+            task = getCondition( function );
+        else if (param.compare("composite") == 0)
+            task = getComposite( function );
+        else
+            std::cout << "Unidentified BTtype: "<< param<<std::endl;
+    }
+     */
+    // find name of task
+    start = line.find("<name>") + 6;
+    end = line.find_first_of("<",start+1);
+    param = line.substr(start,end-start);
+    task->name = param;
 
-//	return task;
-//}
+    return task;
+}
 
 /*
  * Code BT task to string line

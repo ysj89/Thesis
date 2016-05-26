@@ -15,7 +15,7 @@ class turn_right : public node
 {
 public:
     turn_right()
-        : node("khepera", "condition", "action")
+        : node("khepera", "action", "turn_right")
     {};
 
     virtual enum BT_Status update(blackboard *BLKB) override;
@@ -26,7 +26,7 @@ class turn_left : public node
 {
 public:
     turn_left()
-        : node("khepera", "condition", "action")
+        : node("khepera", "action", "turn_left")
     {};
 
     virtual enum BT_Status update(blackboard *BLKB) override;
@@ -37,7 +37,7 @@ class move : public node
 {
 public:
     move()
-        : node("khepera", "condition", "action")
+        : node("khepera", "action", "move")
     {};
 
     virtual enum BT_Status update(blackboard *BLKB) override;

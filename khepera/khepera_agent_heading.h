@@ -9,6 +9,8 @@
 #include "blackboard.h"
 
 #define NUMBER_OF_SENSORS 8
+#define NUMBER_OF_OBSERVATIONS 4
+
 typedef enum Action_heading
 {
     TURN_RIGHT,

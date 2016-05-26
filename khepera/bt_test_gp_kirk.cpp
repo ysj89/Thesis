@@ -21,10 +21,11 @@ void bt_test_gp_kirk::buildingTree()
 //    sequence1->addChild(equal_to1);
 //    sequence1->addChild(turn_right1);
 
-    GP::filledRandBT(root,2);
+    GP::filledRandBT(root,3);
 
-    // save BT to file for SmartUAV
-    BT::saveFile( "../BT_saves/BT" , root);
+//    save BT to file for SmartUAV
+//    BT::saveFile( "../../BT_saves/BT.txt" , root);
+
 
 
 }

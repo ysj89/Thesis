@@ -41,7 +41,7 @@ public:
 
     blackboard *BLKB;
 
-private:
+public:
     // Conditions
     Equal_to* check_for_wall_in_front;
     Equal_to* check_for_apple_in_front_s0;
