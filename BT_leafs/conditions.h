@@ -19,6 +19,10 @@ node* getCondition(std::string condition, std::vector<double> inputs);
 //node* getCondition(std::string m_sensor = ("sensor" + std::to_string(rand()%NUMBER_OF_SENSORS)) , size_t func = rand() % KCOND, size_t var = MAX_SIZE);
 node* getCondition(std::string m_sensor = ("sensor" + std::to_string(rand()%NUMBER_OF_SENSORS)), size_t func = rand() % KCOND, double value = rand()% NUMBER_OF_OBSERVATIONS);
 
+
+/*
+  CONDITION CLASS
+ */
 class condition : public node
 {
 public:
@@ -27,16 +31,6 @@ public:
           k_var(param),
 		  limit(value)
 	{
-//        std::tuple<std::string,double,double,double> set = input( k_var );
-//        var = std::get<0>(set);
-
-//        vars.push_back(double(k_var));
-//        vars_lower_lim.push_back(double(k_var));
-//        vars_upper_lim.push_back(double(k_var));
-
-//        vars.push_back(limit);
-//        vars_lower_lim.push_back(std::get<2>(set));
-//        vars_upper_lim.push_back(std::get<3>(set));
     }
     condition(std::string vehicle_name, std::string func_name, size_t param = MAX_SIZE)
         : node(vehicle_name, "condition",func_name )
@@ -45,33 +39,24 @@ public:
 			k_var = rand() % NUMBER_OF_VARS;
 		else
 			k_var = param;
-
-//		std::tuple<std::string,double,double,double> set = input( k_var );
-
-//		var = std::get<0>(set);
-//		limit = std::get<1>(set);
-
-//		vars.push_back(double(k_var));
-//        vars_lower_lim.push_back(double(k_var));
-//		vars_upper_lim.push_back(double(k_var));
-
-//        vars.push_back(limit);
-//        vars_lower_lim.push_back(std::get<2>(set));
-//		vars_upper_lim.push_back(std::get<3>(set));
-
     }
     condition(std::string vehicle_name, std::string func_name, double value)
         : node(vehicle_name, "condition", func_name),
         limit(value)
     {
-
     }
-
     size_t k_var;		// Parameter number
 	std::string var;	// Parameter name
     double limit;		// threshold
 };
 
+
+
+
+
+/*
+ * LESS_THAN CLASS
+ */
 class less_than : public condition
 {
 public:

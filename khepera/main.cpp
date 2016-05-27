@@ -16,6 +16,7 @@
 
 #include "bt_test_gp_kirk.h"
 #include "../BT/btFile.h"
+#include "../EvolutionaryLearning/GP.h"
 
 
 
@@ -86,9 +87,13 @@ int main(int argc, char *argv[])
         //Random_action *sol_met = new Random_action();
         //Agent_H Khepera_heading_bt(&room1, 3, 4, EAST, 9, 3, sol_met, &BB, SAVEDATA);
 
+
+        //run_ge
+
         Khepera_T Khepera_test_agent(sol_met1, &BB);
         saveFile( "../../BT_saves/BT.txt" , sol_met1->root);
         Khepera_test_agent.runKhepera_test(150, "1,1,1,3,1,1,1,1,0");
+        Khepera_test_agent.runKhepera_wiht_GP(150, "1,1,1,3,1,1,1,1,0");
     }
 
     // Calculate execution time

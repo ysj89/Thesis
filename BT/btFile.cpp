@@ -115,9 +115,9 @@ void writeComposite(std::ofstream &myfile, composite* parent, size_t tabs)
     }
 }
 
-///*
-//  Create new child and add to parent composite
-// */
+/*
+  Create new child and add to parent composite
+ */
 node* newTask(node* Parent, std::string line)
 {
     // decode line and create new task

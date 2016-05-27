@@ -33,6 +33,8 @@ public:
     blackboard *BLKB;
     Load load;
 
+    double score_tree;
+
     std::unordered_map<std::string, ActionScoreMap> Qtable;
     std::vector<std::vector<std::vector<double> > >transitionMatrix;
     std::vector<std::vector<std::vector<int> > > transitionMatrix_discrete_distribution;
@@ -42,7 +44,9 @@ public:
     std::vector<int> vals;
     std::vector<int> state_vec_temp;
 
+
     void runKhepera_test(int totalsteps, std::string start);
+    void runKhepera_wiht_GP(int totalsteps, std::string start);
 
     unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
 

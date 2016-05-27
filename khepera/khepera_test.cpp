@@ -1,5 +1,6 @@
 #include <algorithm>    // std::find
 #include <random>       // random
+#include <mutex>
 
 #include "khepera_test.h"
 #include "load_files.h"
@@ -23,11 +24,122 @@ struct run_gen_thread{
 };
 
 
+size_t next;
+std::mutex mtx;
+
+// define globals
+const double t_end = 150.;
+size_t generation = 0;
+size_t k_generations = 50;
+
+
+
+void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start)
+{
+
+
+    // 1. Initialize Settings()
+    void* thread_arg;
+    run_gen_thread* thread_data = (run_gen_thread*)thread_arg;
+
+    composite* tree;
+    double t;
+    std::vector<double> value_function;
+    size_t k_population = thread_data->population->size();
+
+    //printf("thread params: %d %d\n",start, k_population);
+    size_t j;
+
+    mtx.lock();
+    j = next++;
+    mtx.unlock();
+
+
+    // 2. Initialize Tree_population()
+    while(j < k_population)
+    {
+        tree = thread_data->population->at(j)->BT;
+
+    #ifdef RETEST
+        if(thread_data->population->at(j)->VF[0].size() > thread_data->k_run){
+            for (size_t i = 0; i < thread_data->population->at(j)->VF.size(); i++)	// don't reevaluate members
+            {
+                thread_data->population->at(j)->VF[i].clear();
+            }
+        }
+    #endif
+
+        for (size_t i = thread_data->population->at(j)->VF[0].size(); i <= thread_data->k_run; i++)	// don't reevaluate members
+        {
+            // add place holders for new run
+            for (size_t k = 0; k < thread_data->population->at(j)->VF.size(); k++)
+                thread_data->population->at(j)->VF[k].push_back(0.);
+
+            // reset behaviour scores
+            if (i == 0){
+                for(size_t k = 0; k < thread_data->population->at(j)->path_behaviour.size(); k++){
+                    thread_data->population->at(j)->path_behaviour[k] = 0.;
+                }
+            }
+
+            // set initial wheel speed in BB
+//            BB.set("wheelSpeed0",0.);
+//            BB.set("wheelSpeed1",0.);
+
+//            kheperaDynamics khepera(thread_data->settings->at(i));
+
+            t = 0.;
+            double forward = 0., back = 0., left = 0., right = 0.;
+            uint32_t counter = 0;
+
+
+
+            // 3. runKhepera_test() for tree
+            runKhepera_test(totalsteps, start);
+
+
+            // 4. Store BT_Q_value
+            thread_data->population->at(j)->VF[0][1] = score_tree;
+
+            /* evaluate fitness functions */
+            thread_data->population->at(j)->comp_fit_stats();
+
+
+
+        }
+
+        mtx.lock();
+        j = next++;
+        mtx.unlock();
+
+
+
+
+    }
+
+
+
+
+
+
+
+
+    // 5. Procreate BTs
+
+
+
+}
+
 void Khepera_T::runKhepera_test(int totalsteps, std::string start)
 {
 
 
+//    run_gen_thread* thread_data = (run_gen_thread*)thread_arg;
 
+//    composite* tree;
+//    double t;
+//    std::vector<double> value_function;
+//    size_t k_population = thread_data->population->size();
 
 
 
@@ -36,6 +148,10 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
     double score_total;
     std::string state = start;
     std::string state_new;
+
+
+
+
 
     for(int steps = 0; steps < totalsteps; steps++)
     {
@@ -68,10 +184,17 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
         BLKB->set("sensor7", state_vec_temp[7]);
 
         state = state_new;
+
     }
 
+
+
     std::cout << "The total score is: " << score_total << std::endl;
+    score_tree = score_total;
 }
+
+
+
 
 std::vector<int> Khepera_T::string2vec(std::string state)
 {
