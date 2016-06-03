@@ -7,6 +7,9 @@
 #include "load_files.h"
 #include "transitionmatrix.h"
 #include "solution_method.h"
+#include "../EvolutionaryLearning/GP.h"
+
+
 
 class Khepera_T
 {
@@ -46,7 +49,8 @@ public:
 
 
     void runKhepera_test(int totalsteps, std::string start);
-    void runKhepera_wiht_GP(int totalsteps, std::string start);
+    void runKhepera_wiht_GP(int totalsteps, std::string start, blackboard *p_BLKB);
+    void run_gen(GP::citizens* population, size_t k_run);
 
     unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
 

@@ -64,17 +64,6 @@ int main(int argc, char *argv[])
     }
 
 
-    //        std::unordered_map<std::string, ActionScoreMap> Qtable;
-    //        std::vector<std::vector<std::vector<double> > >transitionPM;
-    //        std::unordered_map<std::string, int> string2intConversion;
-
-    //        if(LOAD == 1)
-    //        {
-    //        Qtable = load.loadQtable1();
-    //        transitionPM = load.loadTransitionMatrix();
-    //        string2intConversion = load.loadString2Int();
-    //        }
-
     if(TESTCASE == 1)
     {
         // BT TEST CODE
@@ -88,12 +77,10 @@ int main(int argc, char *argv[])
         //Agent_H Khepera_heading_bt(&room1, 3, 4, EAST, 9, 3, sol_met, &BB, SAVEDATA);
 
 
-        //run_ge
-
         Khepera_T Khepera_test_agent(sol_met1, &BB);
         saveFile( "../../BT_saves/BT.txt" , sol_met1->root);
-        Khepera_test_agent.runKhepera_test(150, "1,1,1,3,1,1,1,1,0");
-        Khepera_test_agent.runKhepera_wiht_GP(150, "1,1,1,3,1,1,1,1,0");
+        //Khepera_test_agent.runKhepera_test(150, "1,1,1,3,1,1,1,1,0");
+        Khepera_test_agent.runKhepera_wiht_GP(150, "1,1,1,3,1,1,1,1,0", &BB);
     }
 
     // Calculate execution time

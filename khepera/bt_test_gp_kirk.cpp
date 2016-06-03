@@ -32,8 +32,8 @@ void bt_test_gp_kirk::buildingTree()
 
 int bt_test_gp_kirk::chooseAction(blackboard *BLKB)
 {
-    root->update(BLKB);
-    return 0;
+//    root->update(BLKB);
+//    return 0;
 }
 
 
