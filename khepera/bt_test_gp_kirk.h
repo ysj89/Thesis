@@ -19,17 +19,14 @@ public:
         : BLKB(p_BLKB),
           root(new selector),
           sequence1(new sequence),
-          equal_to1(new equal_to("khepera", "sensor3", 0)),
+          equal_to1(new equal_to("khepera", 3, 0)),
           move1(new move),
         turn_right1(new turn_right)
     {
         buildingTree();
     }
 
-
     ~bt_test_gp_kirk();
-
-
 
     // Member variable
     blackboard* BLKB;
@@ -40,12 +37,9 @@ public:
     move* move1;
     turn_right* turn_right1;
 
-
     // Member functions
     void buildingTree();
     virtual int chooseAction(blackboard *BLKB);
-
-
 
 };
 

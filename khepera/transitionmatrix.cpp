@@ -153,7 +153,7 @@ std::string TransitionMatrix::transition(std::string state1, int action)
         //std::string new_state = returnNextState_double(probability);
         std::string new_state = returnNextState_int(transition_count);
 
-        std::cout << "The new state is: " <<new_state << std::endl;
+        //std::cout << "The new state is: " <<new_state << std::endl;
         return new_state;
     }
     else

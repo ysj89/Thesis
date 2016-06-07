@@ -24,7 +24,7 @@ void bt_test_gp_kirk::buildingTree()
     GP::filledRandBT(root,3);
 
 //    save BT to file for SmartUAV
-//    BT::saveFile( "../../BT_saves/BT.txt" , root);
+    BT::saveFile( "../../BT_saves/BT2.txt" , root);
 
 
 

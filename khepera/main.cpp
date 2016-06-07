@@ -25,9 +25,6 @@ using namespace BT;
 
 int main(int argc, char *argv[])
 {
-    // Calculate execution time
-    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
-
     bool SAVEDATA = 0;
     bool RUN = 0;
     bool TESTCASE = 1;
@@ -67,6 +64,10 @@ int main(int argc, char *argv[])
     if(TESTCASE == 1)
     {
         // BT TEST CODE
+
+        // Calculate execution time
+        std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+
         SAVEDATA = 0;
         Room room1(15,25);
         blackboard BB;
@@ -78,15 +79,22 @@ int main(int argc, char *argv[])
 
 
         Khepera_T Khepera_test_agent(sol_met1, &BB);
-        saveFile( "../../BT_saves/BT.txt" , sol_met1->root);
+
+//        saveFile( "../../BT_saves/BT.txt" , sol_met1->root);
+
         //Khepera_test_agent.runKhepera_test(150, "1,1,1,3,1,1,1,1,0");
+
         Khepera_test_agent.runKhepera_wiht_GP(150, "1,1,1,3,1,1,1,1,0", &BB);
+
+
+
+        // Calculate execution time
+        std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+        double duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
+        std::cout << "\n" << duration / 1000000 << " seconds" << "\n";
     }
 
-    // Calculate execution time
-    std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-    double duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
-    std::cout << "\n" << duration / 1000000 << " seconds" << "\n";
+
 
     return 0;
 

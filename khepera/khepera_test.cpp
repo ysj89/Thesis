@@ -8,6 +8,7 @@
 
 #include "bt_test_gp_kirk.h"
 #include "../EvolutionaryLearning/GP.h"
+#include "../EvolutionaryLearning/test_common.h"
 
 
 
@@ -34,20 +35,24 @@ std::mutex mtx;
 void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard *p_BLKB)
 {
 
+    // set up new file directory
+    std::stringstream workingfolder, filename;
+    workingfolder<<"../BTsaves/";
+    filename<<workingfolder.str()<<"statistics.txt";
+    std::string statsFileName(filename.str());
+
 
     // 1. Initialize Settings()
-
 
     // define globals
     const double t_end = 150.;
     size_t generation = 0;
-    size_t k_generations = 50;
+    size_t k_generations = 1;
 
     // define GP parameters
     size_t k_population = 100;       // currently need at least 5, need to include a check to force this
     size_t max_runs = 5;
     size_t run = 0;
-
 
     // 2. Initialize Tree_population()
     citizens population;
@@ -59,7 +64,6 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
         population.push_back( new citizen(1, 1) );
 
     std::vector<double> avg_fitness;
-
 
     // 3. runKhepera_test() for tree
 
@@ -73,20 +77,32 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
         run_gen((citizens*)&world_pop, max_runs);
 
 
+        // Calculate statistics
+
+        std::sort(population.begin(), population.end(), sort_mean<citizen>);
+
+        // get average run score using simple average over objectives
+        avg_fitness[run] = 0.;
+        for (size_t k = 0; k < population.front()->VFmean.size(); k++)
+            avg_fitness[run] += population.front()->VFmean[k];
+        avg_fitness[run] /= population.front()->VF.size();
 
 
+        // plot run statistics
+        std::sort(archive.begin(), archive.end(), sort_mean<citizen>);
+        std::sort(population.begin(), population.end(), sort_mean<citizen>);
 
-        // 4. Store BT_Q_value
-        //thread_data->population->at(j)->VF[0][1] = score_tree;
+        // Save statistics
+        std::sort(world_pop.begin(), world_pop.end(), sort_mean<citizen>);
+        save_statistics((citizens*)&world_pop, generation, statsFileName);
+
+        world_pop.clear();
+        world_pop.insert( world_pop.end(), archive.begin(), archive.end() );
+        world_pop.insert( world_pop.end(), population.begin(), population.end() );
 
 
         // 5. Procreate BTs
     }
-
-
-
-
-
 
 }
 
@@ -97,79 +113,54 @@ void Khepera_T::run_gen(citizens *population, size_t k_run)
     composite* tree;
     int action;
     double score_total;
-    std::string state = "1,1,1,3,1,1,1,1,0";
-    std::string state_new;
+    std::string state_init = "1,1,1,3,1,1,1,1,0";
+    std::string state;
 
      for(size_t i = 0; i < population->size(); i++)
     {
-
-
-
-         double score = 0;
-         double score_av = 0;
+         score_total = 0.;
+         tree = population->at(i)->BT;
 
         for(size_t j = 0; j < k_run; j++) // <- Run same tree multiple times to get good score
         {
             t = 0;
-
+            state = state_init;
             while(t < t_end)
             {
+                // char to num
+                BLKB->set("sensor0", state.at(0) - 48);
+                BLKB->set("sensor1", state.at(2) - 48);
+                BLKB->set("sensor2", state.at(4) - 48);
+                BLKB->set("sensor3", state.at(6) - 48);
+                BLKB->set("sensor4", state.at(8) - 48);
+                BLKB->set("sensor5", state.at(10) - 48);
+                BLKB->set("sensor6", state.at(12) - 48);
+                BLKB->set("sensor7", state.at(14) - 48);
 
-            tree = population->at(i)->BT;
+                tree->update(BLKB);
+        //        sol_met->chooseAction(p_BLKB);
 
-            tree->update(BLKB);
-    //        sol_met->chooseAction(p_BLKB);
+                action = static_cast<int> (BLKB->get("action") ); // read action from blackboard
 
+                // get new state
+                state = transition(state, action);
 
+                // get value new state
+                score_total += Qtable[state][action];
 
-            action = static_cast<int> (BLKB->get("action") ); // read action from blackboard
+                t++;
+            }   // t < tend
+        }   // run
 
-            // get new state
-            state_new = transition(state, action);
+        // add place holders for new run
+        for (size_t k = 0; k < population->at(i)->VF.size(); k++)
+            population->at(i)->VF[k].push_back(0.);
 
-            // get value new state
-            ActionScoreMap as;
-            as = Qtable[state_new];
-
-
-            score = as[action];
-            score_total = score_total + score;
-
-            // convert state back to vector and put on BB
-            state_vec_temp = string2vec(state_new);
-            BLKB->set("sensor0", state_vec_temp[0]);
-            BLKB->set("sensor1", state_vec_temp[1]);
-            BLKB->set("sensor2", state_vec_temp[2]);
-            BLKB->set("sensor3", state_vec_temp[3]);
-            BLKB->set("sensor4", state_vec_temp[4]);
-            BLKB->set("sensor5", state_vec_temp[5]);
-            BLKB->set("sensor6", state_vec_temp[6]);
-            BLKB->set("sensor7", state_vec_temp[7]);
-
-
-            state = state_new;
-            t++;
-
-            }
-            score_av = score_total / k_run;
-
-            std::cout << "KHEPERA_TEST:: the average score is: " << score_av << "\n";
-            population->at(j)->VF[0][0] = score_av;		// size
+        std::cout << "KHEPERA_TEST:: the average score is: " << score_total / k_run << "\n";
+        population->at(i)->VF[0][0] =  score_total / k_run;		// size
 
 
-//        score_tree = score_tree/k_run
-
-        }
-
-    }
-
-
-
-
-        // run tree x-times
-        // store tree _score
-
-
+    }   // population size
 
 }
 
@@ -201,24 +192,18 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
         score = as[action];
         score_total = score_total + score;
 
-        // convert state back to vector and put on BB
-        state_vec_temp = string2vec(state_new);
-        BLKB->set("sensor0", state_vec_temp[0]);
-        BLKB->set("sensor1", state_vec_temp[1]);
-        BLKB->set("sensor2", state_vec_temp[2]);
-        BLKB->set("sensor3", state_vec_temp[3]);
-        BLKB->set("sensor4", state_vec_temp[4]);
-        BLKB->set("sensor5", state_vec_temp[5]);
-        BLKB->set("sensor6", state_vec_temp[6]);
-        BLKB->set("sensor7", state_vec_temp[7]);
+        BLKB->set("sensor0", state_new.at(0) - 48);
+        BLKB->set("sensor1", state_new.at(2) - 48);
+        BLKB->set("sensor2", state_new.at(4) - 48);
+        BLKB->set("sensor3", state_new.at(6) - 48);
+        BLKB->set("sensor4", state_new.at(8) - 48);
+        BLKB->set("sensor5", state_new.at(10) - 48);
+        BLKB->set("sensor6", state_new.at(12) - 48);
+        BLKB->set("sensor7", state_new.at(14) - 48);
 
         state = state_new;
-
     }
-
-
-
-    std::cout << "The total score is: " << score_total << std::endl;
+    //std::cout << "The total score is: " << score_total << std::endl;
     score_tree = score_total;
 }
 
@@ -236,6 +221,7 @@ std::vector<int> Khepera_T::string2vec(std::string state)
             int int_state = s - 48 ;
             state_vec.push_back(int_state);
         }
+
         return state_vec;
 }
 
@@ -256,7 +242,7 @@ std::string Khepera_T::transition(std::string state, int action)
     {
 
         std::string new_state = returnNextState(discrete_distribution_vec);
-        std::cout << "The new state is: " <<new_state << std::endl;
+        //std::cout << "The new state is: " <<new_state << std::endl;
         return new_state;
     }
     else
@@ -269,10 +255,11 @@ std::string Khepera_T::transition(std::string state, int action)
 std::vector<int> Khepera_T::getTransitions(std::string state, int action)
 {
     std::vector<int> TP;
-    TP.reserve(string2int.size());
     int in_state = string2int[state];
 
-    for(unsigned i = 0; i <  (transitionMatrix_discrete_distribution[1].size()); i++ )
+    TP.reserve(transitionMatrix_discrete_distribution[in_state].size());
+
+    for(unsigned i = 0; i <  (transitionMatrix_discrete_distribution[in_state].size()); i++ )
     {
         TP.push_back(transitionMatrix_discrete_distribution[in_state][i][action]);
     }
@@ -287,14 +274,7 @@ std::string Khepera_T::returnNextState(std::vector<int> transitionVector)
 
     std::discrete_distribution<> distr(transitionVector.begin(), transitionVector.end());
 
-    unsigned next_state = distr(generator);
+    std::vector<int>::iterator it = std::find(vals.begin(), vals.end(), distr(generator));
 
-    std::vector<int>::iterator it = std::find(vals.begin(), vals.end(), next_state);
-    int pos = std::distance(vals.begin(), it);
-
-    std::string new_state = keys[pos];
-
-    return new_state;
+    return keys[std::distance(vals.begin(), it)];
 }
-
-

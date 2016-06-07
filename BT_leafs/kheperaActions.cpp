@@ -17,7 +17,7 @@ namespace BT
 enum BT_Status turn_right::update(blackboard *BLKB)
 {
     BLKB->set("action",0);
-    std::cout << "BT_ACTION: action = turn_right " << std::endl;
+    //std::cout << "BT_ACTION: action = turn_right " << std::endl;
     return BH_SUCCESS;
 }
 
@@ -25,7 +25,7 @@ enum BT_Status turn_right::update(blackboard *BLKB)
 enum BT_Status move::update(blackboard *BLKB)
 {
     BLKB->set("action", 2);
-    std::cout << "BT_ACTION: action = move_forward " << std::endl;
+    //std::cout << "BT_ACTION: action = move_forward " << std::endl;
     return BH_SUCCESS;
 }
 

@@ -19,6 +19,8 @@ file(GLOB SRC_LIST
     "../EvolutionaryLearning/GP.cpp"
     "../EvolutionaryLearning/GP_utils.h"
     "../EvolutionaryLearning/GP_utils.cpp"
+    "../EvolutionaryLearning/test_common.h"
+    "../EvolutionaryLearning/test_common.cpp"
 )
 
 add_definitions(-std=c++11)
