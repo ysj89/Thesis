@@ -47,7 +47,7 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
     // define globals
     const double t_end = 150.;
     size_t generation = 0;
-    size_t k_generations = 1;
+    size_t k_generations = 50;
 
     // define GP parameters
     size_t k_population = 100;       // currently need at least 5, need to include a check to force this
@@ -63,7 +63,7 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
     for (size_t i= 0; i < k_population; i++)
         population.push_back( new citizen(1, 1) );
 
-    std::vector<double> avg_fitness;
+    std::vector<double> avg_fitness(max_runs);
 
     // 3. runKhepera_test() for tree
 
@@ -73,9 +73,7 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
         world_pop.insert( world_pop.end(), archive.begin(), archive.end() );
         world_pop.insert( world_pop.end(), population.begin(), population.end() );
 
-
         run_gen((citizens*)&world_pop, max_runs);
-
 
         // Calculate statistics
 
@@ -100,8 +98,9 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
         world_pop.insert( world_pop.end(), archive.begin(), archive.end() );
         world_pop.insert( world_pop.end(), population.begin(), population.end() );
 
-
         // 5. Procreate BTs
+        procreate( &archive, &population );   // check this, now procreating and doing nothing with last pop
+
     }
 
 }
@@ -123,6 +122,10 @@ void Khepera_T::run_gen(citizens *population, size_t k_run)
 
         for(size_t j = 0; j < k_run; j++) // <- Run same tree multiple times to get good score
         {
+            // add place holders for new run
+            for (size_t k = 0; k < population->at(i)->VF.size(); k++)
+                population->at(i)->VF[k].push_back(0.);
+
             t = 0;
             state = state_init;
             while(t < t_end)
@@ -150,14 +153,18 @@ void Khepera_T::run_gen(citizens *population, size_t k_run)
 
                 t++;
             }   // t < tend
+
+            //std::cout << "KHEPERA_TEST:: the average score is: " << score_total / k_run << "\n";
+            population->at(i)->VF[0][j] =  score_total;		// size
+
+            population->at(i)->comp_fit_stats();	// needs to be run for every simulation run!
+
         }   // run
 
-        // add place holders for new run
-        for (size_t k = 0; k < population->at(i)->VF.size(); k++)
-            population->at(i)->VF[k].push_back(0.);
 
-        std::cout << "KHEPERA_TEST:: the average score is: " << score_total / k_run << "\n";
-        population->at(i)->VF[0][0] =  score_total / k_run;		// size
+
+
+
 
 
     }   // population size

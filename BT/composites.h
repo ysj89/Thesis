@@ -29,7 +29,7 @@ public:
 		m_children.clear();
 	}
 
-protected:
+//protected:
 	composite(std::string Name, std::string Type, std::string Function) :
 		node( Name, Type, Function )
 {
@@ -67,18 +67,18 @@ public:
 }
 };
 
-// Parallel behaviours
-class parallel : public composite
-{
-protected:
-	BT_Status update(blackboard *BLKB);
-       virtual int chooseAction(blackboard *BLKB){return 0;}
-public:
-	parallel():
-		composite("parallel","composite","parallel")
-{
-}
-};
+//// Parallel behaviours
+//class parallel : public composite
+//{
+//protected:
+//	BT_Status update(blackboard *BLKB);
+//       virtual int chooseAction(blackboard *BLKB){return 0;}
+//public:
+//	parallel():
+//		composite("parallel","composite","parallel")
+//{
+//}
+//};
 
 composite *getComposite(std::string composite);
 //composite *getComposite(std::string composite, std::vector<double>* values);

@@ -65,6 +65,8 @@ node* getCondition(std::string condition, std::vector<double> inputs)
         task = (node*) new less_than("khepera", static_cast<size_t> (inputs[0]), inputs[1]);
     else if (condition.compare("greater_than") == 0)
         task = (node*) new greater_than("khepera", static_cast<size_t> (inputs[0]), inputs[1]);
+    else if(condition.compare("equal_to") == 0)
+        task = (node*) new equal_to("khepera", static_cast<size_t> (inputs[0]), inputs[1]);
     else
     {
         task = NULL;

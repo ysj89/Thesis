@@ -205,30 +205,30 @@ BT_Status selector::update(blackboard* BLKB)
 // ************************************************************************
 // parallel methods
 // Run all children and return highest priority behaviour
-BT_Status parallel::update(blackboard* BLKB)
-{
-	BT_Status myStatus = BH_INVALID;
-	// keep running while child behaviour is running
-	while(true)
-	{
-		BT_Status s = (*m_current)->tick(BLKB);
+//BT_Status parallel::update(blackboard* BLKB)
+//{
+//	BT_Status myStatus = BH_INVALID;
+//	// keep running while child behaviour is running
+//	while(true)
+//	{
+//		BT_Status s = (*m_current)->tick(BLKB);
 
-		// Store highest priority status
-		if (s > myStatus)
-		{
-			myStatus = s;
-		}
+//		// Store highest priority status
+//		if (s > myStatus)
+//		{
+//			myStatus = s;
+//		}
 
-		// hit the end of the array
-		if(++m_current == m_children.end())
-		{
-			return myStatus;
-		}
-	}
-	std::cerr<<"Unexpected loop exit"<<std::endl;
-	assert(1);
-	return BH_INVALID;
-}
+//		// hit the end of the array
+//		if(++m_current == m_children.end())
+//		{
+//			return myStatus;
+//		}
+//	}
+//	std::cerr<<"Unexpected loop exit"<<std::endl;
+//	assert(1);
+//	return BH_INVALID;
+//}
 
 // ***************************************************************
 // ***************************************************************
@@ -244,10 +244,10 @@ composite *getComposite(std::string Composite)
 	{
 		task = (composite*)new selector;
 	}
-	else if (Composite.compare("parallel") == 0)
-	{
-		task = (composite*)new parallel;
-	}
+//	else if (Composite.compare("parallel") == 0)
+//	{
+//		task = (composite*)new parallel;
+//	}
 	else
 	{
 		task = NULL;
@@ -292,9 +292,9 @@ composite* getComposite(size_t func)
 	case 1:
 		task = new selector;
 		break;
-	case 2:
-		task = new parallel;
-		break;
+//	case 2:
+//		task = new parallel;
+//		break;
 	default:
 		std::cerr << "ERROR in getComposite(unsigned int func): number of composites out of bounds"<<std::endl;
 		assert(1);

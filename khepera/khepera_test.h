@@ -31,6 +31,22 @@ public:
             vals.push_back(kv.second);
         }
     }
+    Khepera_T(blackboard *BB)
+        :   BLKB(BB),
+          state_vec_temp(9)
+    {
+        Qtable = load.loadQtable1();
+        transitionMatrix = load.loadTransitionMatrix();
+        transitionMatrix_discrete_distribution = load.loadTransitionMatrix_discrete_distribution();
+        string2int = load.loadString2Int();
+
+        // to get string from index
+        for(auto kv : string2int)
+        {
+            keys.push_back(kv.first);
+            vals.push_back(kv.second);
+        }
+    }
 
     Solution_method *sol_met;
     blackboard *BLKB;

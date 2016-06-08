@@ -23,7 +23,7 @@ enum BT_Status {
 	BH_FAILURE
 };
 
-class node : public Solution_method
+class node // : public Solution_method
 /**
  * base class for actions, conditions and composites
  */
