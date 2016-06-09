@@ -8,6 +8,7 @@
 #include "transitionmatrix.h"
 #include "solution_method.h"
 #include "../EvolutionaryLearning/GP.h"
+#include "bt_test_gp_kirk.h"
 
 
 
@@ -52,6 +53,7 @@ public:
     blackboard *BLKB;
     Load load;
 
+
     double score_tree;
 
     std::unordered_map<std::string, ActionScoreMap> Qtable;
@@ -64,7 +66,7 @@ public:
     std::vector<int> state_vec_temp;
 
 
-    void runKhepera_test(int totalsteps, std::string start);
+    void runKhepera_test( int totalsteps, std::string start);
     void runKhepera_wiht_GP(int totalsteps, std::string start, blackboard *p_BLKB);
     void run_gen(GP::citizens* population, size_t k_run);
 

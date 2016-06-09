@@ -6,7 +6,7 @@
 #include "../BT/behaviour.h"
 #define MAX_SIZE (size_t) - 1
 
-extern size_t KCOND;				//total number of conditions
+extern size_t KCOND;				// total number of conditions
 extern size_t NUMBER_OF_VARS;		// total number of input variables
 
 namespace BT
@@ -100,7 +100,6 @@ public:
 
     BT_Status update(blackboard *BLKB)
     {
-
         double data = BLKB->get(var.data());
         if ( data < limit )
             return BH_SUCCESS;
@@ -146,7 +145,6 @@ public:
     equal_to(std::string vehicle_name, size_t param, double value)
         : condition(vehicle_name, "equal_to", param, value)
     {
-
     }
 
 

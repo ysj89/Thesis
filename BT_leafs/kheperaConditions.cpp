@@ -4,7 +4,7 @@
 #include "../BT_leafs/conditions.h"
 
 size_t KCOND = 3;         	//total number of conditions
-size_t NUMBER_OF_VARS = 10;	// total number of variables
+size_t NUMBER_OF_VARS = 8;	// total number of variables
 
 
 namespace BT
@@ -28,10 +28,13 @@ std::tuple<std::string,double,double,double> input ( int i )
         std::cerr<<"check number of variables, requested: " << i << std::endl;
         sprintf(buff,"sensor");
         lower_lim = 0.;
-        upper_lim = 1000;
+        upper_lim = 2;
     }
 
+    // Needs to produce 1 of 3 random options: for 0 = wall, 1 = free, 3 = apple
     threshold = rand() % ((int)round(upper_lim) - (int)round(lower_lim) + 1) + lower_lim;                // test for 100 discrete points on range [lower_lim, upper_lim]
+    if(threshold == 2)
+        threshold = 3;
 
     return std::make_tuple(buff, threshold, lower_lim, upper_lim);
 }
@@ -72,7 +75,6 @@ node* getCondition(std::string condition, std::vector<double> inputs)
         task = NULL;
         std::cerr << "Something is really wrong in :BT::node* getCondition(std::string condition, std::vector<double>* inputs)"<<std::endl;
     }
-
     return task;
 }
 
@@ -81,7 +83,6 @@ node* getCondition(std::string condition, std::vector<double> inputs)
 // Add all conditions to the if else if list below
 node* getCondition(std::string m_sensor /*=("sensor" + std::to_string(rand()%NUMBER_OF_SENSORS))*/ , size_t func /*= rand() % KCOND*/, size_t var /*= NUMBER_OF_VARS*/)
 {
-
     node* task;
     switch (func)
     {

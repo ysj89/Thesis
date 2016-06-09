@@ -153,14 +153,17 @@ BT_Status sequence::update(blackboard* BLKB)
     {   // The generic Sequence implementation.
         // If one child fails, then enter operation run() fails.  Success only results if all children succeed.
 
-        if (!child->update(BLKB))
+//        if ( !child->update(BLKB) )
+        if ( child->update(BLKB) == BH_FAILURE )
+        {
             return BH_FAILURE;
+        }
+        else
+        {
+            continue;
+        }
     }
     return BH_SUCCESS;  // All children suceeded, so the entire run() operation succeeds.
-
-
-
-
 }
 
 // ************************************************************************
@@ -188,18 +191,20 @@ BT_Status selector::update(blackboard* BLKB)
 //	assert(1);
 //	return BH_INVALID;
 
-
     for (node* child : getChildren())
     {  // The generic Selector implementation
         // If one child succeeds, the entire operation run() succeeds.  Failure only results if all children fail.
 
-        if (child->update(BLKB))
+        if (child->update(BLKB) == BH_SUCCESS)
+        {
             return BH_SUCCESS;
+        }
+        else
+        {
+            continue;
+        }
     }
     return BH_FAILURE;  // All children failed so the entire run() operation fails.
-
-
-
 }
 
 // ************************************************************************

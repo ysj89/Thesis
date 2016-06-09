@@ -1,18 +1,9 @@
 #include "kheperaActions.h"
 
-size_t KACTION = 1;       // total number of actions
+size_t KACTION = 3;       // total number of actions
 
 namespace BT
 {
-
-//BT_Status wheelSpeed::update(blackboard *BLKB)
-//{
-//    BLKB->set("wheelSpeed0", leftWheelSpeed);
-//    BLKB->set("wheelSpeed1", rightWheelSpeed);
-
-//    return BH_SUCCESS;
-//}
-
 
 enum BT_Status turn_right::update(blackboard *BLKB)
 {
@@ -21,6 +12,12 @@ enum BT_Status turn_right::update(blackboard *BLKB)
     return BH_SUCCESS;
 }
 
+enum BT_Status turn_left::update(blackboard *BLKB)
+{
+    BLKB->set("action",1);
+    //std::cout << "BT_ACTION: action = turn_left " << std::endl;
+    return BH_SUCCESS;
+}
 
 enum BT_Status move::update(blackboard *BLKB)
 {
@@ -30,26 +27,9 @@ enum BT_Status move::update(blackboard *BLKB)
 }
 
 
-
 ////////////////////////////////////////////////////////////////////////////////////////////
 node* getAction(std::string action, std::vector<double> inputs /*= NULL*/)
 {
-//   node* task;
-//    if (inputs.empty()){
-//        if (action.compare("wheelSpeed") == 0)
-//           task = (node*) new wheelSpeed;
-//        else
-//            perror("Something is really wrong in :BT::Composite* getAction(std::string action, std::vector<double>* inputs)");
-//    }
-//    else{
-//        if (action.compare("wheelSpeed") == 0)
-//            task = (node*) new wheelSpeed(inputs[0], inputs[1]);
-//        else
-//            perror("Something is really wrong in :BT::Composite* getAction(std::string action, std::vector<double>* inputs)");
-//    }
-
-//    return task;
-
     node* task;
     if(inputs.empty())
     {
@@ -57,12 +37,12 @@ node* getAction(std::string action, std::vector<double> inputs /*= NULL*/)
             task = (node*) new move;
         else if(action.compare("turn_right") == 0)
             task = (node*) new turn_right;
+        else if(action.compare("turn_left") == 0)
+            task = (node*) new turn_left;
         else
             perror("Something is really wrong in :BT::Composite* getAction(std::string action, std::vector<double>* inputs)");
     }
-
     return task;
-
 }
 
 // Add all actions to the if else if list below
@@ -72,10 +52,13 @@ node* getAction(size_t func /*= (size_t) - 1*/)
     switch (func)
     {
     case 0:
-        task = (node*) new move;
+        task = (node*) new move();
         break;
     case 1:
-        task = (node*) new turn_right;
+        task = (node*) new turn_right();
+        break;
+    case 2:
+        task = (node*) new turn_left();
         break;
     default:
         //std::cerr << "ERROR in getAction(unsigned int func): number of actions out of bounds"<<std::endl;
