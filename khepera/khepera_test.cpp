@@ -9,6 +9,7 @@
 #include "bt_test_gp_kirk.h"
 #include "../EvolutionaryLearning/GP.h"
 #include "../EvolutionaryLearning/test_common.h"
+#include "../BT/btFile.h"
 
 
 
@@ -24,13 +25,8 @@ struct run_gen_thread{
     const char *log;
 };
 
-
 size_t next;
 std::mutex mtx;
-
-
-
-
 
 void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard *p_BLKB)
 {
@@ -49,7 +45,7 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
     size_t k_generations = 50;
 
     // define GP parameters
-    size_t k_population = 10;       // currently need at least 5, need to include a check to force this
+    size_t k_population = 100;       // currently need at least 5, need to include a check to force this
     size_t max_runs = 5;
     //size_t run = 0;
 
@@ -99,11 +95,21 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
 
     }
 
+    std::sort(archive.begin(), archive.end(), sort_mean<citizen>);
+    composite* tree;
+    tree = archive.front()->BT;
+
+    saveFile( "../../BT_saves/BT3.txt" , tree);
+
+    tree = archive.at(1)->BT;
+    saveFile( "../../BT_saves/BT4.txt" , tree);
+
 }
+
+
 
 void Khepera_T::run_gen(citizens *population, size_t runs)
 {
-
 
     int t_end = 150;
     int t;
@@ -161,7 +167,10 @@ void Khepera_T::run_gen(citizens *population, size_t runs)
                 t++;
             }   // t < tend
 
+            if (i % 50 == 0)
             std::cout << "KHEPERA_TEST:: the score is: " << score_total << "\n";
+
+
 
             population->at(i)->VF[0][j] =  score_total;		// size
 
@@ -210,8 +219,6 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
     std::cout << "The total score is: " << score_total << std::endl;
     score_tree = score_total;
 }
-
-
 
 
 std::vector<int> Khepera_T::string2vec(std::string state)

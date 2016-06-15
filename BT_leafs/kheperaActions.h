@@ -8,7 +8,7 @@
 namespace BT{
 
 node* getAction(std::string action, std::vector<double> inputs);
-node* getAction(size_t func = (size_t) - 1);
+node* getAction(size_t func = 3 /*(size_t) - 1)*/ );
 
 
 struct turn_right : public node

@@ -78,14 +78,14 @@ int main(int argc, char *argv[])
         //Agent_H Khepera_heading_bt(&room1, 3, 4, EAST, 9, 3, sol_met, &BB, SAVEDATA);
 
 
-        Khepera_T Khepera_test_agent(sol_met1, &BB);
-        //Khepera_T Khepera_test_agent(&BB);
+        //Khepera_T Khepera_test_agent(sol_met1, &BB);
+        Khepera_T Khepera_test_agent(&BB);
 
 //        saveFile( "../../BT_saves/BT.txt" , sol_met1->root);
 
-        Khepera_test_agent.runKhepera_test(100, "1,1,1,3,1,1,1,1,0");
+  //      Khepera_test_agent.runKhepera_test(100, "1,1,1,3,1,1,1,1,0");
 
-        //Khepera_test_agent.runKhepera_wiht_GP(150, "1,1,1,3,1,1,1,1,0", &BB);
+       Khepera_test_agent.runKhepera_wiht_GP(150, "1,1,1,3,1,1,1,1,0", &BB);
 
 
 

@@ -370,6 +370,7 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
         while(steps < _totalsteps)
         {
             performAction();
+
             sol_met->updateQtable(this);
 
             Qincrement->at(steps) = sol_met->getQtableincrement(this);

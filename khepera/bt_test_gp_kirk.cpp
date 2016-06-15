@@ -43,20 +43,36 @@ void bt_test_gp_kirk::buildingTree()
     //      sequence2->addChild(equal_to1);
     //      sequence2->addChild(turn_right1);
 
-      root->addChild(sequence1);
-      root->addChild(sequence2);
-      root->addChild(turn_right1);
+//      root->addChild(sequence1);
+//      root->addChild(sequence2);
+//      root->addChild(turn_right1);
 
 
-      sequence1->addChild(selector2);
-      selector2->addChild(equal_to_wall0);
-      selector2->addChild(equal_to_wall1);
-      selector2->addChild(equal_to_wall2);
-      selector2->addChild(equal_to_wall3);
-      sequence1->addChild(move1);
+//      sequence1->addChild(selector2);
+//      selector2->addChild(equal_to_wall0);
+//      selector2->addChild(equal_to_wall1);
+//      selector2->addChild(equal_to_wall2);
+//      selector2->addChild(equal_to_wall3);
+//      sequence1->addChild(move1);
 
-      sequence2->addChild(equal_to1);
-      sequence2->addChild(turn_right1);
+//      sequence2->addChild(equal_to1);
+//      sequence2->addChild(turn_right1);
+
+
+    root->addChild(sequence1);
+
+    sequence1->addChild(turn_left1);
+    sequence1->addChild(turn_right1);
+    sequence1->addChild(equal_to_free3);
+
+    root->addChild(turn_left1);
+
+    root->addChild(sequence2);
+    sequence2->addChild(equal_to_free3);
+    sequence2->addChild(equal_to_free1);
+    sequence2->addChild((equal_to_apple3));
+    sequence2->addChild(equal_to_wall1);
+
 
 //    GP::filledRandBT(root,3);
 

@@ -30,8 +30,12 @@ public:
           equal_to_wall1(new equal_to("khepera",1,0)),
           equal_to_wall2(new equal_to("khepera",2,0)),
           equal_to_wall3(new equal_to("khepera",2,0)),
+          equal_to_free0(new equal_to("khepera",0,1)),
+          equal_to_free1(new equal_to("khepera",1,1)),
+          equal_to_free3(new equal_to("khepera",3,1)),
           move1(new move),
-        turn_right1(new turn_right)
+        turn_right1(new turn_right),
+        turn_left1(new turn_left)
     {
         buildingTree();
     }
@@ -54,8 +58,12 @@ public:
     equal_to* equal_to_wall1;
     equal_to* equal_to_wall2;
     equal_to* equal_to_wall3;
+    equal_to* equal_to_free0;
+    equal_to* equal_to_free1;
+    equal_to* equal_to_free3;
     move* move1;
     turn_right* turn_right1;
+    turn_left* turn_left1;
 
     // Member functions
     void buildingTree();

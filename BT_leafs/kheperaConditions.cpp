@@ -3,7 +3,7 @@
 
 #include "../BT_leafs/conditions.h"
 
-size_t KCOND = 3;         	//total number of conditions
+size_t KCOND = 1;         	//total number of conditions
 size_t NUMBER_OF_VARS = 8;	// total number of variables
 
 
@@ -131,13 +131,14 @@ node* getCondition(size_t func /* = rand() % KCOND*/, int var /*= rand()% NUMBER
     switch (func)
     {
     case 0:
-        task = (node*) new greater_than("khepera", var);
+        task = (node*) new equal_to("khepera", var);
         break;
+
     case 1:
         task = (node*) new less_than("khepera", var);
         break;
     case 2:
-        task = (node*) new equal_to("khepera", var);
+        task = (node*) new greater_than("khepera", var);
         break;
     default:
         std::cerr << "ERROR in getCondition(unsigned int func): number of conditions out of bounds"<<std::endl;
