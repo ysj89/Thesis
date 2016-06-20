@@ -8,8 +8,6 @@ int Q_learning::chooseAction(blackboard *BLKB)
 
     std::string str_state = vec2str(state_vec);
 
-
-
     if (this->Qtable.find(str_state) == this->Qtable.end() )
     {
 
@@ -45,7 +43,6 @@ int Q_learning::chooseAction(blackboard *BLKB)
         }
 
         BLKB->set("action",best_action);
-
         return best_action;
 
     }

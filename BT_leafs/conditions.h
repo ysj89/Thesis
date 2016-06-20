@@ -14,12 +14,9 @@ namespace BT
 
 std::tuple<std::string,double,double,double> input ( int i );
 
-
 node* getCondition(std::string condition, size_t var = MAX_SIZE);
 node* getCondition(std::string condition, std::vector<double> inputs);
-//node* getCondition(size_t func = rand() % KCOND, size_t var = MAX_SIZE);
-node* getCondition(size_t func = rand() % KCOND, int var = rand()% NUMBER_OF_OBSERVATIONS);
-
+node* getCondition(size_t func = rand() % KCOND, size_t var = MAX_SIZE);
 
 /*
   CONDITION CLASS
@@ -43,7 +40,7 @@ public:
         vars_lower_lim.push_back(std::get<2>(set));
         vars_upper_lim.push_back(std::get<3>(set));
     }
-    condition(std::string vehicle_name, std::string func_name, size_t param = MAX_SIZE)
+    condition(std::string vehicle_name, std::string func_name, size_t param = MAX_SIZE) // What is MAX_SIZE? (size_t) - 1 ?
         : node(vehicle_name, "condition",func_name )
     {
         if (param >= NUMBER_OF_VARS)

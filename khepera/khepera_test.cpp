@@ -33,7 +33,7 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
 
     // set up new file directory
     std::stringstream workingfolder, filename;
-    workingfolder<<"../BTsaves/";
+    workingfolder << "../../BTsaves/";
     filename<<workingfolder.str()<<"statistics.txt";
     std::string statsFileName(filename.str());
 
@@ -46,7 +46,7 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
 
     // define GP parameters
     size_t k_population = 100;       // currently need at least 5, need to include a check to force this
-    size_t max_runs = 5;
+    size_t max_runs = 10;
     //size_t run = 0;
 
     // 2. Initialize Tree_population()
@@ -92,15 +92,12 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
 
         // 5. Procreate BTs
         procreate( &archive, &population );   // check this, now procreating and doing nothing with last pop
-
     }
 
     std::sort(archive.begin(), archive.end(), sort_mean<citizen>);
     composite* tree;
     tree = archive.front()->BT;
-
     saveFile( "../../BT_saves/BT3.txt" , tree);
-
     tree = archive.at(1)->BT;
     saveFile( "../../BT_saves/BT4.txt" , tree);
 
@@ -111,7 +108,7 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
 void Khepera_T::run_gen(citizens *population, size_t runs)
 {
 
-    int t_end = 150;
+    int t_end = 100;
     int t;
     composite* tree;
     int action;
@@ -170,10 +167,7 @@ void Khepera_T::run_gen(citizens *population, size_t runs)
             if (i % 50 == 0)
             std::cout << "KHEPERA_TEST:: the score is: " << score_total << "\n";
 
-
-
             population->at(i)->VF[0][j] =  score_total;		// size
-
             population->at(i)->comp_fit_stats();	// needs to be run for every simulation run!
 
         }   // run
@@ -187,7 +181,7 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
 
 //    TransitionMatrix TM1(500, 3);
 
-    double score_total;
+    double score_total = 0;
     std::string state = start;
     std::string state_new;
 
@@ -200,11 +194,13 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
         action = static_cast<int> (BLKB->get("action") ); // read action from blackboard
 //        std::cout<<state<<std::endl;
 //        printf("action: %d \n",action);
+
         // get new state
         state_new = transition(state, action);
 
         score_total += Qtable[state][action];
 
+        // Set sensor information to BB
         BLKB->set("sensor0", state_new.at(0) - 48);
         BLKB->set("sensor1", state_new.at(2) - 48);
         BLKB->set("sensor2", state_new.at(4) - 48);
@@ -239,26 +235,20 @@ std::vector<int> Khepera_T::string2vec(std::string state)
 std::string Khepera_T::transition(std::string state, int action)
 {
     std::vector<int> discrete_distribution_vec;
-
     discrete_distribution_vec = getTransitions(state, action);
-
     double sum_of_elems = 0;
 
-    for (int n : discrete_distribution_vec)
-    {
+    for (int n : discrete_distribution_vec){
         sum_of_elems += n;
     }
 
-    if(sum_of_elems != 0)
-    {
-
+    if(sum_of_elems != 0){
         std::string new_state = returnNextState(discrete_distribution_vec);
         //std::cout << "The new state is: " <<new_state << std::endl;
         return new_state;
     }
-    else
-    {
-        std::cout << "This transition did not happen during exploration/learning" << std::endl;
+    else{
+        //std::cout << "This transition did not happen during exploration/learning" << std::endl;
         return state;
     }
 }
@@ -270,24 +260,17 @@ std::vector<int> Khepera_T::getTransitions(std::string state, int action)
 
     TP.reserve(transitionMatrix_discrete_distribution[in_state].size());
 
-    for(unsigned i = 0; i <  (transitionMatrix_discrete_distribution[in_state].size()); i++ )
-    {
+    for(unsigned i = 0; i <  (transitionMatrix_discrete_distribution[in_state].size()); i++ ){
         TP.push_back(transitionMatrix_discrete_distribution[in_state][i][action]);
     }
-
     return TP;
 }
 
 std::string Khepera_T::returnNextState(std::vector<int> transitionVector)
 {
     //std::mt19937 gen(1701);
-    std::default_random_engine generator(seed1);
-
     //std::default_random_engine generator(rand() % 100 );
-
     std::discrete_distribution<> distr(transitionVector.begin(), transitionVector.end());
-
     std::vector<int>::iterator it = std::find(vals.begin(), vals.end(), distr(generator));
-
     return keys[std::distance(vals.begin(), it)];
 }

@@ -19,6 +19,7 @@ public:
         : BLKB(p_BLKB),
           root(new selector),
           sequence1(new sequence),
+          move1(new move),
           sequence2(new sequence),
           selector2(new selector),
           equal_to1(new equal_to("khepera",3, 0)),
@@ -33,7 +34,6 @@ public:
           equal_to_free0(new equal_to("khepera",0,1)),
           equal_to_free1(new equal_to("khepera",1,1)),
           equal_to_free3(new equal_to("khepera",3,1)),
-          move1(new move),
         turn_right1(new turn_right),
         turn_left1(new turn_left)
     {
@@ -47,6 +47,8 @@ public:
 
     composite* root;
     sequence* sequence1;
+    move* move1;
+
     sequence* sequence2;
     selector* selector2;
     equal_to* equal_to1;
@@ -61,7 +63,6 @@ public:
     equal_to* equal_to_free0;
     equal_to* equal_to_free1;
     equal_to* equal_to_free3;
-    move* move1;
     turn_right* turn_right1;
     turn_left* turn_left1;
 

@@ -3,7 +3,7 @@
 
 #include "../BT_leafs/conditions.h"
 
-size_t KCOND = 1;         	//total number of conditions
+size_t KCOND = 3;         	//total number of conditions
 size_t NUMBER_OF_VARS = 8;	// total number of variables
 
 
@@ -101,31 +101,9 @@ node* getCondition(std::string m_sensor /*=("sensor" + std::to_string(rand()%NUM
     return task;
 }
 
-//// Add all conditions to the if else if list below
-//node* getCondition(std::string m_sensor /*=("sensor" + std::to_string(rand()%NUMBER_OF_SENSORS))*/ , size_t func /*= rand() % KCOND*/, size_t var /*= MAX_SIZE*/)
-//{
-
-//    node* task;
-//    switch (func)
-//    {
-//    case 0:
-//        task = (node*) new greater_than("khepera", "m_sensor", var);
-//        break;
-//    case 1:
-//        task = (node*) new less_than("khepera", "m_sensor", var);
-//        break;
-//    case 2:
-//        task = (node*) new equal_to("khepera", "m_sensor", var);
-//        break;
-//    default:
-//        std::cerr << "ERROR in getCondition(unsigned int func): number of conditions out of bounds"<<std::endl;
-//    }
-//    return task;
-//}
 
 
-
-node* getCondition(size_t func /* = rand() % KCOND*/, int var /*= rand()% NUMBER_OF_OBSERVATIONS*/)
+node* getCondition(size_t func /* = rand() % KCOND*/, size_t var /*= rand()% NUMBER_OF_OBSERVATIONS*/)
 {
     node* task;
     switch (func)
@@ -133,7 +111,6 @@ node* getCondition(size_t func /* = rand() % KCOND*/, int var /*= rand()% NUMBER
     case 0:
         task = (node*) new equal_to("khepera", var);
         break;
-
     case 1:
         task = (node*) new less_than("khepera", var);
         break;

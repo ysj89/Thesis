@@ -27,9 +27,19 @@ enum BT_Status move::update(blackboard *BLKB)
 }
 
 
+//enum BT_Status move1::update(blackboard *BLKB)
+//{
+
+//    BLKB->set("action", static_cast<int> ( vars[0] ) );
+//    //std::cout << "BT_ACTION: action = " << vars[0] << std::endl;
+//    return BH_SUCCESS;
+//}
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////
 node* getAction(std::string action, std::vector<double> inputs /*= NULL*/)
-{
+{    
+
     node* task;
     if(inputs.empty())
     {
@@ -42,6 +52,20 @@ node* getAction(std::string action, std::vector<double> inputs /*= NULL*/)
         else
             perror("Something is really wrong in :BT::Composite* getAction(std::string action, std::vector<double>* inputs)");
     }
+    else{
+        if (action.compare("move") == 0)
+            task = (node*) new move;
+        else if (action.compare("turn_right") == 0)
+            task = (node*) new turn_right;
+        else if (action.compare("turn_left") == 0)
+            task = (node*) new turn_left;
+        else
+            perror("Something is really wrong in :BT::Composite* getAction(std::string action, std::vector<double>* inputs)");
+    }
+
+
+
+
     return task;
 }
 
@@ -62,8 +86,11 @@ node* getAction(size_t func /*= (size_t) - 1*/)
         break;
     default:
         //std::cerr << "ERROR in getAction(unsigned int func): number of actions out of bounds"<<std::endl;
-    	return getAction( rand() % KACTION );
+        return getAction( rand() % KACTION );
     }
+
+//    task = (node*) new move1;
+
     return task;
 }
 

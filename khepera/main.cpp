@@ -1,5 +1,6 @@
 #include <iostream>
 #include <chrono>
+#include <time.h>       /* time */
 
 #include "room.h"
 #include "posvec_struct.h"
@@ -25,8 +26,9 @@ using namespace BT;
 
 int main(int argc, char *argv[])
 {
-    bool SAVEDATA = 0;
-    bool RUN = 0;
+    srand (time(NULL));
+    bool SAVEDATA = 0 ;
+    bool RUN = 1;
     bool TESTCASE = 1;
     Save save;
     //Load load;
@@ -39,23 +41,24 @@ int main(int argc, char *argv[])
         // /////////////
         Room room1(15,25);
         blackboard BB;
-        Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.01, 8, 3, &BB);
+        //Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.01, 8, 3, &BB);
+        bt_test_gp_kirk *sol_met1 = new BT::bt_test_gp_kirk(&BB);
         //BehaviorTree *sol_met = new BehaviorTree(&BB);
         //Random_action *sol_met = new Random_action();
 
         // /////////////
         // Initiate Agent
         // /////////////
-        Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met, &BB, SAVEDATA);
+        Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met1, &BB, SAVEDATA);
 
         // /////////////
         // Run Agent
         // /////////////
-        Khepera_heading.runAgent(1,150);
+        Khepera_heading.runAgent(2,100);
 
         if(SAVEDATA == 1)
         {
-            save.printQtable(sol_met->Qtable);
+            //save.printQtable(sol_met->Qtable);
         }
 
     }
@@ -71,21 +74,18 @@ int main(int argc, char *argv[])
         SAVEDATA = 0;
         Room room1(15,25);
         blackboard BB;
-        BehaviorTree *sol_met = new BehaviorTree(&BB);
+        //BehaviorTree *sol_met = new BehaviorTree(&BB);
         bt_test_gp_kirk *sol_met1 = new BT::bt_test_gp_kirk(&BB);
 
         //Random_action *sol_met = new Random_action();
         //Agent_H Khepera_heading_bt(&room1, 3, 4, EAST, 9, 3, sol_met, &BB, SAVEDATA);
 
 
-        //Khepera_T Khepera_test_agent(sol_met1, &BB);
-        Khepera_T Khepera_test_agent(&BB);
+        Khepera_T Khepera_test_agent(sol_met1, &BB);
+        //Khepera_T Khepera_test_agent(&BB);
 
-//        saveFile( "../../BT_saves/BT.txt" , sol_met1->root);
-
-  //      Khepera_test_agent.runKhepera_test(100, "1,1,1,3,1,1,1,1,0");
-
-       Khepera_test_agent.runKhepera_wiht_GP(150, "1,1,1,3,1,1,1,1,0", &BB);
+        Khepera_test_agent.runKhepera_test(100, "1,1,1,3,1,1,1,1,0");
+        //Khepera_test_agent.runKhepera_wiht_GP(100, "1,1,1,3,1,1,1,1,0", &BB);
 
 
 

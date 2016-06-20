@@ -396,7 +396,7 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
 
         if (i == _episodes - 1)
         {
-            save.printQincrement(Qincrement);
+//            save.printQincrement(Qincrement);
 
             int sum_of_elems = 0;
             for (int n : *Qvalue)
@@ -404,11 +404,12 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
                 sum_of_elems += std::abs(n);
             }
 
-            std::cout << "AGENT:: The summed Qvalue is: " << sum_of_elems << "\n";
+            //std::cout << "AGENT:: The summed Qvalue is: " << sum_of_elems << "\n";
+            std::cout << "KHEPERA_AGENT_HEADING:: Total reward last episode: " << totalreward << "\n";
 
             Qvalue->push_back(sum_of_elems);
-            save.printQvalue(Qvalue);
-            save.printQvaluetotal(Qvaluetotal);
+//            save.printQvalue(Qvalue);
+//            save.printQvaluetotal(Qvaluetotal);
         }
 
 
@@ -416,7 +417,8 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
         if (i % 100 == 0)
         {
             totalRewardVec.push_back(std::pair<int,double> (i, totalreward));
-            save.printAgentExploration(i,explorationMap);
+//            save.printAgentExploration(i,explorationMap);
+            //std::cout << "AGENT:: The total reward is: " << totalreward << " \n";
         }
 
         cleanExplorationMap();
@@ -424,25 +426,16 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
 
     int size_Qtable =  sol_met->getSizeQtable();
     std::cout << "This is the QTable size: " << size_Qtable << "\n";
-
     TM.calculateTPM(size_Qtable, num_act);
 
     if(savedata == 1)
     {
-        save.printTPM3D(TM.TPM, size_Qtable);
-        save.printTPM_discrete_distribution(TM.transitionMatrix_count, size_Qtable);
-        save.printAgentRewardperEpisode(totalRewardVec);
-        TM.storeKeyandMap();
-        save.printTPMunorderedMap(TM.string2intMap1);
+//        save.printTPM3D(TM.TPM, size_Qtable);
+//        save.printTPM_discrete_distribution(TM.transitionMatrix_count, size_Qtable);
+//        save.printAgentRewardperEpisode(totalRewardVec);
+//        TM.storeKeyandMap();
+//        save.printTPMunorderedMap(TM.string2intMap1);
     }
-
-
-    if(_episodes == 1)
-    {
-        std::cout << "AGENT:: The total reward is: " << totalreward << " \n";
-    }
-    std::cout << std::endl;
-
 
 }
 

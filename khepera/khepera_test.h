@@ -11,16 +11,14 @@
 
 #include "bt_test_gp_kirk.h"
 
-
-
-
 class Khepera_T
 {
 public:
     Khepera_T(Solution_method *_sol_met, blackboard *BB)
         : sol_met(_sol_met),
           BLKB(BB),
-          state_vec_temp(9)
+          state_vec_temp(9),
+          generator(std::chrono::system_clock::now().time_since_epoch().count())
     {
         Qtable = load.loadQtable1();
         transitionMatrix = load.loadTransitionMatrix();
@@ -36,7 +34,8 @@ public:
     }
     Khepera_T(blackboard *BB)
         :   BLKB(BB),
-          state_vec_temp(9)
+          state_vec_temp(9),
+          generator(std::chrono::system_clock::now().time_since_epoch().count())
     {
         Qtable = load.loadQtable1();
         transitionMatrix = load.loadTransitionMatrix();
@@ -73,8 +72,7 @@ public:
     void run_gen(GP::citizens* population, size_t k_run);
 //    void save_path(std::string folder, citizen* best);
 
-    unsigned seed1 = std::chrono::system_clock::now().time_since_epoch().count();
-
+    std::default_random_engine generator;
 
     std::string transition(std::string state, int action);
 
