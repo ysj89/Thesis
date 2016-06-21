@@ -11,7 +11,7 @@
 #include "../EvolutionaryLearning/test_common.h"
 #include "../BT/btFile.h"
 
-
+#define Q_LEARNING
 
 using namespace BT;
 using namespace GP;
@@ -32,7 +32,8 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
 {
 
     // set up new file directory
-    std::stringstream workingfolder, filename;
+    std::stringstream workingfolder, filename, filename1;
+    std::string filename2;
     workingfolder << "../../BTsaves/";
     filename<<workingfolder.str()<<"statistics.txt";
     std::string statsFileName(filename.str());
@@ -42,7 +43,7 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
 
     // define globals
     size_t generation = 0;
-    size_t k_generations = 50;
+    size_t k_generations = 10;
 
     // define GP parameters
     size_t k_population = 100;       // currently need at least 5, need to include a check to force this
@@ -90,6 +91,22 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
         std::sort(world_pop.begin(), world_pop.end(), sort_mean<citizen>);
         save_statistics((citizens*)&world_pop, generation, statsFileName);
 
+        if(generation > 1){
+        std::sort(archive.begin(), archive.end(), sort_mean<citizen>);
+        composite* tree;
+        tree = archive.front()->BT;
+        int gen;
+        gen = static_cast<int> (generation);
+
+        filename1 << "../../BT_saves/BT_gen" << gen << ".txt";
+        filename2 = filename1.str();
+        saveFile( "filename1" , tree);
+
+        filename1.str(std::string());
+        filename2.clear();
+
+        }
+
         // 5. Procreate BTs
         procreate( &archive, &population );   // check this, now procreating and doing nothing with last pop
     }
@@ -98,8 +115,7 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
     composite* tree;
     tree = archive.front()->BT;
     saveFile( "../../BT_saves/BT3.txt" , tree);
-    tree = archive.at(1)->BT;
-    saveFile( "../../BT_saves/BT4.txt" , tree);
+
 
 }
 
@@ -190,7 +206,33 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
         // Get action from choose-method
         int action; //  = rand() % 3;
 
+        // CHECK Q LEARNING
+#ifdef Q_LEARNING
+        ActionScoreMap a = this->Qtable[state];
+        Score max_score;
+        int best_action;
+
+        for(std::unordered_map<int,Score>::iterator it=a.begin(); it != a.end(); it++)
+        {
+            if(it == a.begin())
+            {
+                max_score = it->second;
+                best_action = static_cast<int>(it->first);
+            }
+
+            if(it->second > max_score)  // NOTE: In case two same scores, returns first
+            {
+                max_score = it->second;
+                best_action = static_cast<int>(it->first);
+            }
+        }
+        BLKB->set("action",best_action);
+#else
         sol_met->chooseAction(BLKB);
+#endif
+
+
+
         action = static_cast<int> (BLKB->get("action") ); // read action from blackboard
 //        std::cout<<state<<std::endl;
 //        printf("action: %d \n",action);

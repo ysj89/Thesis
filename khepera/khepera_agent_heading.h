@@ -54,6 +54,8 @@ public:
         explorationMap = std::vector<std::vector<int> > (m_Room->x_size, std::vector<int>(m_Room->y_size,0));
     }
 
+
+
     Action_heading action;
     Room* m_Room;
     Heading heading;

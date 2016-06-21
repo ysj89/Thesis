@@ -75,10 +75,10 @@ void bt_test_gp_kirk::buildingTree()
 
     //GP::filledRandBT(root,0);
 
-    root = BT::loadFile("../../BT_saves/BT4.txt");
+    root = BT::loadFile("../../BT_saves/BT3_3.txt");
 
 //    save BT to file for SmartUAV
-    BT::saveFile( "../../BT_saves/BT5.txt" , root);
+//    BT::saveFile( "../../BT_saves/BT5.txt" , root);
 
 
 
