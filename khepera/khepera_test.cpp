@@ -11,7 +11,7 @@
 #include "../EvolutionaryLearning/test_common.h"
 #include "../BT/btFile.h"
 
-#define Q_LEARNING
+//#define Q_LEARNING
 
 using namespace BT;
 using namespace GP;
@@ -28,7 +28,7 @@ struct run_gen_thread{
 size_t next;
 std::mutex mtx;
 
-void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard *p_BLKB)
+void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard *p_BLKB, int number_of_gen)
 {
 
     // set up new file directory
@@ -43,11 +43,11 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
 
     // define globals
     size_t generation = 0;
-    size_t k_generations = 10;
+    size_t k_generations = number_of_gen;
 
     // define GP parameters
     size_t k_population = 100;       // currently need at least 5, need to include a check to force this
-    size_t max_runs = 10;
+    size_t max_runs = 5;
     //size_t run = 0;
 
     // 2. Initialize Tree_population()
@@ -70,22 +70,7 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
         world_pop.insert( world_pop.end(), archive.begin(), archive.end() );
         world_pop.insert( world_pop.end(), population.begin(), population.end() );
 
-        run_gen((citizens*)&population, max_runs);
-
-        // Calculate statistics
-
-//        std::sort(population.begin(), population.end(), sort_mean<citizen>);
-
-//        // get average run score using simple average over objectives
-//        avg_fitness[run] = 0.;
-//        for (size_t k = 0; k < population.front()->VFmean.size(); k++)
-//            avg_fitness[run] += population.front()->VFmean[k];
-//        avg_fitness[run] /= population.front()->VF.size();
-
-
-        // plot run statistics
-//        std::sort(archive.begin(), archive.end(), sort_mean<citizen>);
-//        std::sort(population.begin(), population.end(), sort_mean<citizen>);
+        run_gen((citizens*)&population, max_runs, generation);
 
         // Save statistics
         std::sort(world_pop.begin(), world_pop.end(), sort_mean<citizen>);
@@ -114,14 +99,14 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
     std::sort(archive.begin(), archive.end(), sort_mean<citizen>);
     composite* tree;
     tree = archive.front()->BT;
-    saveFile( "../../BT_saves/BT3.txt" , tree);
+    saveFile( "../../BT_saves/BT_new_fitness.txt" , tree);
 
 
 }
 
 
 
-void Khepera_T::run_gen(citizens *population, size_t runs)
+void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
 {
 
     int t_end = 100;
@@ -168,6 +153,40 @@ void Khepera_T::run_gen(citizens *population, size_t runs)
 
                 action = static_cast<int> (BLKB->get("action") ); // read action from blackboard
 
+
+
+                ActionScoreMap a = this->Qtable[state];
+                Score score_max = 0;
+                int action_best;
+
+                for(std::unordered_map<int,Score>::iterator it=a.begin(); it != a.end(); it++)
+                {
+                    if(it == a.begin())
+                    {
+                        score_max = it->second;
+                        action_best = it->first;
+                    }
+
+                    if(it->second > score_max)  // NOTE: In case two same scores, returns first
+                    {
+                        score_max = it->second;
+                        action_best = it->first;
+                    }
+                }
+
+
+                // Fitness - if action selected is same as greedy-policy selection +1, otherwise -1;
+                if(action == action_best)
+                {
+                    score_total = score_total + 1;
+                }
+                else
+                {
+                    score_total = score_total - 1;
+                }
+
+
+
 //                std::cout<<state<<std::endl;
 //                printf("action: %d \n ",action);
 
@@ -175,7 +194,7 @@ void Khepera_T::run_gen(citizens *population, size_t runs)
                 state = transition(state, action);
 
                 // get value new state
-                score_total += Qtable[state][action];
+                //score_total += Qtable[state][action];
 
                 t++;
             }   // t < tend
@@ -183,7 +202,19 @@ void Khepera_T::run_gen(citizens *population, size_t runs)
             if (i % 50 == 0)
             std::cout << "KHEPERA_TEST:: the score is: " << score_total << "\n";
 
+
+
+
             population->at(i)->VF[0][j] =  score_total;		// size
+
+
+//            if (generation > 90)
+//            {
+//                //population->at(i)->VF[1][j] = 1 - ( (int)getNodeCount(population->at(j)->BT) - 20)/200.;
+//                population->at(i)->VF[1][j] = - (int)getNodeCount(population->at(j)->BT);
+//            }
+
+
             population->at(i)->comp_fit_stats();	// needs to be run for every simulation run!
 
         }   // run

@@ -68,8 +68,8 @@ public:
 
 
     void runKhepera_test( int totalsteps, std::string start);
-    void runKhepera_wiht_GP(int totalsteps, std::string start, blackboard *p_BLKB);
-    void run_gen(GP::citizens* population, size_t k_run);
+    void runKhepera_wiht_GP(int totalsteps, std::string start, blackboard *p_BLKB, int number_of_gen);
+    void run_gen(GP::citizens* population, size_t k_run, int generation);
 //    void save_path(std::string folder, citizen* best);
 
     std::default_random_engine generator;

@@ -21,6 +21,27 @@ bt_test_gp_kirk::~bt_test_gp_kirk()
 
 void bt_test_gp_kirk::buildingTree()
 {
+
+
+    //GP::filledRandBT(root,0);
+
+    root = BT::loadFile("../../BT_saves/BT_new_fitness.txt");
+
+//    save BT to file for SmartUAV
+//    BT::saveFile( "../../BT_saves/BT5.txt" , root);
+
+
+
+}
+
+int bt_test_gp_kirk::chooseAction(blackboard *BLKB)
+{
+      root->update(BLKB);
+//    return 0;
+}
+
+}
+
 //    root->addChild(sequence1);
 //    root->addChild(move1);
 
@@ -72,24 +93,3 @@ void bt_test_gp_kirk::buildingTree()
 //    sequence2->addChild((equal_to_apple3));
 //    sequence2->addChild(equal_to_wall1);
 
-
-    //GP::filledRandBT(root,0);
-
-    root = BT::loadFile("../../BT_saves/BT3_3.txt");
-
-//    save BT to file for SmartUAV
-//    BT::saveFile( "../../BT_saves/BT5.txt" , root);
-
-
-
-}
-
-int bt_test_gp_kirk::chooseAction(blackboard *BLKB)
-{
-      root->update(BLKB);
-//    return 0;
-}
-
-
-
-}

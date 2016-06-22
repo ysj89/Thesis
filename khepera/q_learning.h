@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <tuple>
 
+#include "load_files.h"
 #include "solution_method.h"
 //#include "posvec_struct.h"
 #include "transitionmatrix.h"
@@ -11,6 +12,13 @@
 class Q_learning : public Solution_method
 {
 public:
+    Q_learning(blackboard *p_BLKB)
+    : Solution_method(),
+    BLKB(p_BLKB),
+    state_vec(9)
+    {
+        Qtable = Load::loadQtable1();
+    }
     Q_learning(double ALPHA_, double GAMMA_, double EPSILON_, int number_of_states_, int battery_life_, blackboard *p_BLKB)
     :   Solution_method(),
     BLKB(p_BLKB),
@@ -23,6 +31,7 @@ public:
 
     // Member variables
     blackboard *BLKB;
+    //Load load;
 
     //int best_action;
     int index;

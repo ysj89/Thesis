@@ -6,6 +6,7 @@
 #include "posvec_struct.h"
 #include "blackboard.h"
 
+
 class Agent_H;
 
 class Solution_method

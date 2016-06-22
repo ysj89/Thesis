@@ -29,29 +29,33 @@ using namespace BT;
 int main(int argc, char *argv[])
 {
     srand (time(NULL));
-    bool SAVEDATA = 0;
-    bool RUN = 1;
-    bool TESTCASE = 1;
+
+    bool SAVEDATA           = 1;
+    bool RUN_SIMULATION     = 1;
+    bool RUN_TPM            = 0;
+    bool RUN_GP             = 0;
     Save save;
     //Load load;
 
+    blackboard BB;
+    Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.01, 8, 3, &BB);
+    Q_learning *sol_met1 = new Q_learning(&BB);
+    bt_test_gp_kirk *sol_met2 = new BT::bt_test_gp_kirk(&BB);
+    Random_action *sol_met3 = new Random_action();
 
-    if(RUN == 1)
+
+
+    if(RUN_SIMULATION == 1)
     {
         // /////////////
         // Initiate World and Solution method objects
         // /////////////
         Room room1(15,25);
-        blackboard BB;
-        //Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.01, 8, 3, &BB);
-        bt_test_gp_kirk *sol_met1 = new BT::bt_test_gp_kirk(&BB);
-        //BehaviorTree *sol_met = new BehaviorTree(&BB);
-        //Random_action *sol_met = new Random_action();
 
         // /////////////
-        // Initiate Agent
+        // Initiate Agent start at [3,4]
         // /////////////
-        Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met1, &BB, SAVEDATA);
+        Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met2, &BB, SAVEDATA);
 
         // /////////////
         // Run Agent
@@ -66,38 +70,26 @@ int main(int argc, char *argv[])
     }
 
 
-    if(TESTCASE == 1)
+    if(RUN_TPM == 1)
     {
-        // BT TEST CODE
+        Khepera_T Khepera_test_agent(sol_met2, &BB);
+        Khepera_test_agent.runKhepera_test(100, "1,1,1,3,1,1,1,1,0");
+    }
 
+
+    if(RUN_GP)
+    {
         // Calculate execution time
         std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
-        SAVEDATA = 0;
-        Room room1(15,25);
-        blackboard BB;
-        //BehaviorTree *sol_met = new BehaviorTree(&BB);
-        bt_test_gp_kirk *sol_met1 = new BT::bt_test_gp_kirk(&BB);
-        Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.01, 8, 3, &BB);
-        //Random_action *sol_met = new Random_action();
-        //Agent_H Khepera_heading_bt(&room1, 3, 4, EAST, 9, 3, sol_met, &BB, SAVEDATA);
-
-
-
-        Khepera_T Khepera_test_agent(sol_met, &BB);
-        //Khepera_T Khepera_test_agent(&BB);
-
-        Khepera_test_agent.runKhepera_test(100, "1,1,1,3,1,1,1,1,0");
-        //Khepera_test_agent.runKhepera_wiht_GP(100, "1,1,1,3,1,1,1,1,0", &BB);
-
-
+        Khepera_T Khepera_test_agent(&BB);
+        Khepera_test_agent.runKhepera_wiht_GP(100, "1,1,1,3,1,1,1,1,0", &BB,300);
 
         // Calculate execution time
         std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
         double duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
         std::cout << "\n" << duration / 1000000 << " seconds" << "\n";
     }
-
 
 
     return 0;
