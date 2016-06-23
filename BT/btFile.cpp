@@ -71,7 +71,7 @@ composite* loadFile(const char* file)
     return (composite*) root;
 }
 
-bool saveFile(const char* file, composite* task)
+bool saveFile(std::string file, composite* task)
 {
     std::ofstream myfile (file);
 

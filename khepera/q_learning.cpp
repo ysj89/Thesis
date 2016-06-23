@@ -22,8 +22,7 @@ int Q_learning::chooseAction(blackboard *BLKB)
 
         for(std::unordered_map<int,Score>::iterator it=a.begin(); it != a.end(); it++)
         {
-            if(it == a.begin())
-            {
+            if(it == a.begin()){
                 max_score = it->second;
                 best_action = static_cast<int>(it->first);
             }
@@ -34,7 +33,8 @@ int Q_learning::chooseAction(blackboard *BLKB)
                 best_action = static_cast<int>(it->first);
             }
         }
-        // TODO: Implement epsilon-greedy !
+
+        // With probability epsilon selects a random action, and with probability (1 - epsilon) select a greedy action
         if( ((rand()% 100 + 1 ) / 100) > (1-epsilon))
         {
             //std::cout << "A random action has been selected" << "\n";
@@ -67,11 +67,9 @@ void Q_learning::updateQtable(Agent_H *m_Agent)  // Changed input for heading ag
     {
         ActionScoreMap a;
 
-        for(int i = 0; i <  m_Agent->num_act; i++)
-        {
+        for(int i = 0; i <  m_Agent->num_act; i++){
             a[i] = 0;
         }
-
         Qtable[str_state_current] = a;
     }
 
@@ -79,10 +77,8 @@ void Q_learning::updateQtable(Agent_H *m_Agent)  // Changed input for heading ag
     Score max_score;
     int best_action;
 
-    for(std::unordered_map<int,Score>::iterator it=a.begin(); it != a.end(); it++)
-    {
-        if(it == a.begin())
-        {
+    for(std::unordered_map<int,Score>::iterator it=a.begin(); it != a.end(); it++){
+        if(it == a.begin()){
             max_score = it->second;
             best_action = it->first;
         }

@@ -3,12 +3,13 @@
 
 #include "save_files.h"
 #include "helpfunctions.h"
+#include "../EvolutionaryLearning/test_common.h"
 
-
-void Save::printAgentReward(std::vector<double> *rewardVec)
+void Save::printAgentReward(std::vector<double> *rewardVec, std::string folder)
 {
     std::stringstream filename;
-    filename << "../Visualisation_heading/Reward/reward_last_eps.txt";
+    filename << folder <<"reward_last_eps.txt";
+    //filename << "../Visualisation_heading/Reward/reward_last_eps.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputVector(rewardVec, fs);
@@ -67,10 +68,12 @@ void Save::printAgentExploration(int episode, std::vector<std::vector<int> > &m_
     fs.close();
 }
 
-void Save::printAgentinRoom(int steps, std::vector<std::vector<double> > &m_printMap)
+void Save::printAgentinRoom(int steps, std::vector<std::vector<double> > &m_printMap, std::string folder)
 {
+
     std::stringstream filename;
-    filename << "../Visualisation_heading/World/TotalWorld" << steps << ".txt";
+    //filename << "../Visualisation_heading/World/TotalWorld" << steps << ".txt";
+    filename << folder <<"TotalWorld" << steps << ".txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
     Print::outputMatrix(m_printMap, fs);
@@ -101,12 +104,9 @@ void Save::printTPM3D(std::vector<std::vector<std::vector<double> > > &m_TPM, in
 {
     std::vector<std::vector<double> > tempMatrix (TPM_size, std::vector<double>(TPM_size,0));
 
-    for(unsigned int a = 0; a < m_TPM[0][1].size(); a++ )
-    {
-        for(int i = 0; i < TPM_size; i++ )
-        {
-            for(int j = 0; j < TPM_size; j++ )
-            {
+    for(unsigned int a = 0; a < m_TPM[0][1].size(); a++ ) {
+        for(int i = 0; i < TPM_size; i++ ) {
+            for(int j = 0; j < TPM_size; j++ ) {
                 tempMatrix[i][j] = m_TPM[i][j][a];
             }
         }
@@ -117,7 +117,6 @@ void Save::printTPM3D(std::vector<std::vector<std::vector<double> > > &m_TPM, in
         fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
         Print::outputMatrix(tempMatrix, fs);
         fs.close();
-
     }
 
     tempMatrix.clear();
@@ -127,12 +126,9 @@ void Save::printTPM_discrete_distribution(std::vector<std::vector<std::vector<un
 {
     std::vector<std::vector<unsigned> > tempMatrix (TPM_size, std::vector<unsigned>(TPM_size,0));
 
-    for(unsigned int a = 0; a < m_TPM[0][1].size(); a++ )
-    {
-        for(int i = 0; i < TPM_size; i++ )
-        {
-            for(int j = 0; j < TPM_size; j++ )
-            {
+    for(unsigned int a = 0; a < m_TPM[0][1].size(); a++ ){
+        for(int i = 0; i < TPM_size; i++ ){
+            for(int j = 0; j < TPM_size; j++ ){
                 tempMatrix[i][j] = m_TPM[i][j][a];
             }
         }

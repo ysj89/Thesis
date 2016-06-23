@@ -32,34 +32,27 @@ int main(int argc, char *argv[])
 
     bool SAVEDATA           = 1;
     bool RUN_SIMULATION     = 1;
-    bool RUN_TPM            = 0;
+    bool RUN_TPM            = 1;
     bool RUN_GP             = 0;
     Save save;
     //Load load;
 
     blackboard BB;
-    Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.01, 8, 3, &BB);
+    Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.05, 8, 3, &BB);
     Q_learning *sol_met1 = new Q_learning(&BB);
     bt_test_gp_kirk *sol_met2 = new BT::bt_test_gp_kirk(&BB);
     Random_action *sol_met3 = new Random_action();
 
 
-
     if(RUN_SIMULATION == 1)
     {
-        // /////////////
         // Initiate World and Solution method objects
-        // /////////////
         Room room1(15,25);
 
-        // /////////////
         // Initiate Agent start at [3,4]
-        // /////////////
         Agent_H Khepera_heading(&room1, 3, 4, EAST, 9, 3, sol_met2, &BB, SAVEDATA);
 
-        // /////////////
         // Run Agent
-        // /////////////
         Khepera_heading.runAgent(2,100);
 
         if(SAVEDATA == 1)
@@ -83,7 +76,7 @@ int main(int argc, char *argv[])
         std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
         Khepera_T Khepera_test_agent(&BB);
-        Khepera_test_agent.runKhepera_wiht_GP(100, "1,1,1,3,1,1,1,1,0", &BB,300);
+        Khepera_test_agent.runKhepera_wiht_GP(100, "1,1,1,3,1,1,1,1,0", &BB,50);
 
         // Calculate execution time
         std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();

@@ -11,6 +11,7 @@
 #include "../EvolutionaryLearning/test_common.h"
 #include "../BT/btFile.h"
 
+
 //#define Q_LEARNING
 
 using namespace BT;
@@ -31,12 +32,20 @@ std::mutex mtx;
 void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard *p_BLKB, int number_of_gen)
 {
 
+
+
     // set up new file directory
-    std::stringstream workingfolder, filename, filename1;
-    std::string filename2;
-    workingfolder << "../../BTsaves/";
-    filename<<workingfolder.str()<<"statistics.txt";
+    std::stringstream workingfolder;
+    workingfolder<<"../BTRuns/"<<currentDateTime()<<"/";
+    create_directory(workingfolder.str());
+
+
+    std::stringstream workingfolder1, filename;
+    workingfolder1 << "../BTstats/";
+    create_directory(workingfolder1.str());
+    filename<<workingfolder1.str()<<"statistics_" << currentDateTime() << ".txt";
     std::string statsFileName(filename.str());
+
 
 
     // 1. Initialize Settings()
@@ -47,7 +56,7 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
 
     // define GP parameters
     size_t k_population = 100;       // currently need at least 5, need to include a check to force this
-    size_t max_runs = 5;
+    size_t max_runs = 2;
     //size_t run = 0;
 
     // 2. Initialize Tree_population()
@@ -70,36 +79,30 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
         world_pop.insert( world_pop.end(), archive.begin(), archive.end() );
         world_pop.insert( world_pop.end(), population.begin(), population.end() );
 
+        // Run population
         run_gen((citizens*)&population, max_runs, generation);
 
         // Save statistics
         std::sort(world_pop.begin(), world_pop.end(), sort_mean<citizen>);
         save_statistics((citizens*)&world_pop, generation, statsFileName);
 
-        if(generation > 1){
-        std::sort(archive.begin(), archive.end(), sort_mean<citizen>);
-        composite* tree;
-        tree = archive.front()->BT;
-        int gen;
-        gen = static_cast<int> (generation);
-
-        filename1 << "../../BT_saves/BT_gen" << gen << ".txt";
-        filename2 = filename1.str();
-        saveFile( "filename1" , tree);
-
-        filename1.str(std::string());
-        filename2.clear();
-
-        }
-
         // 5. Procreate BTs
         procreate( &archive, &population );   // check this, now procreating and doing nothing with last pop
     }
 
+
+
+
     std::sort(archive.begin(), archive.end(), sort_mean<citizen>);
     composite* tree;
     tree = archive.front()->BT;
-    saveFile( "../../BT_saves/BT_new_fitness.txt" , tree);
+    std::stringstream workingfolder3, filename3;
+//    workingfolder3 << "../BT_saves/";
+//    create_directory(workingfolder3.str());
+    filename3 << "../../BT_saves/BT_" << currentDateTime() << ".txt";
+
+    saveFile( filename3.str() , tree);
+
 
 
 }
@@ -189,8 +192,8 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
 
 //                std::cout<<state<<std::endl;
 //                printf("action: %d \n ",action);
-
                 // get new state
+
                 state = transition(state, action);
 
                 // get value new state
@@ -201,9 +204,6 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
 
             if (i % 50 == 0)
             std::cout << "KHEPERA_TEST:: the score is: " << score_total << "\n";
-
-
-
 
             population->at(i)->VF[0][j] =  score_total;		// size
 

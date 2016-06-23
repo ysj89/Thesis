@@ -3,6 +3,7 @@
 #include "khepera_agent_heading.h"
 //#include "khepera_agent.h"
 #include "transitionmatrix.h"
+#include "../EvolutionaryLearning/test_common.h"
 
 
 
@@ -356,6 +357,14 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
 
     for(int i = 0; i < _episodes; i++ )
     {
+        // set up new file directory
+        std::stringstream workingfolder1, workingfolder2;
+        workingfolder1<<"../Visualisation_heading/World/"<<currentDateTime()<<"/";
+        workingfolder2<<"../Visualisation_heading/Reward/"<<currentDateTime()<<"/";
+        create_directory(workingfolder1.str());
+        create_directory(workingfolder2.str());
+
+        // Initialization
         current_pos = { x_start , y_start };
         steps = 0;
         totalreward = 0;
@@ -367,44 +376,33 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
         printMap[x_start][y_start + 2] = 3;
         printMap[current_pos.x][current_pos.y] = 5;
 
+        // Agent runs
         while(steps < _totalsteps)
         {
             performAction();
 
             sol_met->updateQtable(this);
-
             Qincrement->at(steps) = sol_met->getQtableincrement(this);
             Qvalue->at(steps) = sol_met->getQvalue(this);
-
             TM.increment(old_state, current_state, action);
 
-            if(i == _episodes - 1)
-            {
-                if(savedata == 1)
-                {
+            if(i == _episodes - 1){
+                if(savedata == 1){
                     setSensorInformation();
-                    save.printAgentinRoom(steps, printMap);
-                    save.printAgentReward(rewardVec);
-
-                }
-            }
-
-        }
-
+                    save.printAgentinRoom(steps, printMap, workingfolder1.str());
+                    save.printAgentReward(rewardVec, workingfolder2.str());
+                } // save
+            } // last episode
+        } // end run
 
         Qvaluetotal->at(i) = sol_met->sumQvalues();
-
         if (i == _episodes - 1)
         {
 //            save.printQincrement(Qincrement);
-
             int sum_of_elems = 0;
-            for (int n : *Qvalue)
-            {
-                sum_of_elems += std::abs(n);
-            }
+            for (int n : *Qvalue){
+                sum_of_elems += std::abs(n);}
 
-            //std::cout << "AGENT:: The summed Qvalue is: " << sum_of_elems << "\n";
             std::cout << "KHEPERA_AGENT_HEADING:: Total reward last episode: " << totalreward << "\n";
 
             Qvalue->push_back(sum_of_elems);
@@ -415,18 +413,14 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
 
 
         if (i % 100 == 0)
-        {
             totalRewardVec.push_back(std::pair<int,double> (i, totalreward));
-//            save.printAgentExploration(i,explorationMap);
-            //std::cout << "AGENT:: The total reward is: " << totalreward << " \n";
-        }
 
         cleanExplorationMap();
     }
 
-    int size_Qtable =  sol_met->getSizeQtable();
-    std::cout << "This is the QTable size: " << size_Qtable << "\n";
-    TM.calculateTPM(size_Qtable, num_act);
+    std::cout << "This is the QTable size: " << sol_met->getSizeQtable() << "\n";
+
+    TM.calculateTPM(sol_met->getSizeQtable(), num_act);
 
     if(savedata == 1)
     {
