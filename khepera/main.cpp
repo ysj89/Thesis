@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
         std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
         Khepera_T Khepera_test_agent(&BB);
-        Khepera_test_agent.runKhepera_wiht_GP(100, "1,1,1,3,1,1,1,1,0", &BB,50);
+        Khepera_test_agent.runKhepera_wiht_GP(100, "1,1,1,3,1,1,1,1,0", &BB,300);
 
         // Calculate execution time
         std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();

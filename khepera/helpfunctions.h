@@ -9,6 +9,17 @@
 
 #include "posvec_struct.h"
 
+inline static double limit(double val, double lower, double upper)
+{
+    if (val > upper)
+        val = upper;
+    else if (val < lower)
+        val = lower;
+
+    return val;
+}
+
+
 namespace Print
 {
 
@@ -70,6 +81,18 @@ void outputTwoValues(T first, Y second, std::ostream& stream)
 
     stream << std::endl;
 }
+
+
+inline static double limit(double val, double lower, double upper)
+{
+    if (val > upper)
+        val = upper;
+    else if (val < lower)
+        val = lower;
+
+    return val;
+}
+
 
 }
 

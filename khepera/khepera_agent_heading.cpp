@@ -28,8 +28,6 @@ void Agent_H::performAction()
 
     action = static_cast<Action_heading> ( getAction_f() ) ;
 
-
-
     // Probability of succesfull execution of action
     //            if ( (rand() % 100 + 1) / 100.0  > 1-succes_probability/steps)
     //            {

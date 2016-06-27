@@ -2,9 +2,12 @@
 #include <random>       // random
 #include <mutex>
 
+
 #include "khepera_test.h"
 #include "load_files.h"
 #include "transitionmatrix.h"
+
+
 
 #include "bt_test_gp_kirk.h"
 #include "../EvolutionaryLearning/GP.h"
@@ -66,7 +69,7 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
 
     // number of objective functions and behaviour metrics must be defined here!
     for (size_t i = 0; i < k_population; i++)
-        population.push_back( new citizen(1, 1) );
+        population.push_back( new citizen(2, 1) );
 
     //std::vector<double> avg_fitness(max_runs);
 
@@ -185,7 +188,7 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
                 }
                 else
                 {
-                    score_total = score_total - 1;
+                    score_total = score_total - 0;
                 }
 
 
@@ -205,15 +208,13 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
             if (i % 50 == 0)
             std::cout << "KHEPERA_TEST:: the score is: " << score_total << "\n";
 
-            population->at(i)->VF[0][j] =  score_total;		// size
+            population->at(i)->VF[0][j] =  score_total/100;		// size
 
-
-//            if (generation > 90)
-//            {
-//                //population->at(i)->VF[1][j] = 1 - ( (int)getNodeCount(population->at(j)->BT) - 20)/200.;
-//                population->at(i)->VF[1][j] = - (int)getNodeCount(population->at(j)->BT);
-//            }
-
+            if (population->at(i)->VF[0][j] > 0.80)
+            {
+                population->at(i)->VF[0][j] = 1 - ( (int)getNodeCount(population->at(i)->BT) - 20)  /200.;
+                population->at(i)->VF[0][j] = limit(population->at(i)->VF[0][i], 0, 1);
+            }
 
             population->at(i)->comp_fit_stats();	// needs to be run for every simulation run!
 
