@@ -102,6 +102,7 @@ private:
     void performAction();
     int getAction_f();
     void setSensorInformation();
+    void spawnApple(int x, int y);
     void printAgentExploration(int episode);
     void cleanExplorationMap();
     void checkBlockedSensor(int s0x, int s0y, int s1x, int s1y, int s2x, int s2y, int s3x, int s3y);

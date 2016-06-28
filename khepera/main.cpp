@@ -46,6 +46,9 @@ int main(int argc, char *argv[])
 
     if(RUN_SIMULATION == 1)
     {
+        // Calculate execution time
+        std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+
         // Initiate World and Solution method objects
         Room room1(15,25);
 
@@ -57,9 +60,14 @@ int main(int argc, char *argv[])
 
         if(SAVEDATA == 1)
         {
-            //save.printQtable(sol_met->Qtable);
+            save.printQtable(sol_met->Qtable);
         }
 
+
+        // Calculate execution time
+        std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+        double duration = std::chrono::duration_cast<std::chrono::microseconds>( t2 - t1 ).count();
+        std::cout << "\n" << duration / 1000000 << " seconds" << "\n";
     }
 
 
@@ -76,7 +84,7 @@ int main(int argc, char *argv[])
         std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
         Khepera_T Khepera_test_agent(&BB);
-        Khepera_test_agent.runKhepera_wiht_GP(100, "1,1,1,3,1,1,1,1,0", &BB,300);
+        Khepera_test_agent.runKhepera_wiht_GP(100, "1,1,1,3,1,1,1,1,0", &BB,75);
 
         // Calculate execution time
         std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();

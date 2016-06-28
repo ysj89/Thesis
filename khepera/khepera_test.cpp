@@ -69,7 +69,7 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
 
     // number of objective functions and behaviour metrics must be defined here!
     for (size_t i = 0; i < k_population; i++)
-        population.push_back( new citizen(2, 1) );
+        population.push_back( new citizen(1, 1) );
 
     //std::vector<double> avg_fitness(max_runs);
 
@@ -188,7 +188,7 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
                 }
                 else
                 {
-                    score_total = score_total - 0;
+
                 }
 
 
@@ -210,11 +210,11 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
 
             population->at(i)->VF[0][j] =  score_total/100;		// size
 
-            if (population->at(i)->VF[0][j] > 0.80)
-            {
-                population->at(i)->VF[0][j] = 1 - ( (int)getNodeCount(population->at(i)->BT) - 20)  /200.;
-                population->at(i)->VF[0][j] = limit(population->at(i)->VF[0][i], 0, 1);
-            }
+//            if (population->at(i)->VF[0][j] > 0.80)
+//            {
+//                population->at(i)->VF[0][j] = 1 - ( (int)getNodeCount(population->at(i)->BT) - 20)  / 200.;
+//                population->at(i)->VF[0][j] = limit(population->at(i)->VF[0][i], 0, 1);
+//            }
 
             population->at(i)->comp_fit_stats();	// needs to be run for every simulation run!
 
@@ -323,7 +323,9 @@ std::string Khepera_T::transition(std::string state, int action)
     }
     else{
         //std::cout << "This transition did not happen during exploration/learning" << std::endl;
-        return state;
+        //std::cout << "Returned a random state" << std::endl;
+        //return state;
+        return returnRandomState();
     }
 }
 
@@ -347,4 +349,9 @@ std::string Khepera_T::returnNextState(std::vector<int> transitionVector)
     std::discrete_distribution<> distr(transitionVector.begin(), transitionVector.end());
     std::vector<int>::iterator it = std::find(vals.begin(), vals.end(), distr(generator));
     return keys[std::distance(vals.begin(), it)];
+}
+
+std::string Khepera_T::returnRandomState()
+{
+    return keys[(rand() % keys.size() ) - 1];
 }

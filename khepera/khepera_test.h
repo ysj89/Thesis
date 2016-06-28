@@ -21,7 +21,7 @@ public:
           generator(std::chrono::system_clock::now().time_since_epoch().count())
     {
         Qtable = load.loadQtable1();
-        transitionMatrix = load.loadTransitionMatrix();
+        //transitionMatrix = load.loadTransitionMatrix();
         transitionMatrix_discrete_distribution = load.loadTransitionMatrix_discrete_distribution();
         string2int = load.loadString2Int();
 
@@ -38,7 +38,7 @@ public:
           generator(std::chrono::system_clock::now().time_since_epoch().count())
     {
         Qtable = load.loadQtable1();
-        transitionMatrix = load.loadTransitionMatrix();
+        //transitionMatrix = load.loadTransitionMatrix();
         transitionMatrix_discrete_distribution = load.loadTransitionMatrix_discrete_distribution();
         string2int = load.loadString2Int();
 
@@ -58,7 +58,7 @@ public:
     double score_tree;
 
     std::unordered_map<std::string, ActionScoreMap> Qtable;
-    std::vector<std::vector<std::vector<double> > >transitionMatrix;
+    //std::vector<std::vector<std::vector<double> > >transitionMatrix;
     std::vector<std::vector<std::vector<int> > > transitionMatrix_discrete_distribution;
     std::unordered_map<std::string, int> string2int;
 
@@ -79,6 +79,7 @@ public:
     std::vector<int> getTransitions(std::string state, int action);
     //std::vector<int> getTransitions_count(std::string state, int action);
     std::string returnNextState(std::vector<int> transitionVector);
+    std::string returnRandomState();
     std::string returnNextState_int(std::vector<int> transitionvec);
     std::vector<int> string2vec(std::string state);
 

@@ -19,8 +19,15 @@ void Save::printAgentReward(std::vector<double> *rewardVec, std::string folder)
 
 void Save::printQincrement(std::vector<double> *Qincrement)
 {
+
+    std::stringstream workingfolder;
+    workingfolder << "../Visualisation_heading/QDelta/Qdelta"<<currentDateTime()<<"/";
+    create_directory(workingfolder.str());
+
+
     std::stringstream filename;
-    filename << "../Visualisation_heading/Qvalues/deltaQ.txt";
+    //filename << "../Visualisation_heading/Qvalues/deltaQ.txt";
+    filename << workingfolder.str() << "Qdelta.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputVector(Qincrement, fs);
@@ -29,6 +36,7 @@ void Save::printQincrement(std::vector<double> *Qincrement)
 
 void Save::printQvalue(std::vector<double> *Qvalues)
 {
+
     std::stringstream filename;
     //filename << "/home/yannick_janssen/GIT/Thesis/khepera/Visualisation_heading/Qvalues/Qvalue.txt";
     filename << "../Visualisation_heading/Qvalues/Qvalue.txt";
@@ -40,8 +48,15 @@ void Save::printQvalue(std::vector<double> *Qvalues)
 
 void Save::printQvaluetotal(std::vector<double> *Qvaluetotal)
 {
+
+    std::stringstream workingfolder;
+    workingfolder << "../Visualisation_heading/QTotal/Qtotal"<<currentDateTime()<<"/";
+    create_directory(workingfolder.str());
+
+
     std::stringstream filename;
-    filename << "../Visualisation_heading/Qvalues/Qvaluetotal.txt";
+    //filename << "../Visualisation_heading/Qvalues/Qvaluetotal.txt";
+    filename << workingfolder.str() << "Qtotal.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputVector(Qvaluetotal, fs);
@@ -50,8 +65,14 @@ void Save::printQvaluetotal(std::vector<double> *Qvaluetotal)
 
 void Save::printAgentRewardperEpisode(std::vector<std::pair<int, double> > totalRewardVec)
 {
+
+    std::stringstream workingfolder;
+    workingfolder << "../Visualisation_heading/Reward_per_eps/Reward_"<<currentDateTime()<<"/";
+    create_directory(workingfolder.str());
+
     std::stringstream filename;
-    filename << "../Visualisation_heading/Reward_per_eps/totalreward.txt";
+    //filename << "../Visualisation_heading/Reward_per_eps/totalreward.txt";
+    filename << workingfolder.str() << "totalreward.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputVectorPair(totalRewardVec,fs);
@@ -82,8 +103,14 @@ void Save::printAgentinRoom(int steps, std::vector<std::vector<double> > &m_prin
 
 void Save::printQtable(std::unordered_map<std::string, ActionScoreMap> &m_Qtable)
 {
+
+    std::stringstream workingfolder;
+    workingfolder << "../Visualisation_heading/QTable/Qtable"<<currentDateTime()<<"/";
+    create_directory(workingfolder.str());
+
     std::stringstream filename;
-    filename << "../Visualisation_heading/QTable/QTable.txt";
+    //filename << "../Visualisation_heading/QTable/QTable.txt";
+    filename << workingfolder.str() << "QTable.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputQTable(m_Qtable, fs);
@@ -104,6 +131,10 @@ void Save::printTPM3D(std::vector<std::vector<std::vector<double> > > &m_TPM, in
 {
     std::vector<std::vector<double> > tempMatrix (TPM_size, std::vector<double>(TPM_size,0));
 
+    std::stringstream workingfolder;
+    workingfolder << "../Visualisation_heading/TPMfolder/TPM"<<currentDateTime()<<"/";
+    create_directory(workingfolder.str());
+
     for(unsigned int a = 0; a < m_TPM[0][1].size(); a++ ) {
         for(int i = 0; i < TPM_size; i++ ) {
             for(int j = 0; j < TPM_size; j++ ) {
@@ -111,8 +142,10 @@ void Save::printTPM3D(std::vector<std::vector<std::vector<double> > > &m_TPM, in
             }
         }
 
+
         std::stringstream filename;
-        filename << "../Visualisation_heading/TransitionPM/TPM" << a << ".txt";
+        //filename << "../Visualisation_heading/TransitionPM/TPM" << a << ".txt";
+        filename << workingfolder.str() << "TPM" << a << ".txt";
         std::ofstream fs;
         fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
         Print::outputMatrix(tempMatrix, fs);
@@ -126,6 +159,11 @@ void Save::printTPM_discrete_distribution(std::vector<std::vector<std::vector<un
 {
     std::vector<std::vector<unsigned> > tempMatrix (TPM_size, std::vector<unsigned>(TPM_size,0));
 
+
+    std::stringstream workingfolder;
+    workingfolder << "../Visualisation_heading/TPMfolder/TPM"<<currentDateTime()<<"/";
+    create_directory(workingfolder.str());
+
     for(unsigned int a = 0; a < m_TPM[0][1].size(); a++ ){
         for(int i = 0; i < TPM_size; i++ ){
             for(int j = 0; j < TPM_size; j++ ){
@@ -134,7 +172,8 @@ void Save::printTPM_discrete_distribution(std::vector<std::vector<std::vector<un
         }
 
         std::stringstream filename;
-        filename << "../Visualisation_heading/TransitionPM/TPM_discrete_dis" << a << ".txt";
+        //filename << "../Visualisation_heading/TransitionPM/TPM_disc" << a << ".txt";
+        filename << workingfolder.str() << "TPM_count" << a << ".txt";
         std::ofstream fs;
         fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
         Print::outputMatrix(tempMatrix, fs);
@@ -147,8 +186,14 @@ void Save::printTPM_discrete_distribution(std::vector<std::vector<std::vector<un
 
 void Save::printTPMunorderedMap(std::unordered_map<std::string, unsigned int> &m_string2intMap1)
 {
+
+    std::stringstream workingfolder;
+    workingfolder << "../Visualisation_heading/QTable/Qconversion"<<currentDateTime()<<"/";
+    create_directory(workingfolder.str());
+
     std::stringstream filename;
-    filename << "../Visualisation_heading/string2int/str2int.txt";
+    //filename << "../Visualisation_heading/string2int/str2int.txt";
+    filename << workingfolder.str() << "Qconversion.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputUMstr2int(m_string2intMap1, fs);

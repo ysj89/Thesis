@@ -14,7 +14,9 @@
 std::unordered_map<std::string, ActionScoreMap> Load::loadQtable1()
 {
     std::stringstream filename;
-    filename << "../Visualisation_heading/QTable/QTable.txt";
+    //filename << "../Visualisation_heading/QTable/QTable.txt";
+    filename << "../Visualisation_heading/QTable/Qtable2016-06-28_13:04:25/QTable.txt";
+
     std::ifstream inFile;
     inFile.open(filename.str());
     //    std::string word;
@@ -123,7 +125,8 @@ std::vector<std::vector<std::vector<double> > >Load::loadTransitionMatrix()
 
 std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete_distribution()
 {
-    std::ifstream myfile("../Visualisation_heading/TransitionPM/TPM_discrete_dis0.txt");
+    //std::ifstream myfile("../Visualisation_heading/TransitionPM/TPM_discrete_dis0.txt");
+    std::ifstream myfile("../Visualisation_heading/TPMfolder/TPM2016-06-28_13:04:20/TPM_count0.txt");
 
     // new lines will be skipped unless we stop it from happening:
     myfile.unsetf(std::ios_base::skipws);
@@ -143,7 +146,8 @@ std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete
         values.resize(0);
         std::stringstream filename;
 
-        filename << "../Visualisation_heading/TransitionPM/TPM_discrete_dis" << count << ".txt";
+        filename << "../Visualisation_heading/TPMfolder/TPM2016-06-28_13:04:20/TPM_count" << count << ".txt";
+        //filename << "../Visualisation_heading/TransitionPM/TPM_discrete_dis" << count << ".txt";
         std::ifstream inFile;
         inFile.open(filename.str());
 
@@ -180,7 +184,8 @@ std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete
 std::unordered_map<std::string, int> Load::loadString2Int()
 {
     std::stringstream filename;
-    filename << "../Visualisation_heading/string2int/str2int.txt";
+    //filename << "../Visualisation_heading/string2int/str2int.txt";
+    filename << "../Visualisation_heading/QTable/Qconversion2016-06-28_13:04:22/Qconversion.txt";
     std::ifstream inFile;
     inFile.open(filename.str());
 

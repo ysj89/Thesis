@@ -88,6 +88,8 @@ void Agent_H::performAction()
     {
         reward = 100;
         m_Room->worldMap[current_pos.x][current_pos.y] = 1;
+
+        spawnApple(rand() % m_Room->x_size, rand() % m_Room->y_size);
     }
 
     // State
@@ -288,6 +290,17 @@ void Agent_H::setSensorInformation()
     }
 }
 
+void Agent_H::spawnApple(int x, int y)
+{
+
+    if(m_Room->worldMap[x][y] == 1)
+        m_Room->worldMap[x][y] = 3;
+    else
+    {
+        spawnApple(rand()% m_Room->x_size, rand()% m_Room->x_size);
+    }
+}
+
 void Agent_H::cleanExplorationMap()
 {
     for (int i = 0; i < m_Room->x_size; i++)
@@ -350,17 +363,23 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
     *Qvaluetotal = std::vector<double>(_episodes + 1);
     *Qincrement = std::vector<double>(_totalsteps + 1);
 
-    int size_TPM = 500;
-    TransitionMatrix TM(size_TPM, num_act);
+    int size_TPM = 5000;
+    //TransitionMatrix TM(size_TPM, num_act);
+
+    std::stringstream workingfolder1, workingfolder2;
+    if(savedata == 1)
+    {
+    // set up new file directory
+    workingfolder1<<"../Visualisation_heading/World/"<<currentDateTime()<<"/";
+    workingfolder2<<"../Visualisation_heading/Reward/"<<currentDateTime()<<"/";
+    create_directory(workingfolder1.str());
+    create_directory(workingfolder2.str());
+    }
+
 
     for(int i = 0; i < _episodes; i++ )
     {
-        // set up new file directory
-        std::stringstream workingfolder1, workingfolder2;
-        workingfolder1<<"../Visualisation_heading/World/"<<currentDateTime()<<"/";
-        workingfolder2<<"../Visualisation_heading/Reward/"<<currentDateTime()<<"/";
-        create_directory(workingfolder1.str());
-        create_directory(workingfolder2.str());
+
 
         // Initialization
         current_pos = { x_start , y_start };
@@ -382,7 +401,7 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
             sol_met->updateQtable(this);
             Qincrement->at(steps) = sol_met->getQtableincrement(this);
             Qvalue->at(steps) = sol_met->getQvalue(this);
-            TM.increment(old_state, current_state, action);
+            //TM.increment(old_state, current_state, action);
 
             if(i == _episodes - 1){
                 if(savedata == 1){
@@ -394,21 +413,20 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
         } // end run
 
         Qvaluetotal->at(i) = sol_met->sumQvalues();
+
         if (i == _episodes - 1)
         {
-//            save.printQincrement(Qincrement);
+            save.printQincrement(Qincrement);
             int sum_of_elems = 0;
             for (int n : *Qvalue){
                 sum_of_elems += std::abs(n);}
 
             std::cout << "KHEPERA_AGENT_HEADING:: Total reward last episode: " << totalreward << "\n";
 
-            Qvalue->push_back(sum_of_elems);
-//            save.printQvalue(Qvalue);
-//            save.printQvaluetotal(Qvaluetotal);
+            //Qvalue->push_back(sum_of_elems);
+            //save.printQvalue(Qvalue);
+            save.printQvaluetotal(Qvaluetotal);
         }
-
-
 
         if (i % 100 == 0)
             totalRewardVec.push_back(std::pair<int,double> (i, totalreward));
@@ -418,15 +436,15 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
 
     std::cout << "This is the QTable size: " << sol_met->getSizeQtable() << "\n";
 
-    TM.calculateTPM(sol_met->getSizeQtable(), num_act);
+    //TM.calculateTPM(sol_met->getSizeQtable(), num_act);
 
     if(savedata == 1)
     {
-//        save.printTPM3D(TM.TPM, size_Qtable);
-//        save.printTPM_discrete_distribution(TM.transitionMatrix_count, size_Qtable);
-//        save.printAgentRewardperEpisode(totalRewardVec);
-//        TM.storeKeyandMap();
-//        save.printTPMunorderedMap(TM.string2intMap1);
+        //save.printTPM3D(TM.TPM, sol_met->getSizeQtable());
+        //save.printTPM_discrete_distribution(TM.transitionMatrix_count, sol_met->getSizeQtable());
+        //save.printAgentRewardperEpisode(totalRewardVec);
+        //TM.storeKeyandMap();
+        //save.printTPMunorderedMap(TM.string2intMap1);
     }
 
 }
