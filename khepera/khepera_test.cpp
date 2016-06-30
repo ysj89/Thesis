@@ -120,7 +120,7 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
     composite* tree;
     int action;
     double score_total;
-    std::string state_init = "1,1,1,3,1,1,1,1,0";
+    std::string state_init = "1,1,1,3,1,1,1,1";
     std::string state;
 
      for(size_t i = 0; i < population->size(); i++)
@@ -145,14 +145,14 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
             while(t < t_end)
             {
                 // char to num
-                BLKB->set("sensor0", state.at(0) - 48);
-                BLKB->set("sensor1", state.at(2) - 48);
-                BLKB->set("sensor2", state.at(4) - 48);
-                BLKB->set("sensor3", state.at(6) - 48);
-                BLKB->set("sensor4", state.at(8) - 48);
-                BLKB->set("sensor5", state.at(10) - 48);
-                BLKB->set("sensor6", state.at(12) - 48);
-                BLKB->set("sensor7", state.at(14) - 48);
+                BLKB->set("sensor0", state.at(0) - 48); //  0
+                BLKB->set("sensor1", state.at(2) - 48); //  1
+                BLKB->set("sensor2", state.at(4) - 48); //  2
+                BLKB->set("sensor3", state.at(6) - 48); //  3
+                BLKB->set("sensor4", state.at(8) - 48); //  4
+                BLKB->set("sensor5", state.at(10) - 48); // 5
+                BLKB->set("sensor6", state.at(12) - 48); // 6
+                BLKB->set("sensor7", state.at(14) - 48); // 7
 
                 tree->update(BLKB);
         //        sol_met->chooseAction(p_BLKB);
@@ -182,20 +182,20 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
 
 
                 // Fitness - if action selected is same as greedy-policy selection +1, otherwise -1;
-                if(  (state.at(6) - 48) == 3 || (state.at(8) - 48) == 3 || (state.at(10) - 48) == 3 || (state.at(12) - 48) == 3 || (state.at(14) - 48) == 3   )
+                if( (state.at(6) - 48) == 3 || (state.at(8) - 48) == 3 || (state.at(12) - 48) == 3   )
                 {
 
                     if(action == action_best)
                     {
-                        score_total = score_total + 1;
+                        score_total = score_total + 8;
                     }
                     else
                     {
-                        score_total = score_total - 10;
+                        score_total = score_total - 1;
                     }
 
                 }
-                else if( (state.at(6) - 48) == 0 )
+                else if(  (state.at(6) - 48) == 0  )
                 {
                     if(action == action_best)
                     {
@@ -203,19 +203,19 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
                     }
                     else
                     {
-                        score_total = score_total - 10;
+                        score_total = score_total - 1;
                     }
                 }
                 else
                 {
-                    if(action == action_best)
-                    {
-                        score_total = score_total + 1;
-                    }
-                    else
-                    {
-                        score_total = score_total + 0;
-                    }
+//                    if(action == action_best)
+//                    {
+//                        score_total = score_total + 1;
+//                    }
+//                    else
+//                    {
+//                        score_total = score_total + 0;
+//                    }
                 }
 
 
@@ -237,10 +237,10 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
 
             population->at(i)->VF[0][j] =  score_total;		// size
 
-            if (population->at(i)->VF[0][j] > 60)
+            if (population->at(i)->VF[0][j] > 300)
             {
-                population->at(i)->VF[1][j] = 100 - ( (int)getNodeCount(population->at(i)->BT) - 20);
-                population->at(i)->VF[1][j] = limit(population->at(i)->VF[1][j], -200, 100);
+                population->at(i)->VF[1][j] = 500 - ( (int)getNodeCount(population->at(i)->BT) - 20);
+                population->at(i)->VF[1][j] = limit(population->at(i)->VF[1][j], -150, 500);
             }
 
             population->at(i)->comp_fit_stats();	// needs to be run for every simulation run!
@@ -394,8 +394,24 @@ std::string Khepera_T::returnNextState(std::vector<int> transitionVector)
     //std::mt19937 gen(1701);
     //std::default_random_engine generator(rand() % 100 );
     std::discrete_distribution<> distr(transitionVector.begin(), transitionVector.end());
-    std::vector<int>::iterator it = std::find(vals.begin(), vals.end(), distr(generator));
-    return keys[std::distance(vals.begin(), it)];
+
+
+
+    std::vector<int>::iterator it = std::find( vals.begin(), vals.end(), distr(generator) );
+
+    if( it == vals.end() )
+    {
+         // not found - abort!
+    }
+
+    // otherwise...
+    int int_i;
+    int_i = std::distance( vals.begin(), it );
+    return keys[int_i];
+
+
+//    std::vector<int>::iterator it = std::find(vals.begin(), vals.end(), distr(generator));
+//    return keys[std::distance(vals.begin(), it)];
 }
 
 std::string Khepera_T::returnRandomState()

@@ -23,7 +23,7 @@ public:
         Qtable = load.loadQtable1();
         //transitionMatrix = load.loadTransitionMatrix();
         transitionMatrix_discrete_distribution = load.loadTransitionMatrix_discrete_distribution();
-        string2int = load.loadString2Int();
+        string2int = load.Qconversion();
 
         // to get string from index
         for(auto kv : string2int)
@@ -42,7 +42,7 @@ public:
         Qtable = load.loadQtable1();
         //transitionMatrix = load.loadTransitionMatrix();
         transitionMatrix_discrete_distribution = load.loadTransitionMatrix_discrete_distribution();
-        string2int = load.loadString2Int();
+        string2int = load.Qconversion(); // IN Qconversion hardcoded number of states!!
 
         // to get string from index
         for(auto kv : string2int)

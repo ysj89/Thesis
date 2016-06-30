@@ -15,7 +15,7 @@ std::unordered_map<std::string, ActionScoreMap> Load::loadQtable1()
 {
     std::stringstream filename;
     //filename << "../Visualisation_heading/QTable/QTable.txt";
-    filename << "../Visualisation_heading/QTable/Qtable2016-06-30_10:24:02/QTable.txt";
+    filename << "../Visualisation_heading/QTable/Qtable2016-06-30_15:09:55/QTable.txt";
 
     std::ifstream inFile;
     inFile.open(filename.str());
@@ -41,8 +41,10 @@ std::unordered_map<std::string, ActionScoreMap> Load::loadQtable1()
     for(std::vector<double> &i : values)
     {
         states.push_back(vec2str2(i,2));
-        actions.push_back(i[9]);
-        scores.push_back(i[10]);
+//        actions.push_back(i[9]);
+//        scores.push_back(i[10]);
+        actions.push_back(i[8]);
+        scores.push_back(i[9]);
     }
 
     std::unordered_map<std::string, ActionScoreMap> Qtable;
@@ -126,7 +128,7 @@ std::vector<std::vector<std::vector<double> > >Load::loadTransitionMatrix()
 std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete_distribution()
 {
     //std::ifstream myfile("../Visualisation_heading/TransitionPM/TPM_discrete_dis0.txt");
-    std::ifstream myfile("../Visualisation_heading/TPMfolder/TPM2016-06-30_10:39:36/TPM_count0.txt");
+    std::ifstream myfile("../Visualisation_heading/TPMfolder/TPM2016-06-30_15:09:54/TPM_count0.txt");
 
     // new lines will be skipped unless we stop it from happening:
     myfile.unsetf(std::ios_base::skipws);
@@ -147,7 +149,7 @@ std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete
         values.resize(0);
         std::stringstream filename;
 
-        filename << "../Visualisation_heading/TPMfolder/TPM2016-06-30_10:39:36/TPM_count" << count << ".txt";
+        filename << "../Visualisation_heading/TPMfolder/TPM2016-06-30_15:09:54/TPM_count" << count << ".txt";
         //filename << "../Visualisation_heading/TransitionPM/TPM_discrete_dis" << count << ".txt";
         std::ifstream inFile;
         inFile.open(filename.str());
@@ -198,11 +200,11 @@ std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete
     return transistionProbabilityMatrix;
 }
 
-std::unordered_map<std::string, int> Load::loadString2Int()
+std::unordered_map<std::string, int> Load::Qconversion()
 {
     std::stringstream filename;
     //filename << "../Visualisation_heading/string2int/str2int.txt";
-    filename << "../Visualisation_heading/QTable/Qconversion2016-06-28_13:04:22/Qconversion.txt";
+    filename << "../Visualisation_heading/Qconversion/Qconversion2016-06-30_15:09:54/Qconversion.txt";
     std::ifstream inFile;
     inFile.open(filename.str());
 
@@ -225,7 +227,7 @@ std::unordered_map<std::string, int> Load::loadString2Int()
     for(std::vector<double> &i : values)
     {
         states.push_back(vec2str2(i,1));
-        identifier.push_back(i[9]);
+        identifier.push_back(i[8]); // i[8] is for the number of states! If include heading == i[9]
     }
 
     inFile.close();

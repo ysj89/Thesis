@@ -363,7 +363,7 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
     *Qvaluetotal = std::vector<double>(_episodes + 1);
     *Qincrement = std::vector<double>(_totalsteps + 1);
 
-    int size_TPM = 1000;
+    int size_TPM = 2000;
     TransitionMatrix TM(size_TPM, num_act);
 
     std::stringstream workingfolder1, workingfolder2;
@@ -401,7 +401,7 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
             sol_met->updateQtable(this);
             Qincrement->at(steps) = sol_met->getQtableincrement(this);
             Qvalue->at(steps) = sol_met->getQvalue(this);
-            //TM.increment(old_state, current_state, action);
+            TM.increment(old_state, current_state, action);
 
             if(i == _episodes - 1){
                 if(savedata == 1){
@@ -440,7 +440,6 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
 
     if(savedata == 1)
     {
-        save.printTPM3D(TM.TPM, sol_met->getSizeQtable());
         save.printTPM_discrete_distribution(TM.transitionMatrix_count, sol_met->getSizeQtable());
         save.printAgentRewardperEpisode(totalRewardVec);
         TM.storeKeyandMap();

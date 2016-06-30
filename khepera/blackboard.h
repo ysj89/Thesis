@@ -26,7 +26,7 @@ public:
         BB["sensor5"] = 1;
         BB["sensor6"] = 1;
         BB["sensor7"] = 1;
-        BB["sensor8"] = 1;
+//        BB["sensor8"] = 1;
         BB["action"] = 1;
     }
 

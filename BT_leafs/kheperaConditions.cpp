@@ -28,12 +28,12 @@ std::tuple<std::string,double,double,double> input ( int i )
         std::cerr<<"check number of variables, requested: " << i << std::endl;
         sprintf(buff,"sensor");
         lower_lim = 0.;
-        upper_lim = 2;
+        upper_lim = 1;
     }
 
     // Needs to produce 1 of 3 random options: for 0 = wall, 1 = free, 3 = apple
     threshold = rand() % ((int)round(upper_lim) - (int)round(lower_lim) + 1) + lower_lim;                // test for 100 discrete points on range [lower_lim, upper_lim]
-    if(threshold == 2)
+    if(threshold == 1)
         threshold = 3;
 
     return std::make_tuple(buff, threshold, lower_lim, upper_lim);
