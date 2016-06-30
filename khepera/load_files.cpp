@@ -15,7 +15,7 @@ std::unordered_map<std::string, ActionScoreMap> Load::loadQtable1()
 {
     std::stringstream filename;
     //filename << "../Visualisation_heading/QTable/QTable.txt";
-    filename << "../Visualisation_heading/QTable/Qtable2016-06-28_13:04:25/QTable.txt";
+    filename << "../Visualisation_heading/QTable/Qtable2016-06-30_10:24:02/QTable.txt";
 
     std::ifstream inFile;
     inFile.open(filename.str());
@@ -126,7 +126,7 @@ std::vector<std::vector<std::vector<double> > >Load::loadTransitionMatrix()
 std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete_distribution()
 {
     //std::ifstream myfile("../Visualisation_heading/TransitionPM/TPM_discrete_dis0.txt");
-    std::ifstream myfile("../Visualisation_heading/TPMfolder/TPM2016-06-28_13:04:20/TPM_count0.txt");
+    std::ifstream myfile("../Visualisation_heading/TPMfolder/TPM2016-06-30_10:39:36/TPM_count0.txt");
 
     // new lines will be skipped unless we stop it from happening:
     myfile.unsetf(std::ios_base::skipws);
@@ -138,7 +138,8 @@ std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete
                 '\n');
 
     std::vector<std::vector<std::vector<int> > > transistionProbabilityMatrix
-            (line_count, std::vector<std::vector<int> > (line_count, std::vector<int> (3,0)));
+            (line_count, std::vector<std::vector<int> > (line_count + 1, std::vector<int> (3,0)));
+            //(line_count, std::vector<std::vector<int> > (line_count, std::vector<int> (3,0)));
     std::vector<std::vector<int> > values;
 
     for(int count = 0; count < 3; count++)
@@ -146,7 +147,7 @@ std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete
         values.resize(0);
         std::stringstream filename;
 
-        filename << "../Visualisation_heading/TPMfolder/TPM2016-06-28_13:04:20/TPM_count" << count << ".txt";
+        filename << "../Visualisation_heading/TPMfolder/TPM2016-06-30_10:39:36/TPM_count" << count << ".txt";
         //filename << "../Visualisation_heading/TransitionPM/TPM_discrete_dis" << count << ".txt";
         std::ifstream inFile;
         inFile.open(filename.str());
@@ -167,9 +168,25 @@ std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete
                                             std::istream_iterator<int>()));
         }
 
-        for(unsigned i = 0; i < (values.size() - 1); i ++)
+
+        int sum = 0;
+
+        for (int i = 0; i < (values.size() ); i++)
         {
-            for(unsigned j = 0; j < values.size(); j++)
+            for(int j = 0; ( j < values.size()  ); j++)
+            {
+                sum = sum + values[i][j];
+            }
+        values[i].push_back(sum);
+        sum = 0;
+
+        }
+
+
+
+        for(unsigned i = 0; i < (values.size()); i ++)
+        {
+            for(unsigned j = 0; j < values.size() + 1; j++)
             {
                 transistionProbabilityMatrix[i][j][count] = values[i][j];
             }

@@ -188,7 +188,7 @@ void Q_learning::getStateVec()
     state_vec[5] = BLKB->get("sensor5");
     state_vec[6] = BLKB->get("sensor6");
     state_vec[7] = BLKB->get("sensor7");
-    state_vec[8] = BLKB->get("sensor8");
+    //state_vec[8] = BLKB->get("sensor8");
 
 
 }

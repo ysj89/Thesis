@@ -25,7 +25,7 @@ public:
     alpha(ALPHA_),
     gamma(GAMMA_),
     epsilon(EPSILON_),
-    state_vec(9)
+    state_vec(number_of_states_)
     {
     }
 

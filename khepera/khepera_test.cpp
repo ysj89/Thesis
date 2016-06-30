@@ -69,7 +69,7 @@ void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard
 
     // number of objective functions and behaviour metrics must be defined here!
     for (size_t i = 0; i < k_population; i++)
-        population.push_back( new citizen(1, 1) );
+        population.push_back( new citizen(2, 1) );
 
     //std::vector<double> avg_fitness(max_runs);
 
@@ -128,7 +128,7 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
          score_total = 0.;
          tree = population->at(i)->BT;
 
-        for(size_t j = 0; j < runs; j++) // <- Run same tree multiple times to get good score
+        for(size_t j = 0; j < runs; j++) // <-e Run same tree multiple times to get good scor
         {
             // add place holders for new run
             if(population->at(i)->VF.front().size() < runs){
@@ -182,13 +182,40 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
 
 
                 // Fitness - if action selected is same as greedy-policy selection +1, otherwise -1;
-                if(action == action_best)
+                if(  (state.at(6) - 48) == 3 || (state.at(8) - 48) == 3 || (state.at(10) - 48) == 3 || (state.at(12) - 48) == 3 || (state.at(14) - 48) == 3   )
                 {
-                    score_total = score_total + 1;
+
+                    if(action == action_best)
+                    {
+                        score_total = score_total + 1;
+                    }
+                    else
+                    {
+                        score_total = score_total - 10;
+                    }
+
+                }
+                else if( (state.at(6) - 48) == 0 )
+                {
+                    if(action == action_best)
+                    {
+                        score_total = score_total + 1;
+                    }
+                    else
+                    {
+                        score_total = score_total - 10;
+                    }
                 }
                 else
                 {
-
+                    if(action == action_best)
+                    {
+                        score_total = score_total + 1;
+                    }
+                    else
+                    {
+                        score_total = score_total + 0;
+                    }
                 }
 
 
@@ -208,13 +235,13 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
             if (i % 50 == 0)
             std::cout << "KHEPERA_TEST:: the score is: " << score_total << "\n";
 
-            population->at(i)->VF[0][j] =  score_total/100;		// size
+            population->at(i)->VF[0][j] =  score_total;		// size
 
-//            if (population->at(i)->VF[0][j] > 0.80)
-//            {
-//                population->at(i)->VF[0][j] = 1 - ( (int)getNodeCount(population->at(i)->BT) - 20)  / 200.;
-//                population->at(i)->VF[0][j] = limit(population->at(i)->VF[0][i], 0, 1);
-//            }
+            if (population->at(i)->VF[0][j] > 60)
+            {
+                population->at(i)->VF[1][j] = 100 - ( (int)getNodeCount(population->at(i)->BT) - 20);
+                population->at(i)->VF[1][j] = limit(population->at(i)->VF[1][j], -200, 100);
+            }
 
             population->at(i)->comp_fit_stats();	// needs to be run for every simulation run!
 
@@ -310,23 +337,42 @@ std::string Khepera_T::transition(std::string state, int action)
 {
     std::vector<int> discrete_distribution_vec;
     discrete_distribution_vec = getTransitions(state, action);
-    double sum_of_elems = 0;
 
-    for (int n : discrete_distribution_vec){
-        sum_of_elems += n;
-    }
 
-    if(sum_of_elems != 0){
+
+//    double sum_of_elems = 0;
+
+//    for (int n : discrete_distribution_vec){
+//        sum_of_elems += n;
+//    }
+
+
+    if(discrete_distribution_vec.back() =! 0)
+    {
+        discrete_distribution_vec.pop_back();
+
         std::string new_state = returnNextState(discrete_distribution_vec);
         //std::cout << "The new state is: " <<new_state << std::endl;
         return new_state;
     }
-    else{
-        //std::cout << "This transition did not happen during exploration/learning" << std::endl;
-        //std::cout << "Returned a random state" << std::endl;
-        //return state;
+    else
+    {
         return returnRandomState();
     }
+
+
+//    if(sum_of_elems != 0)
+//    {
+//        std::string new_state = returnNextState(discrete_distribution_vec);
+//        //std::cout << "The new state is: " <<new_state << std::endl;
+//        return new_state;
+//    }
+//    else{
+//        //std::cout << "This transition did not happen during exploration/learning" << std::endl;
+//        //std::cout << "Returned a random state" << std::endl;
+//        //return state;
+//        return returnRandomState();
+//    }
 }
 
 std::vector<int> Khepera_T::getTransitions(std::string state, int action)
@@ -342,6 +388,7 @@ std::vector<int> Khepera_T::getTransitions(std::string state, int action)
     return TP;
 }
 
+
 std::string Khepera_T::returnNextState(std::vector<int> transitionVector)
 {
     //std::mt19937 gen(1701);
@@ -353,5 +400,6 @@ std::string Khepera_T::returnNextState(std::vector<int> transitionVector)
 
 std::string Khepera_T::returnRandomState()
 {
-    return keys[(rand() % keys.size() ) - 1];
+    int rand_num = (rand() % keys.size() ) - 1;
+    return keys[rand_num];
 }

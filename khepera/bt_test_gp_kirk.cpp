@@ -22,7 +22,7 @@ bt_test_gp_kirk::~bt_test_gp_kirk()
 void bt_test_gp_kirk::buildingTree()
 {
 
-    root = BT::loadFile("../../BT_saves/BT_2016-06-27_12:15:14.txt");
+    root = BT::loadFile("../../BT_saves/BT_2016-06-29_20:22:44.txt");
 
 //    save BT to file for SmartUAV
 //    BT::saveFile( "../../BT_saves/BT5.txt" , root);

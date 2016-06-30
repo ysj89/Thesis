@@ -113,7 +113,7 @@ void Agent_H::performAction()
         current_state[5] = m_Room->worldMap[current_pos.x ][current_pos.y + 1];
         current_state[6] = m_Room->worldMap[current_pos.x - 1 ][current_pos.y - 1];
         current_state[7] = m_Room->worldMap[current_pos.x][current_pos.y - 1];
-        current_state[8] = NORTH;
+        //current_state[8] = NORTH;
 
         break;
     case EAST: // 1
@@ -134,7 +134,7 @@ void Agent_H::performAction()
         current_state[6] = m_Room->worldMap[current_pos.x - 1][current_pos.y + 1];
         current_state[7] = m_Room->worldMap[current_pos.x - 1][current_pos.y];
 
-        current_state[8] = EAST;
+        //current_state[8] = EAST;
         break;
 
     case SOUTH: // 2
@@ -153,7 +153,7 @@ void Agent_H::performAction()
         current_state[5] = m_Room->worldMap[current_pos.x][current_pos.y - 1];
         current_state[6] = m_Room->worldMap[current_pos.x + 1][current_pos.y + 1];
         current_state[7] = m_Room->worldMap[current_pos.x][current_pos.y + 1];
-        current_state[8] = SOUTH;
+        //current_state[8] = SOUTH;
         break;
 
     case WEST: // 3
@@ -173,7 +173,7 @@ void Agent_H::performAction()
         current_state[6] = m_Room->worldMap[current_pos.x + 1][current_pos.y - 1];
         current_state[7] = m_Room->worldMap[current_pos.x + 1][current_pos.y];
 
-        current_state[8] = WEST;
+        //current_state[8] = WEST;
         break;
     }
     explorationMap[current_pos.x][current_pos.y] = (explorationMap[current_pos.x][current_pos.y] + 1 );
@@ -190,7 +190,7 @@ void Agent_H::performAction()
     BLKB->set("sensor5", current_state[5] );
     BLKB->set("sensor6", current_state[6] );
     BLKB->set("sensor7", current_state[7] );
-    BLKB->set("sensor8", current_state[8] ); // sensor8 == heading
+    //BLKB->set("sensor8", current_state[8] ); // sensor8 == heading
 
 
 
@@ -363,8 +363,8 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
     *Qvaluetotal = std::vector<double>(_episodes + 1);
     *Qincrement = std::vector<double>(_totalsteps + 1);
 
-    int size_TPM = 5000;
-    //TransitionMatrix TM(size_TPM, num_act);
+    int size_TPM = 1000;
+    TransitionMatrix TM(size_TPM, num_act);
 
     std::stringstream workingfolder1, workingfolder2;
     if(savedata == 1)
@@ -440,11 +440,11 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
 
     if(savedata == 1)
     {
-        //save.printTPM3D(TM.TPM, sol_met->getSizeQtable());
-        //save.printTPM_discrete_distribution(TM.transitionMatrix_count, sol_met->getSizeQtable());
-        //save.printAgentRewardperEpisode(totalRewardVec);
-        //TM.storeKeyandMap();
-        //save.printTPMunorderedMap(TM.string2intMap1);
+        save.printTPM3D(TM.TPM, sol_met->getSizeQtable());
+        save.printTPM_discrete_distribution(TM.transitionMatrix_count, sol_met->getSizeQtable());
+        save.printAgentRewardperEpisode(totalRewardVec);
+        TM.storeKeyandMap();
+        save.printTPMunorderedMap(TM.string2intMap1);
     }
 
 }

@@ -188,7 +188,7 @@ void Save::printTPMunorderedMap(std::unordered_map<std::string, unsigned int> &m
 {
 
     std::stringstream workingfolder;
-    workingfolder << "../Visualisation_heading/QTable/Qconversion"<<currentDateTime()<<"/";
+    workingfolder << "../Visualisation_heading/Qconversion/Qconversion"<<currentDateTime()<<"/";
     create_directory(workingfolder.str());
 
     std::stringstream filename;
