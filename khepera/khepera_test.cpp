@@ -15,7 +15,7 @@
 #include "../BT/btFile.h"
 
 
-//#define Q_LEARNING
+#define Q_LEARNING
 
 using namespace BT;
 using namespace GP;
@@ -120,6 +120,8 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
     composite* tree;
     int action;
     double score_total;
+//    double score_apple;
+//    double score_wall;
     std::string state_init = "1,1,1,3,1,1,1,1";
     std::string state;
 
@@ -142,6 +144,8 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
             t = 0;
             state = state_init;
             score_total = 0.;
+//            score_apple = 0;
+//            score_wall = 0;
             while(t < t_end)
             {
                 // char to num
@@ -182,7 +186,8 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
 
 
                 // Fitness - if action selected is same as greedy-policy selection +1, otherwise -1;
-                if( (state.at(6) - 48) == 3 || (state.at(8) - 48) == 3 || (state.at(12) - 48) == 3   )
+//                if( (state.at(6) - 48) == 3 || (state.at(8) - 48) == 3 || (state.at(12) - 48) == 3   )
+                if( (state.at(6) - 48) == 3 || (state.at(8) - 48) == 3 || (state.at(10) - 48) == 3  || (state.at(12) - 48) == 3||  (state.at(14) - 48) == 3 )
                 {
 
                     if(action == action_best)
@@ -191,11 +196,11 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
                     }
                     else
                     {
-                        score_total = score_total - 1;
+                        score_total = score_total - 4;
                     }
 
                 }
-                else if(  (state.at(6) - 48) == 0  )
+                else if(  (state.at(6) - 48) == 0 || (state.at(10) - 48) == 0 || (state.at(14) - 48) == 0)
                 {
                     if(action == action_best)
                     {
@@ -203,19 +208,19 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
                     }
                     else
                     {
-                        score_total = score_total - 1;
+                        score_total = score_total - 2;
                     }
                 }
                 else
                 {
-//                    if(action == action_best)
-//                    {
-//                        score_total = score_total + 1;
-//                    }
-//                    else
-//                    {
-//                        score_total = score_total + 0;
-//                    }
+                    if(action == action_best)
+                    {
+                        score_total = score_total + 1;
+                    }
+                    else
+                    {
+                        score_total = score_total + 0;
+                    }
                 }
 
 
@@ -237,10 +242,11 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
 
             population->at(i)->VF[0][j] =  score_total;		// size
 
+
             if (population->at(i)->VF[0][j] > 300)
             {
-                population->at(i)->VF[1][j] = 500 - ( (int)getNodeCount(population->at(i)->BT) - 20);
-                population->at(i)->VF[1][j] = limit(population->at(i)->VF[1][j], -150, 500);
+                population->at(i)->VF[1][j] = 100 - ( (int)getNodeCount(population->at(i)->BT) - 20);
+                population->at(i)->VF[1][j] = limit(population->at(i)->VF[1][j], -150, 100);
             }
 
             population->at(i)->comp_fit_stats();	// needs to be run for every simulation run!
@@ -256,9 +262,13 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
 
 //    TransitionMatrix TM1(500, 3);
 
+    int score_tree = 0;
+    int scoreQ_score_tree = 0;
     double score_total = 0;
     std::string state = start;
     std::string state_new;
+
+
 
     for(int steps = 0; steps < totalsteps; steps++)
     {
@@ -285,7 +295,23 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
                 best_action = static_cast<int>(it->first);
             }
         }
-        BLKB->set("action",best_action);
+        //BLKB->set("action",best_action);
+
+
+        scoreQ_score_tree += Qtable[state][action];
+        sol_met->chooseAction(BLKB);
+        if (BLKB->get("action") == best_action)
+        {
+            score_tree = score_tree + 1;
+        }
+        else
+        {
+            std::cout << "STATE: " << state_new << "\t" << "BT:\t" << BLKB->get("action") << "\t" << "Q:\t" << best_action << "\t Qvalues: \t" << a.at(0) << "\t" << a.at(1) << "\t" << a.at(2) << "\n";
+        }
+
+
+
+
 #else
         sol_met->chooseAction(BLKB);
 #endif
@@ -312,9 +338,16 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
         BLKB->set("sensor7", state_new.at(14) - 48);
 
         state = state_new;
+        if(steps == (totalsteps - 1))
+        {
+            printf("Tree score: %d \nQscore Q-learning: %d \n", score_tree, scoreQ_score_tree);
+        }
     }
     std::cout << "The total score is: " << score_total << std::endl;
     score_tree = score_total;
+
+
+
 }
 
 

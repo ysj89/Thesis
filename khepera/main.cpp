@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 {
     srand (time(NULL));
 
-    bool SAVEDATA           = 1;
+    bool SAVEDATA           = 0;
     bool RUN_SIMULATION     = 1;
     bool RUN_TPM            = 1;
     bool RUN_GP             = 0;
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
         std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
         Khepera_T Khepera_test_agent(&BB);
-        Khepera_test_agent.runKhepera_wiht_GP(100, "1,1,1,3,1,1,1,1", &BB,50);
+        Khepera_test_agent.runKhepera_wiht_GP(100, "1,1,1,3,1,1,1,1", &BB,150);
 
         // Calculate execution time
         std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();

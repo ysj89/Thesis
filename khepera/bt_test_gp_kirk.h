@@ -19,21 +19,12 @@ public:
         : BLKB(p_BLKB),
           root(new selector),
           sequence1(new sequence),
-          move1(new move),
           sequence2(new sequence),
-          selector2(new selector),
-          equal_to1(new equal_to("khepera",3, 0)),
-          equal_to_apple0(new equal_to("khepera", 0,3 )),
-          equal_to_apple1(new equal_to("khepera", 1,3 )),
-          equal_to_apple2(new equal_to("khepera", 2,3 )),
-          equal_to_apple3(new equal_to("khepera", 3,3 )),
-          equal_to_wall0(new equal_to("khepera",0,0)),
-          equal_to_wall1(new equal_to("khepera",1,0)),
-          equal_to_wall2(new equal_to("khepera",2,0)),
-          equal_to_wall3(new equal_to("khepera",2,0)),
-          equal_to_free0(new equal_to("khepera",0,1)),
-          equal_to_free1(new equal_to("khepera",1,1)),
-          equal_to_free3(new equal_to("khepera",3,1)),
+          sequence3(new sequence),
+          move1(new move),
+           equal_to_apple5(new equal_to("khepera", 5,3 )),
+          equal_to_apple7(new equal_to("khepera", 7,3 )),
+          equal_to_wall3(new equal_to("khepera",3,0)),
         turn_right1(new turn_right),
         turn_left1(new turn_left)
     {
@@ -47,22 +38,12 @@ public:
 
     composite* root;
     sequence* sequence1;
-    move* move1;
-
     sequence* sequence2;
-    selector* selector2;
-    equal_to* equal_to1;
-    equal_to* equal_to_apple0;
-    equal_to* equal_to_apple1;
-    equal_to* equal_to_apple2;
-    equal_to* equal_to_apple3;
-    equal_to* equal_to_wall0;
-    equal_to* equal_to_wall1;
-    equal_to* equal_to_wall2;
+    sequence* sequence3;
+    move* move1;
+    equal_to* equal_to_apple5;
+    equal_to* equal_to_apple7;
     equal_to* equal_to_wall3;
-    equal_to* equal_to_free0;
-    equal_to* equal_to_free1;
-    equal_to* equal_to_free3;
     turn_right* turn_right1;
     turn_left* turn_left1;
 

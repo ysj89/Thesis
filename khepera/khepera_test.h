@@ -59,6 +59,7 @@ public:
 
     double score_tree;
 
+
     std::unordered_map<std::string, ActionScoreMap> Qtable;
     //std::vector<std::vector<std::vector<double> > >transitionMatrix;
     std::vector<std::vector<std::vector<int> > > transitionMatrix_discrete_distribution;

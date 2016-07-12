@@ -25,8 +25,33 @@ void bt_test_gp_kirk::buildingTree()
 
 //    root = BT::loadFile("../../BT_saves/BT_2016-06-30_16:32:28.txt");
 //    root = BT::loadFile("../../BT_saves/BT_2016-06-30_18:21:46.txt");
-//    root = BT::loadFile("../../BT_saves/BT_2016-06-30_18:41:26.txt");
-    root = BT::loadFile("../../BT_saves/BT_2016-06-30_18:54:55.txt");
+//    root = BT::loadFile("../../BT_saves/BT_2016-06-30_18:41:26_prune.txt");
+//    root = BT::loadFile("../../BT_saves/BT_2016-06-30_18:54:55.txt");
+//    root = BT::loadFile("../../BT_saves/BT_2016-06-30_20:00:19.txt");
+//    root = BT::loadFile("../../BT_saves/BT_2016-07-01_12:49:52.txt");
+//    root = BT::loadFile("../../BT_saves/BT_2016-07-05_16:51:58.txt");
+
+
+//    root = BT::loadFile("../../BT_saves/BT_2016-07-07_16:47:14.txt");  // GOOD TREE
+
+//      root = BT::loadFile("../../BT_saves/BT_2016-07-07_21:18:07_prune.txt");  // 5000 gen BT
+    root = BT::loadFile("../../BT_saves/BT_2016-07-08_15:39:26_prune.txt"); // Perfect tree that gets all apples when it sees it
+
+
+//    root->addChild(sequence1);
+//    root->addChild(sequence2);
+//    root->addChild(sequence3);
+//    root->addChild(move1);
+
+//    sequence1->addChild(equal_to_wall3);
+//    sequence1->addChild(turn_right1);
+
+//    sequence2->addChild(equal_to_apple5);
+//    sequence2->addChild(turn_right1);
+
+//    sequence3->addChild(equal_to_apple7);
+//    sequence3->addChild(turn_left1);
+
 
 
 
