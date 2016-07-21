@@ -186,8 +186,8 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
 
 
                 // Fitness - if action selected is same as greedy-policy selection +1, otherwise -1;
-//                if( (state.at(6) - 48) == 3 || (state.at(8) - 48) == 3 || (state.at(12) - 48) == 3   )
-                if( (state.at(6) - 48) == 3 || (state.at(8) - 48) == 3 || (state.at(10) - 48) == 3  || (state.at(12) - 48) == 3||  (state.at(14) - 48) == 3 )
+               if( (state.at(6) - 48) == 3 || (state.at(8) - 48) == 3 || (state.at(12) - 48) == 3   )
+//                if( (state.at(6) - 48) == 3 || (state.at(8) - 48) == 3 || (state.at(10) - 48) == 3  || (state.at(12) - 48) == 3||  (state.at(14) - 48) == 3 )
                 {
 
                     if(action == action_best)
@@ -200,7 +200,8 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
                     }
 
                 }
-                else if(  (state.at(6) - 48) == 0 || (state.at(10) - 48) == 0 || (state.at(14) - 48) == 0)
+//                else if(  (state.at(6) - 48) == 0 || (state.at(10) - 48) == 0 || (state.at(14) - 48) == 0)
+                else if(  (state.at(6) - 48) == 0 )
                 {
                     if(action == action_best)
                     {

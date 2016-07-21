@@ -35,7 +35,11 @@ void bt_test_gp_kirk::buildingTree()
 //    root = BT::loadFile("../../BT_saves/BT_2016-07-07_16:47:14.txt");  // GOOD TREE
 
 //      root = BT::loadFile("../../BT_saves/BT_2016-07-07_21:18:07_prune.txt");  // 5000 gen BT
-    root = BT::loadFile("../../BT_saves/BT_2016-07-08_15:39:26_prune.txt"); // Perfect tree that gets all apples when it sees it
+//    root = BT::loadFile("../../BT_saves/BT_2016-07-08_15:39:26_prune.txt"); // Perfect tree that gets all apples when it sees it
+//    root = BT::loadFile("../../BT_saves/BT_2016-07-14_12:22:49.txt");
+
+    root = BT::loadFile("../../BT_saves/BT_2016-06-28_13:53:59.txt");
+
 
 
 //    root->addChild(sequence1);

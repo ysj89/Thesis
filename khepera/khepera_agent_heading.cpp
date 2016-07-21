@@ -86,7 +86,7 @@ void Agent_H::performAction()
     }
     if(m_Room->worldMap[current_pos.x][current_pos.y] == 3) // NOTE: Agent found trash, automatically cleans it and picks it up
     {
-        reward = 100;
+        reward = 20;
         m_Room->worldMap[current_pos.x][current_pos.y] = 1;
 
         spawnApple(rand() % m_Room->x_size, rand() % m_Room->y_size);
@@ -428,7 +428,7 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
             save.printQvaluetotal(Qvaluetotal);
         }
 
-        if (i % 100 == 0)
+        if (i % 1 == 0)
             totalRewardVec.push_back(std::pair<int,double> (i, totalreward));
 
         cleanExplorationMap();

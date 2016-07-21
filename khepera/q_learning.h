@@ -15,7 +15,7 @@ public:
     Q_learning(blackboard *p_BLKB)
     : Solution_method(),
     BLKB(p_BLKB),
-    state_vec(9)
+    state_vec(8)
     {
         Qtable = Load::loadQtable1();
     }

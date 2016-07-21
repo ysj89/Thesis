@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 {
     srand (time(NULL));
 
-    bool SAVEDATA           = 0;
+    bool SAVEDATA           = 1;
     bool RUN_SIMULATION     = 1;
     bool RUN_TPM            = 1;
     bool RUN_GP             = 0;
