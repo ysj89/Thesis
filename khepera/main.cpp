@@ -75,6 +75,7 @@ int main(int argc, char *argv[])
     {
         Khepera_T Khepera_test_agent(sol_met2, &BB);
         Khepera_test_agent.runKhepera_test(100, "1,1,1,3,1,1,1,1");
+        Khepera_test_agent.check_approximation();
     }
 
 
@@ -84,7 +85,7 @@ int main(int argc, char *argv[])
         std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
         Khepera_T Khepera_test_agent(&BB);
-        Khepera_test_agent.runKhepera_wiht_GP(100, "1,1,1,3,1,1,1,1", &BB,150);
+        Khepera_test_agent.runKhepera_wiht_GP(100, "1,1,1,1,3,1,1,1", &BB,400);
 
         // Calculate execution time
         std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();

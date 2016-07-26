@@ -186,42 +186,51 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
 
 
                 // Fitness - if action selected is same as greedy-policy selection +1, otherwise -1;
-               if( (state.at(6) - 48) == 3 || (state.at(8) - 48) == 3 || (state.at(12) - 48) == 3   )
-//                if( (state.at(6) - 48) == 3 || (state.at(8) - 48) == 3 || (state.at(10) - 48) == 3  || (state.at(12) - 48) == 3||  (state.at(14) - 48) == 3 )
-                {
+//               if( (state.at(6) - 48) == 3 || (state.at(8) - 48) == 3 || (state.at(12) - 48) == 3   )
+////                if( (state.at(6) - 48) == 3 || (state.at(8) - 48) == 3 || (state.at(10) - 48) == 3  || (state.at(12) - 48) == 3||  (state.at(14) - 48) == 3 )
+//                {
 
-                    if(action == action_best)
-                    {
-                        score_total = score_total + 8;
-                    }
-                    else
-                    {
-                        score_total = score_total - 4;
-                    }
+//                    if(action == action_best)
+//                    {
+//                        score_total = score_total + 8;
+//                    }
+//                    else
+//                    {
+//                        score_total = score_total - 4;
+//                    }
 
-                }
-//                else if(  (state.at(6) - 48) == 0 || (state.at(10) - 48) == 0 || (state.at(14) - 48) == 0)
-                else if(  (state.at(6) - 48) == 0 )
+//                }
+////                else if(  (state.at(6) - 48) == 0 || (state.at(10) - 48) == 0 || (state.at(14) - 48) == 0)
+//                else if(  (state.at(6) - 48) == 0 )
+//                {
+//                    if(action == action_best)
+//                    {
+//                        score_total = score_total + 1;
+//                    }
+//                    else
+//                    {
+//                        score_total = score_total - 2;
+//                    }
+//                }
+//                else
+//                {
+//                    if(action == action_best)
+//                    {
+//                        score_total = score_total + 1;
+//                    }
+//                    else
+//                    {
+//                        score_total = score_total + 0;
+//                    }
+//                }
+
+                if(action == action_best)
                 {
-                    if(action == action_best)
-                    {
-                        score_total = score_total + 1;
-                    }
-                    else
-                    {
-                        score_total = score_total - 2;
-                    }
+                    score_total = score_total + 1;
                 }
                 else
                 {
-                    if(action == action_best)
-                    {
-                        score_total = score_total + 1;
-                    }
-                    else
-                    {
-                        score_total = score_total + 0;
-                    }
+
                 }
 
 
@@ -244,10 +253,10 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
             population->at(i)->VF[0][j] =  score_total;		// size
 
 
-            if (population->at(i)->VF[0][j] > 300)
+            if (population->at(i)->VF[0][j] > 97)
             {
                 population->at(i)->VF[1][j] = 100 - ( (int)getNodeCount(population->at(i)->BT) - 20);
-                population->at(i)->VF[1][j] = limit(population->at(i)->VF[1][j], -150, 100);
+                population->at(i)->VF[1][j] = limit(population->at(i)->VF[1][j], 0, 100);
             }
 
             population->at(i)->comp_fit_stats();	// needs to be run for every simulation run!
@@ -256,6 +265,66 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
 
     }   // population size
 
+}
+
+void Khepera_T::check_approximation()
+{
+    int actions_right = 0;
+    int actions_wrong = 0;
+
+    for(auto kv : this->Qtable)
+    {
+        std::string state;
+        int action;
+        state = kv.first;
+
+        // char to num
+        BLKB->set("sensor0", state.at(0) - 48); //  0
+        BLKB->set("sensor1", state.at(2) - 48); //  1
+        BLKB->set("sensor2", state.at(4) - 48); //  2
+        BLKB->set("sensor3", state.at(6) - 48); //  3
+        BLKB->set("sensor4", state.at(8) - 48); //  4
+        BLKB->set("sensor5", state.at(10) - 48); // 5
+        BLKB->set("sensor6", state.at(12) - 48); // 6
+        BLKB->set("sensor7", state.at(14) - 48); // 7
+
+        sol_met->chooseAction(BLKB);
+
+        action = static_cast<int> (BLKB->get("action") ); // read action from blackboard
+
+
+        ActionScoreMap a = this->Qtable[state];
+        Score score_max = 0;
+        int action_best;
+
+        for(std::unordered_map<int,Score>::iterator it=a.begin(); it != a.end(); it++)
+        {
+            if(it == a.begin())
+            {
+                score_max = it->second;
+                action_best = it->first;
+            }
+
+            if(it->second > score_max)  // NOTE: In case two same scores, returns first
+            {
+                score_max = it->second;
+                action_best = it->first;
+            }
+        }
+
+        if(action == action_best)
+        {
+            actions_right = actions_right + 1;
+        }
+        else
+        {
+            actions_wrong = actions_wrong + 1;
+        }
+
+    }
+
+    std::cout << "The number of actions right was: " << actions_right << " \t the number of actions wrong was: " << actions_wrong << std::endl;
+    std::cout << "The size of the Qtable was: " << Qtable.size() << std::endl;
 }
 
 void Khepera_T::runKhepera_test(int totalsteps, std::string start)

@@ -207,86 +207,214 @@ void Agent_H::setSensorInformation()
 
     if(heading == NORTH)
     {
-        printMap[current_pos.x - 1][current_pos.y] = obserstatecolor;
         if((current_pos.x - 4 ) > 0)
         {
+            if(printMap[current_pos.x - 4][current_pos.y] == 1)
             printMap[current_pos.x - 4][current_pos.y] = obserstatecolor;
+            if(printMap[current_pos.x - 3][current_pos.y] == 1)
             printMap[current_pos.x - 3][current_pos.y] = obserstatecolor;
+            if(printMap[current_pos.x - 2][current_pos.y] == 1)
             printMap[current_pos.x - 2][current_pos.y] = obserstatecolor;
+            if(printMap[current_pos.x - 1][current_pos.y] == 1)
+                printMap[current_pos.x - 1][current_pos.y] = obserstatecolor;
         }
         else if((current_pos.x - 3 ) > 0)
         {
+            if( printMap[current_pos.x - 3][current_pos.y] == 1)
             printMap[current_pos.x - 3][current_pos.y] = obserstatecolor;
+            if( printMap[current_pos.x - 2][current_pos.y] == 1)
             printMap[current_pos.x - 2][current_pos.y] = obserstatecolor;
+            if(printMap[current_pos.x - 1][current_pos.y] == 1)
+                printMap[current_pos.x - 1][current_pos.y] = obserstatecolor;
         }
         else if((current_pos.x - 2 ) > 0)
         {
+            if (printMap[current_pos.x - 2][current_pos.y] == 1)
             printMap[current_pos.x - 2][current_pos.y] = obserstatecolor;
+            if(printMap[current_pos.x - 1][current_pos.y] == 1)
+                printMap[current_pos.x - 1][current_pos.y] = obserstatecolor;
+        }
+
+        if(printMap[current_pos.x - 1][current_pos.y] == 1)
+            printMap[current_pos.x - 1][current_pos.y] = obserstatecolor;
+
+
+        if( printMap[current_pos.x - 1 ][current_pos.y + 1 ] == 1 )
+        {
+            printMap[current_pos.x - 1 ][current_pos.y + 1 ] = obserstatecolor;
+        }
+
+        if( printMap[current_pos.x ][current_pos.y + 1 ] == 1 )
+        {
+            printMap[current_pos.x][current_pos.y + 1 ] = obserstatecolor;
+        }
+
+        if( printMap[current_pos.x - 1 ][current_pos.y - 1 ] == 1  )
+        {
+            printMap[current_pos.x - 1 ][current_pos.y - 1 ] = obserstatecolor;
+        }
+
+        if( printMap[current_pos.x  ][current_pos.y - 1 ] == 1 )
+        {
+            printMap[current_pos.x  ][current_pos.y - 1 ] = obserstatecolor;
         }
 
     }
     if(heading == EAST)
     {
-        printMap[current_pos.x - 0][current_pos.y + 1] = obserstatecolor;
-        if((current_pos.y + 4 ) < m_Room->y_size)
+          if((current_pos.y + 4 ) < m_Room->y_size)
         {
+            if( printMap[current_pos.x - 0][current_pos.y + 4] == 1)
             printMap[current_pos.x - 0][current_pos.y + 4] = obserstatecolor;
+            if(printMap[current_pos.x - 0][current_pos.y + 3] == 1)
             printMap[current_pos.x - 0][current_pos.y + 3] = obserstatecolor;
+            if(printMap[current_pos.x - 0][current_pos.y + 2] == 1)
             printMap[current_pos.x - 0][current_pos.y + 2] = obserstatecolor;
+            if(printMap[current_pos.x - 0][current_pos.y + 1] == 1)
+            printMap[current_pos.x - 0][current_pos.y + 1] = obserstatecolor;
         }
         else if((current_pos.y + 3 ) < m_Room->y_size)
         {
+            if(printMap[current_pos.x - 0][current_pos.y + 3] == 1)
             printMap[current_pos.x - 0][current_pos.y + 3] = obserstatecolor;
+            if(printMap[current_pos.x - 0][current_pos.y + 2] == 1)
             printMap[current_pos.x - 0][current_pos.y + 2] = obserstatecolor;
+            if(printMap[current_pos.x - 0][current_pos.y + 1] == 1)
+            printMap[current_pos.x - 0][current_pos.y + 1] = obserstatecolor;
         }
-        else if((current_pos.y + 3 ) < m_Room->y_size)
+        else if((current_pos.y + 2 ) < m_Room->y_size)
         {
+            if(printMap[current_pos.x - 0][current_pos.y + 2] == 1)
             printMap[current_pos.x - 0][current_pos.y + 2] = obserstatecolor;
+            if(printMap[current_pos.x - 0][current_pos.y + 1] == 1)
+            printMap[current_pos.x - 0][current_pos.y + 1] = obserstatecolor;
         }
 
+          if(printMap[current_pos.x - 0][current_pos.y + 1] == 1)
+          printMap[current_pos.x - 0][current_pos.y + 1] = obserstatecolor;
+
+
+
+        if( printMap[current_pos.x + 1 ][current_pos.y + 1 ] == 1 )
+        {
+            printMap[current_pos.x + 1 ][current_pos.y + 1 ] = obserstatecolor;
+        }
+        if( printMap[current_pos.x + 1 ][current_pos.y ] == 1 )
+        {
+            printMap[current_pos.x + 1 ][current_pos.y ] = obserstatecolor;
+        }
+
+        if( printMap[current_pos.x - 1 ][current_pos.y + 1 ] == 1 )
+        {
+            printMap[current_pos.x - 1 ][current_pos.y + 1 ] = obserstatecolor;
+        }
+
+        if( printMap[current_pos.x - 1 ][current_pos.y ] == 1 )
+        {
+            printMap[current_pos.x - 1 ][current_pos.y  ] = obserstatecolor;
+        }
     }
     if(heading == SOUTH)
     {
-        printMap[current_pos.x + 1][current_pos.y] = obserstatecolor;
-
         if((current_pos.x + 4 ) < m_Room->x_size)
         {
+            if(printMap[current_pos.x + 4][current_pos.y] == 1)
             printMap[current_pos.x + 4][current_pos.y] = obserstatecolor;
+            if(printMap[current_pos.x + 3][current_pos.y] = 1)
             printMap[current_pos.x + 3][current_pos.y] = obserstatecolor;
+            if(printMap[current_pos.x + 2][current_pos.y] == 1)
             printMap[current_pos.x + 2][current_pos.y] = obserstatecolor;
+            if(printMap[current_pos.x + 1][current_pos.y] == 1)
+            printMap[current_pos.x + 1][current_pos.y] = obserstatecolor;
         }
         else if((current_pos.x + 3 ) < m_Room->x_size)
         {
+            if(printMap[current_pos.x + 3][current_pos.y] == 1)
             printMap[current_pos.x + 3][current_pos.y] = obserstatecolor;
+            if(printMap[current_pos.x + 2][current_pos.y] == 1)
             printMap[current_pos.x + 2][current_pos.y] = obserstatecolor;
+            if(printMap[current_pos.x + 1][current_pos.y] == 1)
+            printMap[current_pos.x + 1][current_pos.y] = obserstatecolor;
         }
         else if((current_pos.x + 2 ) < m_Room->x_size)
         {
+            if(printMap[current_pos.x + 2][current_pos.y] == 1)
             printMap[current_pos.x + 2][current_pos.y] = obserstatecolor;
+            if(printMap[current_pos.x + 1][current_pos.y] == 1)
+            printMap[current_pos.x + 1][current_pos.y] = obserstatecolor;
         }
 
+        if(printMap[current_pos.x + 1][current_pos.y] == 1)
+        printMap[current_pos.x + 1][current_pos.y] = obserstatecolor;
+
+
+        if( printMap[current_pos.x + 1 ][current_pos.y - 1 ] == 1 )
+        {
+            printMap[current_pos.x + 1 ][current_pos.y - 1] = obserstatecolor;
+        }
+        if( printMap[current_pos.x ][current_pos.y - 1 ] == 1 )
+        {
+            printMap[current_pos.x ][current_pos.y - 1] = obserstatecolor;
+        }
+        if( printMap[current_pos.x + 1 ][current_pos.y + 1 ] == 1 )
+        {
+            printMap[current_pos.x + 1 ][current_pos.y + 1] = obserstatecolor;
+        }
+        if( printMap[current_pos.x  ][current_pos.y + 1 ] == 1 )
+        {
+            printMap[current_pos.x  ][current_pos.y + 1] = obserstatecolor;
+        }
 
     }
     if(heading == WEST) // 3
     {
-        printMap[current_pos.x - 0][current_pos.y - 1] = obserstatecolor;
-
         if((current_pos.y - 4 ) > 0)
         {
+            if(printMap[current_pos.x - 0][current_pos.y - 4] == 1)
             printMap[current_pos.x - 0][current_pos.y - 4] = obserstatecolor;
+            if(printMap[current_pos.x - 0][current_pos.y - 3] == 1)
             printMap[current_pos.x - 0][current_pos.y - 3] = obserstatecolor;
+            if(printMap[current_pos.x - 0][current_pos.y - 2] == 1)
             printMap[current_pos.x - 0][current_pos.y - 2] = obserstatecolor;
+            if(printMap[current_pos.x - 0][current_pos.y - 1] == 1)
+            printMap[current_pos.x - 0][current_pos.y - 1] = obserstatecolor;
         }
         else if((current_pos.y - 3 ) > 0)
         {
+            if(printMap[current_pos.x - 0][current_pos.y - 3]  == 1)
             printMap[current_pos.x - 0][current_pos.y - 3] = obserstatecolor;
+            if(printMap[current_pos.x - 0][current_pos.y - 2]  == 1)
             printMap[current_pos.x - 0][current_pos.y - 2] = obserstatecolor;
+            if(printMap[current_pos.x - 0][current_pos.y - 1] == 1)
+            printMap[current_pos.x - 0][current_pos.y - 1] = obserstatecolor;
         }
         else if((current_pos.y - 3 ) > 0)
         {
+            if(printMap[current_pos.x - 0][current_pos.y - 2] == 1)
             printMap[current_pos.x - 0][current_pos.y - 2] = obserstatecolor;
+            if(printMap[current_pos.x - 0][current_pos.y - 1] == 1)
+            printMap[current_pos.x - 0][current_pos.y - 1] = obserstatecolor;
         }
 
+        if(printMap[current_pos.x - 0][current_pos.y - 1] == 1)
+        printMap[current_pos.x - 0][current_pos.y - 1] = obserstatecolor;
+
+        if( printMap[current_pos.x - 1  ][current_pos.y - 1 ] == 1 )
+        {
+            printMap[current_pos.x - 1 ][current_pos.y - 1] = obserstatecolor;
+        }
+        if( printMap[current_pos.x - 1 ][current_pos.y] == 1 )
+        {
+            printMap[current_pos.x - 1  ][current_pos.y] = obserstatecolor;
+        }
+        if( printMap[current_pos.x + 1  ][current_pos.y - 1 ] == 1 )
+        {
+            printMap[current_pos.x + 1  ][current_pos.y - 1] = obserstatecolor;
+        }
+        if( printMap[current_pos.x + 1  ][current_pos.y ] == 1 )
+        {
+            printMap[current_pos.x + 1  ][current_pos.y ] = obserstatecolor;
+        }
     }
 }
 
