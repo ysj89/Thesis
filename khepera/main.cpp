@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
 {
     srand (time(NULL));
 
-    bool SAVEDATA           = 1;
+    bool SAVEDATA           = 0;
     bool RUN_SIMULATION     = 1;
     bool RUN_TPM            = 1;
     bool RUN_GP             = 0;
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
         Room room1(15,25);
 
         // Initiate Agent start at [3,4]
-        Agent_H Khepera_heading(&room1, 3, 4, EAST, 8, 3, sol_met2, &BB, SAVEDATA);
+        Agent_H Khepera_heading(&room1, 3, 4, EAST, 8, 3, sol_met2, &BB, SAVEDATA, 0.25);
 
         // Run Agent
         Khepera_heading.runAgent(2,150);

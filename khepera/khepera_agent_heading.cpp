@@ -20,7 +20,7 @@ int Agent_H::getAction_f()
 
 }
 
-void Agent_H::performAction()
+void Agent_H::performAction(int num_episode, int current_episode)
 {
     old_pos = current_pos;
     old_state = current_state;
@@ -28,11 +28,13 @@ void Agent_H::performAction()
 
     action = static_cast<Action_heading> ( getAction_f() ) ;
 
-    // Probability of succesfull execution of action
-    //            if ( (rand() % 100 + 1) / 100.0  > 1-succes_probability/steps)
-    //            {
-    //                action = static_cast<Action_heading> ( rand()%num_act );
-    //            }
+//    epsilon = .5 * (( 500 / 10.)  + 1. ) / ( (500 / 10. ) + current_episode) ;
+
+//    if( ((rand()% 100 + 1 ) / 100) > (1-epsilon))
+//    {
+//        action = static_cast<Action_heading> (rand()%3 ) ;
+//        BLKB->set("action",action);
+//    }
 
     // Perform action
     switch(action)
@@ -490,18 +492,24 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
     *Qvalue = std::vector<double>(_totalsteps + 1);
     *Qvaluetotal = std::vector<double>(_episodes + 1);
     *Qincrement = std::vector<double>(_totalsteps + 1);
+    *wall_vec = std::vector<int>(_totalsteps + 1);
+    std::vector<std::vector<int>> good_action(_episodes + 1, std::vector<int>(2));
 
     int size_TPM = 2000;
     TransitionMatrix TM(size_TPM, num_act);
 
-    std::stringstream workingfolder1, workingfolder2;
+    std::stringstream workingfolder1, workingfolder2, workingfolder3, workingfolder4;
     if(savedata == 1)
     {
     // set up new file directory
     workingfolder1<<"../Visualisation_heading/World/"<<currentDateTime()<<"/";
     workingfolder2<<"../Visualisation_heading/Reward/"<<currentDateTime()<<"/";
+    workingfolder3<<"../Visualisation_heading/wall_vec/"<<currentDateTime()<<"/";
+    workingfolder4<<"../Visualisation_heading/wall_avoiding/"<<currentDateTime()<<"/";
     create_directory(workingfolder1.str());
     create_directory(workingfolder2.str());
+    create_directory(workingfolder3.str());
+    create_directory(workingfolder4.str());
     }
 
 
@@ -524,18 +532,31 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
         // Agent runs
         while(steps < _totalsteps)
         {
-            performAction();
+            performAction(_episodes, i);
 
             sol_met->updateQtable(this);
             Qincrement->at(steps) = sol_met->getQtableincrement(this);
             Qvalue->at(steps) = sol_met->getQvalue(this);
             TM.increment(old_state, current_state, action);
 
+            if(current_state[3] == 0)
+            {
+                good_action[i][0] = good_action[i][0] + 1;
+                wall_vec->at(steps) = 1;
+
+            if(reward != -10)
+            {
+                good_action[i][1] = good_action[i][1] + 1;
+            }
+
+
+            }
+
             if(i == _episodes - 1){
                 if(savedata == 1){
                     setSensorInformation();
                     save.printAgentinRoom(steps, printMap, workingfolder1.str());
-                    save.printAgentReward(rewardVec, workingfolder2.str());
+                    //save.printAgentReward(rewardVec, workingfolder2.str());
                 } // save
             } // last episode
         } // end run
@@ -556,8 +577,13 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
             save.printQvaluetotal(Qvaluetotal);
         }
 
-        if (i % 1 == 0)
-            totalRewardVec.push_back(std::pair<int,double> (i, totalreward));
+//        if (i % 1 == 0)
+
+        save.printAgentReward(rewardVec, workingfolder2.str(), i);
+        save.printwallencounter(wall_vec,workingfolder3.str(),i);
+        totalRewardVec.push_back(std::pair<int,double> (i, totalreward));
+
+        std::fill(wall_vec->begin(), wall_vec->end(), 0);
 
         cleanExplorationMap();
     }
@@ -569,6 +595,7 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
     if(savedata == 1)
     {
         save.printTPM_discrete_distribution(TM.transitionMatrix_count, sol_met->getSizeQtable());
+        save.printwallAvoiding(good_action, workingfolder4.str());
         save.printAgentRewardperEpisode(totalRewardVec);
         TM.storeKeyandMap();
         save.printTPMunorderedMap(TM.string2intMap1);

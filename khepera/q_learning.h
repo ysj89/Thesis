@@ -42,6 +42,7 @@ public:
     std::vector<double>::iterator max_q_value;
     std::vector<int> state_vec;
 
+
     std::unordered_map<std::string, ActionScoreMap> Qtable;
 
 

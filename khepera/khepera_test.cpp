@@ -267,10 +267,17 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
 
 }
 
+
 void Khepera_T::check_approximation()
 {
     int actions_right = 0;
     int actions_wrong = 0;
+    int actions_right_trash = 0;
+    int actions_wrong_trash = 0;
+    int actions_total_trash = 0;
+    int actions_right_wall = 0;
+    int actions_wrong_wall = 0;
+    int actions_total_wall = 0;
 
     for(auto kv : this->Qtable)
     {
@@ -321,10 +328,52 @@ void Khepera_T::check_approximation()
             actions_wrong = actions_wrong + 1;
         }
 
+
+
+    if( ( (state.at(0) - 48) == 3 ) | ( (state.at(2) - 48) == 3 ) | ( (state.at(4) - 48) == 3 ) | ((state.at(6) - 48) == 3 ) | ( (state.at(8) - 48) == 3 ) | ( ( state.at(10) - 48) == 3 ) | ( (state.at(12) - 48) == 3 ) | ( (state.at(14) - 48) == 3 ) )
+    {
+        actions_total_trash = actions_total_trash + 1;
+
+        if(action == action_best)
+        {
+            actions_right_trash = actions_right_trash + 1;
+        }
+        else
+        {
+            actions_wrong_trash = actions_wrong_trash + 1;
+        }
+    }
+
+
+    if( ( (state.at(0) - 48) == 0 ) | ( (state.at(2) - 48) == 0 ) | ( (state.at(4) - 48) == 0 ) | ((state.at(6) - 48) == 0 ) | ( (state.at(8) - 48) == 0 ) | ( ( state.at(10) - 48) == 0 ) | ( (state.at(12) - 48) == 0 ) | ( (state.at(14) - 48) == 0 ) )
+    {
+        actions_total_wall = actions_total_wall + 1;
+
+        if(action == action_best)
+        {
+            actions_right_wall = actions_right_wall + 1;
+        }
+        else
+        {
+            actions_wrong_wall = actions_wrong_wall + 1;
+        }
+    }
+
+
+
+
+
     }
 
     std::cout << "The number of actions right was: " << actions_right << " \t the number of actions wrong was: " << actions_wrong << std::endl;
     std::cout << "The size of the Qtable was: " << Qtable.size() << std::endl;
+
+    std::cout << "The number of actions right for trash states was: " << actions_right_trash << " \t the number of actions wrong for trash states was: " << actions_wrong_trash << std::endl;
+    std::cout << "The number of trash states in the Qtable was: " << actions_total_trash << std::endl;
+
+    std::cout << "The number of actions right for wall states was: " << actions_right_wall << " \t the number of actions wrong for wall states was: " << actions_wrong_wall << std::endl;
+    std::cout << "The number of wall states in the Qtable was: " << actions_total_wall << std::endl;
+
 }
 
 void Khepera_T::runKhepera_test(int totalsteps, std::string start)

@@ -5,14 +5,26 @@
 #include "helpfunctions.h"
 #include "../EvolutionaryLearning/test_common.h"
 
-void Save::printAgentReward(std::vector<double> *rewardVec, std::string folder)
+void Save::printAgentReward(std::vector<double> *rewardVec, std::string folder, int i)
 {
     std::stringstream filename;
-    filename << folder <<"reward_last_eps.txt";
+    filename << folder <<"reward_eps" << i << ".txt";
     //filename << "../Visualisation_heading/Reward/reward_last_eps.txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputVector(rewardVec, fs);
+    fs.close();
+
+}
+
+void Save::printwallencounter(std::vector<int> *wall_vec, std::string folder, int i)
+{
+    std::stringstream filename;
+    filename << folder <<"wall_vec_eps" << i << ".txt";
+    //filename << "../Visualisation_heading/wall_vec/wall_vec.txt";
+    std::ofstream fs;
+    fs.open(filename.str(), std::ios::out);
+    Print::outputVector(wall_vec, fs);
     fs.close();
 
 }
@@ -63,6 +75,7 @@ void Save::printQvaluetotal(std::vector<double> *Qvaluetotal)
     fs.close();
 }
 
+
 void Save::printAgentRewardperEpisode(std::vector<std::pair<int, double> > totalRewardVec)
 {
 
@@ -86,6 +99,18 @@ void Save::printAgentExploration(int episode, std::vector<std::vector<int> > &m_
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputMatrix(m_explorationmap, fs);
+    fs.close();
+}
+
+void Save::printwallAvoiding(std::vector<std::vector<int> > good_action, std::string folder)
+{
+
+    std::stringstream filename;
+    //filename << "../Visualisation_heading/World/TotalWorld" << steps << ".txt";
+    filename << folder <<"good_action.txt";
+    std::ofstream fs;
+    fs.open(filename.str(), std::ios::out); // IOS::OUT is vervangen vs IOS::APP
+    Print::outputMatrix(good_action, fs);
     fs.close();
 }
 

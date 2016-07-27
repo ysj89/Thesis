@@ -34,13 +34,15 @@ int Q_learning::chooseAction(blackboard *BLKB)
             }
         }
 
+
         // With probability epsilon selects a random action, and with probability (1 - epsilon) select a greedy action
-        if( ((rand()% 100 + 1 ) / 100) > (1-epsilon))
-        {
-            //std::cout << "A random action has been selected" << "\n";
-            BLKB->set("action",rand()%3);
-            return rand()% 3;
-        }
+//        if( ((rand()% 100 + 1 ) / 100) > (1-epsilon))
+//        {
+//            int action = rand()%3;
+//            //std::cout << "A random action has been selected" << "\n";
+//            BLKB->set("action",action);
+//            return rand()% 3;
+//        }
 
         BLKB->set("action",best_action);
         return best_action;

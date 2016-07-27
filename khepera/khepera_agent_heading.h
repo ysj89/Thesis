@@ -33,7 +33,7 @@ class Agent_H
 {
 public:
     Agent_H(Room *p_Room, int _START_X, int _START_Y, Heading _PSI, int _number_of_states, int _number_of_actions,
-            Solution_method *_sol_met, blackboard *p_BLKB, bool _savedata)
+            Solution_method *_sol_met, blackboard *p_BLKB, bool _savedata, double EPSILON)
         :   heading(_PSI),
           sol_met(_sol_met),
           BLKB(p_BLKB),
@@ -44,7 +44,8 @@ public:
           current_pos{_START_X, _START_Y},
           old_pos{_START_X, _START_Y},
           current_state(_number_of_states,0),
-          old_state(_number_of_states,0)
+          old_state(_number_of_states,0),
+          epsilon_0(EPSILON)
 
     {
         this->m_Room = p_Room;
@@ -52,6 +53,7 @@ public:
         action = static_cast<Action_heading>(rand()%3);
         succes_probability = 0.8;
         explorationMap = std::vector<std::vector<int> > (m_Room->x_size, std::vector<int>(m_Room->y_size,0));
+
     }
 
 
@@ -82,6 +84,8 @@ public:
 
     StateVec current_state;
     StateVec old_state;
+    double epsilon;
+    double epsilon_0;
 
 private:
     std::vector<std::vector<double> > printMap;
@@ -94,12 +98,14 @@ private:
     std::vector<double> *Qvalue = new std::vector<double>;
     std::vector<double> *Qvaluetotal = new std::vector<double>;
     std::vector<double> *Qincrement = new std::vector<double>;
+    std::vector<int> *wall_vec = new std::vector<int>;
+    std::vector<std::vector<int>> good_actions;
 
 public:
     void runAgent(int _episodes, int _totalsteps);
 
 private:
-    void performAction();
+    void performAction(int num_episode, int current_episode);
     int getAction_f();
     void setSensorInformation();
     void spawnApple(int x, int y);
