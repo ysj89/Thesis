@@ -32,12 +32,13 @@ int main(int argc, char *argv[])
 
     bool SAVEDATA           = 0;
     bool RUN_SIMULATION     = 1;
-    bool RUN_TPM            = 1;
+    bool RUN_TPM            = 0;
     bool RUN_GP             = 0;
     Save save;
     //Load load;
 
     blackboard BB;
+    blackboard BB2;
     Q_learning *sol_met = new Q_learning(0.5, 0.8, 0.05, 8, 3, &BB);
     Q_learning *sol_met1 = new Q_learning(&BB);
     bt_test_gp_kirk *sol_met2 = new BT::bt_test_gp_kirk(&BB);
@@ -53,7 +54,7 @@ int main(int argc, char *argv[])
         Room room1(15,25);
 
         // Initiate Agent start at [3,4]
-        Agent_H Khepera_heading(&room1, 3, 4, EAST, 8, 3, sol_met2, &BB, SAVEDATA, 0.25);
+        Agent_H Khepera_heading(&room1, 5, 4, SOUTH, 8, 3, sol_met1, sol_met2 , &BB, &BB2, SAVEDATA, 0.25);
 
         // Run Agent
         Khepera_heading.runAgent(2,150);

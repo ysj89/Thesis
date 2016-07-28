@@ -33,10 +33,12 @@ class Agent_H
 {
 public:
     Agent_H(Room *p_Room, int _START_X, int _START_Y, Heading _PSI, int _number_of_states, int _number_of_actions,
-            Solution_method *_sol_met, blackboard *p_BLKB, bool _savedata, double EPSILON)
+            Solution_method *_sol_met, Solution_method *_sol_met_2, blackboard *p_BLKB, blackboard *p_BLKB2, bool _savedata, double EPSILON)
         :   heading(_PSI),
           sol_met(_sol_met),
+          sol_met_test(_sol_met_2),
           BLKB(p_BLKB),
+          BLKB2(p_BLKB2),
           x_start(_START_X),
           y_start(_START_Y),
           num_act(_number_of_actions),
@@ -62,8 +64,10 @@ public:
     Room* m_Room;
     Heading heading;
     Solution_method *sol_met;
+    Solution_method *sol_met_test;
     Save save;
     blackboard *BLKB;
+    blackboard *BLKB2;
 
 
 

@@ -12,6 +12,7 @@ int Agent_H::getAction_f()
 
     int action;
     action = sol_met->chooseAction(BLKB); // choose action and put on blackboard
+    sol_met_test->chooseAction(BLKB2);
     action = static_cast<Action_heading> (BLKB->get("action") ); // read action from blackboard
     return action;
 
@@ -32,8 +33,26 @@ void Agent_H::performAction(int num_episode, int current_episode)
 
 //    if( ((rand()% 100 + 1 ) / 100) > (1-epsilon))
 //    {
-//        action = static_cast<Action_heading> (rand()%3 ) ;
-//        BLKB->set("action",action);
+//        if(action == 0)
+//        {
+//            action = static_cast<Action_heading> (rand()%2 + 1 ) ;
+//            BLKB->set("action",action);
+//        }
+//        if(action == 1)
+//        {
+//            int action_rand = rand()%2;
+//            if(action_rand == 1)
+//            {
+//                action_rand = 2;
+//            }
+//            action = static_cast<Action_heading> (action_rand) ;
+//            BLKB->set("action",action);
+//        }
+//        if(action == 2)
+//        {
+//            action = static_cast<Action_heading> (rand()%2 ) ;
+//            BLKB->set("action",action);
+//        }
 //    }
 
     // Perform action
@@ -529,6 +548,8 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
         printMap[x_start][y_start + 2] = 3;
         printMap[current_pos.x][current_pos.y] = 5;
 
+        int right_action = 0;
+
         // Agent runs
         while(steps < _totalsteps)
         {
@@ -552,6 +573,14 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
 
             }
 
+
+
+            if(BLKB->get("action") == BLKB2->get("action"))
+            {
+                right_action = right_action + 1;
+            }
+
+
             if(i == _episodes - 1){
                 if(savedata == 1){
                     setSensorInformation();
@@ -560,6 +589,9 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
                 } // save
             } // last episode
         } // end run
+
+
+        std::cout << "The number of same actions is: \t" << right_action << "\n";
 
         Qvaluetotal->at(i) = sol_met->sumQvalues();
 

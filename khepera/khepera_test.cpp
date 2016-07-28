@@ -35,20 +35,16 @@ std::mutex mtx;
 void Khepera_T::runKhepera_wiht_GP(int totalsteps, std::string start, blackboard *p_BLKB, int number_of_gen)
 {
 
-
-
     // set up new file directory
     std::stringstream workingfolder;
     workingfolder<<"../BTRuns/"<<currentDateTime()<<"/";
     create_directory(workingfolder.str());
-
 
     std::stringstream workingfolder1, filename;
     workingfolder1 << "../BTstats/";
     create_directory(workingfolder1.str());
     filename<<workingfolder1.str()<<"statistics_" << currentDateTime() << ".txt";
     std::string statsFileName(filename.str());
-
 
 
     // 1. Initialize Settings()
