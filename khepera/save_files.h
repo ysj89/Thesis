@@ -13,7 +13,7 @@ struct Save
     void printQvaluetotal(std::vector<double> *Qvaluetotal);
 
     void printAgentRewardperEpisode(std::vector<std::pair<int,double>> totalRewardVec);
-    void printAgentExploration(int episode, std::vector<std::vector<int> > &m_explorationmap);
+    void printAgentExploration(int episode, std::string folder, std::vector<std::vector<int> > &m_explorationmap);
     void printwallAvoiding(std::vector<std::vector<int> > good_action, std::string folder);
 
     void printAgentinRoom(int steps, std::vector<std::vector<double> > &m_printMap, std::string folder);

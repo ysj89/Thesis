@@ -15,8 +15,8 @@ std::unordered_map<std::string, ActionScoreMap> Load::loadQtable1()
 {
     std::stringstream filename;
     //filename << "../Visualisation_heading/QTable/QTable.txt";
-    filename << "../Visualisation_heading/QTable/Qtable2016-06-30_15:09:55/QTable.txt";
-
+    //filename << "../Visualisation_heading/QTable/Qtable2016-06-30_15:09:55/QTable.txt";
+    filename << "../Visualisation_heading/QTable/Qtable2016-08-10_23:42:18/QTable.txt";
     std::ifstream inFile;
     inFile.open(filename.str());
     //    std::string word;
@@ -128,7 +128,8 @@ std::vector<std::vector<std::vector<double> > >Load::loadTransitionMatrix()
 std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete_distribution()
 {
     //std::ifstream myfile("../Visualisation_heading/TransitionPM/TPM_discrete_dis0.txt");
-    std::ifstream myfile("../Visualisation_heading/TPMfolder/TPM2016-06-30_15:09:54/TPM_count0.txt");
+    //std::ifstream myfile("../Visualisation_heading/TPMfolder/TPM2016-06-30_15:09:54/TPM_count0.txt");
+    std::ifstream myfile("../Visualisation_heading/TPMfolder/TPM2016-08-10_23:42:15/TPM_count0.txt");
 
     // new lines will be skipped unless we stop it from happening:
     myfile.unsetf(std::ios_base::skipws);
@@ -149,7 +150,8 @@ std::vector<std::vector<std::vector<int> > > Load::loadTransitionMatrix_discrete
         values.resize(0);
         std::stringstream filename;
 
-        filename << "../Visualisation_heading/TPMfolder/TPM2016-06-30_15:09:54/TPM_count" << count << ".txt";
+        filename << "../Visualisation_heading/TPMfolder/TPM2016-08-10_23:42:15/TPM_count" << count << ".txt";
+        //filename << "../Visualisation_heading/TPMfolder/TPM2016-06-30_15:09:54/TPM_count" << count << ".txt";
         //filename << "../Visualisation_heading/TransitionPM/TPM_discrete_dis" << count << ".txt";
         std::ifstream inFile;
         inFile.open(filename.str());
@@ -204,7 +206,9 @@ std::unordered_map<std::string, int> Load::Qconversion()
 {
     std::stringstream filename;
     //filename << "../Visualisation_heading/string2int/str2int.txt";
-    filename << "../Visualisation_heading/Qconversion/Qconversion2016-06-30_15:09:54/Qconversion.txt";
+    //filename << "../Visualisation_heading/Qconversion/Qconversion2016-06-30_15:09:54/Qconversion.txt";
+
+    filename << "../Visualisation_heading/Qconversion/Qconversion2016-08-10_23:42:18/Qconversion.txt";
     std::ifstream inFile;
     inFile.open(filename.str());
 

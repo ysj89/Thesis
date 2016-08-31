@@ -92,10 +92,10 @@ void Save::printAgentRewardperEpisode(std::vector<std::pair<int, double> > total
     fs.close();
 }
 
-void Save::printAgentExploration(int episode, std::vector<std::vector<int> > &m_explorationmap)
+void Save::printAgentExploration(int episode, std::string folder, std::vector<std::vector<int> > &m_explorationmap)
 {
     std::stringstream filename;
-    filename << "../Visualisation_heading/Exploration/explore" << episode << ".txt";
+    filename << folder << "explore" << episode << ".txt";
     std::ofstream fs;
     fs.open(filename.str(), std::ios::out);
     Print::outputMatrix(m_explorationmap, fs);

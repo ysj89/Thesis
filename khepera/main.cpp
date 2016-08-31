@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 
     bool SAVEDATA           = 0;
     bool RUN_SIMULATION     = 1;
-    bool RUN_TPM            = 0;
+    bool RUN_TPM            = 1;
     bool RUN_GP             = 0;
     Save save;
     //Load load;
@@ -54,10 +54,10 @@ int main(int argc, char *argv[])
         Room room1(15,25);
 
         // Initiate Agent start at [3,4]
-        Agent_H Khepera_heading(&room1, 5, 4, SOUTH, 8, 3, sol_met1, sol_met2 , &BB, &BB2, SAVEDATA, 0.25);
+        Agent_H Khepera_heading(&room1, 3, 4, SOUTH, 8, 3, sol_met2, sol_met1 , &BB, &BB2, SAVEDATA, 0.25);
 
         // Run Agent
-        Khepera_heading.runAgent(2,150);
+        Khepera_heading.runAgent(10,150);
 
         if(SAVEDATA == 1)
         {
@@ -86,7 +86,7 @@ int main(int argc, char *argv[])
         std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
         Khepera_T Khepera_test_agent(&BB);
-        Khepera_test_agent.runKhepera_wiht_GP(100, "1,1,1,1,3,1,1,1", &BB,400);
+        Khepera_test_agent.runKhepera_wiht_GP(150, "1,1,1,1,1,3,1,1", &BB,150);
 
         // Calculate execution time
         std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();

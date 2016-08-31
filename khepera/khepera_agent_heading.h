@@ -109,6 +109,7 @@ public:
     void runAgent(int _episodes, int _totalsteps);
 
 private:
+    void resetCurrentState();
     void performAction(int num_episode, int current_episode);
     int getAction_f();
     void setSensorInformation();

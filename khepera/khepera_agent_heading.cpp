@@ -29,10 +29,11 @@ void Agent_H::performAction(int num_episode, int current_episode)
 
     action = static_cast<Action_heading> ( getAction_f() ) ;
 
-//    epsilon = .5 * (( 500 / 10.)  + 1. ) / ( (500 / 10. ) + current_episode) ;
+//    epsilon = .5 * (( num_episode / 100.)  + 1. ) / ( (num_episode / 100. ) + current_episode) ;
 
 //    if( ((rand()% 100 + 1 ) / 100) > (1-epsilon))
 //    {
+
 //        if(action == 0)
 //        {
 //            action = static_cast<Action_heading> (rand()%2 + 1 ) ;
@@ -517,7 +518,7 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
     int size_TPM = 2000;
     TransitionMatrix TM(size_TPM, num_act);
 
-    std::stringstream workingfolder1, workingfolder2, workingfolder3, workingfolder4;
+    std::stringstream workingfolder1, workingfolder2, workingfolder3, workingfolder4, workingfolder6;
     if(savedata == 1)
     {
     // set up new file directory
@@ -525,19 +526,25 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
     workingfolder2<<"../Visualisation_heading/Reward/"<<currentDateTime()<<"/";
     workingfolder3<<"../Visualisation_heading/wall_vec/"<<currentDateTime()<<"/";
     workingfolder4<<"../Visualisation_heading/wall_avoiding/"<<currentDateTime()<<"/";
+    workingfolder6<<"../Visualisation_heading/Exploration/Explore_"<<currentDateTime()<<"/";
+
     create_directory(workingfolder1.str());
     create_directory(workingfolder2.str());
     create_directory(workingfolder3.str());
     create_directory(workingfolder4.str());
+    create_directory(workingfolder6.str());
     }
 
 
     for(int i = 0; i < _episodes; i++ )
     {
-
+        std::stringstream workingfolder5;
+         workingfolder5<<workingfolder1.str()<<i<<"/";
+         create_directory(workingfolder5.str());
 
         // Initialization
         current_pos = { x_start , y_start };
+        resetCurrentState();
         steps = 0;
         totalreward = 0;
         reward = 0;
@@ -549,6 +556,8 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
         printMap[current_pos.x][current_pos.y] = 5;
 
         int right_action = 0;
+        int it_turns_right = 0;
+        int turns_right = 0;
 
         // Agent runs
         while(steps < _totalsteps)
@@ -573,6 +582,19 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
 
             }
 
+            if(current_state[4] == 3 | current_state[5] == 3)
+            {
+
+                if(action == TURN_RIGHT)
+                {
+                    turns_right++;
+                }
+            }
+
+            if(action == TURN_RIGHT)
+            {
+                it_turns_right++;
+            }
 
 
             if(BLKB->get("action") == BLKB2->get("action"))
@@ -580,18 +602,23 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
                 right_action = right_action + 1;
             }
 
+            if (savedata == 1)
+            {
+            setSensorInformation();
+            save.printAgentinRoom(steps, printMap, workingfolder5.str());
+            }
+
 
             if(i == _episodes - 1){
                 if(savedata == 1){
-                    setSensorInformation();
-                    save.printAgentinRoom(steps, printMap, workingfolder1.str());
+
                     //save.printAgentReward(rewardVec, workingfolder2.str());
                 } // save
             } // last episode
         } // end run
 
 
-        std::cout << "The number of same actions is: \t" << right_action << "\n";
+        std::cout << "Successful action identification rate: \t" << double( right_action ) / double ( _totalsteps)  << "\t" << "The total reward is: " << totalreward << "\t" << " And it turned right: " <<  it_turns_right  << " times, to act on trash it was: \t" << turns_right  << "\n";
 
         Qvaluetotal->at(i) = sol_met->sumQvalues();
 
@@ -611,9 +638,10 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
 
 //        if (i % 1 == 0)
 
-        save.printAgentReward(rewardVec, workingfolder2.str(), i);
-        save.printwallencounter(wall_vec,workingfolder3.str(),i);
-        totalRewardVec.push_back(std::pair<int,double> (i, totalreward));
+//        save.printAgentReward(rewardVec, workingfolder2.str(), i);
+//        save.printwallencounter(wall_vec,workingfolder3.str(),i);
+//        totalRewardVec.push_back(std::pair<int,double> (i, totalreward));
+//        save.printAgentExploration(i,workingfolder6.str() ,explorationMap);
 
         std::fill(wall_vec->begin(), wall_vec->end(), 0);
 
@@ -633,6 +661,18 @@ void Agent_H::runAgent(int _episodes, int _totalsteps)
         save.printTPMunorderedMap(TM.string2intMap1);
     }
 
+}
+
+void Agent_H::resetCurrentState()
+{
+    current_state[0] = 1;
+    current_state[1] = 1;
+    current_state[2] = 3;
+    current_state[3] = 1;
+    current_state[4] = 1;
+    current_state[5] = 1;
+    current_state[6] = 1;
+    current_state[7] = 1;
 }
 
 

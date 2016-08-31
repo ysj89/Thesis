@@ -229,6 +229,17 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
 
                 }
 
+//                if(   ((state.at(6) - 48) == 3 ) )
+//                {
+
+
+//                    if(action == 2 )
+//                    {
+//                        score_total =  score_total - 50;
+//                        break;
+//                    }
+
+//                }
 
 
 //                std::cout<<state<<std::endl;
@@ -249,9 +260,9 @@ void Khepera_T::run_gen(citizens *population, size_t runs, int generation)
             population->at(i)->VF[0][j] =  score_total;		// size
 
 
-            if (population->at(i)->VF[0][j] > 97)
+            if (population->at(i)->VF[0][j] > 98)
             {
-                population->at(i)->VF[1][j] = 100 - ( (int)getNodeCount(population->at(i)->BT) - 20);
+                population->at(i)->VF[1][j] = 100 - ( (int)getNodeCount(population->at(i)->BT) - 60);
                 population->at(i)->VF[1][j] = limit(population->at(i)->VF[1][j], 0, 100);
             }
 
@@ -274,6 +285,9 @@ void Khepera_T::check_approximation()
     int actions_right_wall = 0;
     int actions_wrong_wall = 0;
     int actions_total_wall = 0;
+    int actions_wrong_wall_infront = 0;
+    int actions_total_wall_infront = 0;
+    int actions_right_wall_infront = 0;
 
     for(auto kv : this->Qtable)
     {
@@ -356,7 +370,19 @@ void Khepera_T::check_approximation()
     }
 
 
+    if(   ((state.at(6) - 48) == 3 ) )
+    {
+        actions_total_wall_infront = actions_total_wall_infront + 1;
 
+        if(action == action_best)
+        {
+            actions_right_wall_infront = actions_right_wall_infront + 1;
+        }
+        else
+        {
+            actions_wrong_wall_infront = actions_wrong_wall_infront + 1;
+        }
+    }
 
 
     }
@@ -370,6 +396,9 @@ void Khepera_T::check_approximation()
     std::cout << "The number of actions right for wall states was: " << actions_right_wall << " \t the number of actions wrong for wall states was: " << actions_wrong_wall << std::endl;
     std::cout << "The number of wall states in the Qtable was: " << actions_total_wall << std::endl;
 
+
+    std::cout << "The number of actions right for wall states was: " << actions_right_wall_infront << " \t the number of actions wrong for wall states was: " << actions_wrong_wall_infront << std::endl;
+    std::cout << "The number of wall states on the front sensor the Qtable was: " << actions_total_wall_infront << std::endl;
 }
 
 void Khepera_T::runKhepera_test(int totalsteps, std::string start)
@@ -421,7 +450,7 @@ void Khepera_T::runKhepera_test(int totalsteps, std::string start)
         }
         else
         {
-            std::cout << "STATE: " << state_new << "\t" << "BT:\t" << BLKB->get("action") << "\t" << "Q:\t" << best_action << "\t Qvalues: \t" << a.at(0) << "\t" << a.at(1) << "\t" << a.at(2) << "\n";
+            //std::cout << "STATE: " << state_new << "\t" << "BT:\t" << BLKB->get("action") << "\t" << "Q:\t" << best_action << "\t Qvalues: \t" << a.at(0) << "\t" << a.at(1) << "\t" << a.at(2) << "\n";
         }
 
 

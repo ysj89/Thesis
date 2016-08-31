@@ -31,14 +31,37 @@ void bt_test_gp_kirk::buildingTree()
 //    root = BT::loadFile("../../BT_saves/BT_2016-07-01_12:49:52.txt");
 //    root = BT::loadFile("../../BT_saves/BT_2016-07-05_16:51:58.txt");
 
-
-//    root = BT::loadFile("../../BT_saves/BT_2016-07-07_16:47:14.txt");  // GOOD TREE
-
+//      root = BT::loadFile("../../BT_saves/BT5.txt");
+//      root = BT::loadFile("../../BT_saves/BT_2016-07-07_16:47:14.txt");  // GOOD TREE
 //      root = BT::loadFile("../../BT_saves/BT_2016-07-07_21:18:07_prune.txt");  // 5000 gen BT
-//    root = BT::loadFile("../../BT_saves/BT_2016-07-08_15:39:26_prune.txt"); // Perfect tree that gets all apples when it sees it
-//    root = BT::loadFile("../../BT_saves/BT_2016-07-14_12:22:49.txt");
+//      root = BT::loadFile("../../BT_saves/BT_2016-07-08_15:39:26_prune.txt"); // Perfect tree that gets all apples when it sees it
+//      root = BT::loadFile("../../BT_saves/BT_2016-07-14_12:22:49.txt");
+//      root = BT::loadFile("../../BT_saves/BT_2016-07-25_14:48:38_prune_extra.txt");
+//      root = BT::loadFile("../../BT_saves/BT_2016-07-08_15:39:26_prune.txt");
 
-    root = BT::loadFile("../../BT_saves/BT_2016-07-25_14:48:38_prune_adjusted.txt");
+
+
+
+ //     root = BT::loadFile("../../BT_saves/BT_2016-08-03_15:41:15.txt"); // nothing special
+ //     root = BT::loadFile("../../BT_saves/BT_2016-08-03_16:36:42.txt"); // does not turn right
+ //     root = BT::loadFile("../../BT_saves/BT_2016-08-03_16:05:28.txt"); // does not turn right
+ //     root = BT::loadFile("../../BT_saves/BT_2016-08-03_16:52:06.txt"); // does not turn right
+//        root = BT::loadFile("../../BT_saves/BT_2016-07-08_15:39:26_prune.txt"); // problem dependent fitness function ?
+
+ //     root = BT::loadFile("../../BT_saves/BT_2016-08-02_16:41:47_prune.txt"); //  Q-learning as active policy with check on s3 905 good action identification
+ //     root = BT::loadFile("../../BT_saves/BT_2016-08-03_15:10:56_prune_miss_wall.txt"); // good tree but misses wall avoiding for block in environment in map: 2016-08-08_10:07:50
+ //     root = BT::loadFile("../../BT_saves/BT_2016-08-03_15:41:15.txt"); // good tree with extra corner thing in map: 2016-08-08_10:10:33
+
+
+      root = BT::loadFile("../../BT_saves/BT_2016-07-30_11:04:48_prune.txt"); // ??
+
+
+
+
+
+//    root = BT::loadFile("../../BT_saves/BT_2016-08-11_12:22:36.txt"); // new tpm
+
+
 
 
 
